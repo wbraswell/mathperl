@@ -59,6 +59,13 @@ for my $mode_id ( 0 .. 0 ) {    # TEMPORARY DEBUGGING PERLOPS_PERLTYPES ONLY
     #    RPerl::diag('have $types = ' . $types . "\n");
     #    RPerl::diag('have $mode_tagline = ' . $mode_tagline . "\n");
 
+
+
+
+# NEED UPDATE: enable compiled modes
+# NEED UPDATE: enable compiled modes
+# NEED UPDATE: enable compiled modes
+
 =TMP_DISABLE
     lives_ok( sub { rperltypes::types_enable($types) }, q{mode '} . $ops . ' operations and ' . $types . ' data types' . q{' enabled} );
 

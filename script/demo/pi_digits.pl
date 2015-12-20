@@ -8,10 +8,10 @@
 # Contributed In C By Mr. Ledrug
 # Converted To Perl By Will Braswell
 
-# $ ./script/pi_digits_2.pl 10000
+# $ ./script/demo/pi_digits.pl 10000
 # time total:   FOO
 # $ rperl lib/MathPerl/Geometry/PiDigits.pm
-# $ ./script/pi_digits_2.pl 10000
+# $ ./script/demo/pi_digits.pl 10000
 # time total:   FOO
 
 # [[[ HEADER ]]]

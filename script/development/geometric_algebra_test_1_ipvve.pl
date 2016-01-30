@@ -10,7 +10,7 @@ our $VERSION = 0.000_021;
 ## no critic qw(ProhibitUnreachableCode RequirePodSections RequirePodAtEnd PodSpelling) # DEVELOPER DEFAULT 1: allow unreachable & POD-commented code
 
 # [[[ INCLUDES ]]]
-use RPerl::Algorithm::Math::GeometricAlgebra;
+use MathPerl::GeometricAlgebra;
 
 # [[[ OPERATIONS ]]]
 

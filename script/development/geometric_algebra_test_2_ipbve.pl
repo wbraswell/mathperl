@@ -7,7 +7,7 @@ our $VERSION = 0.000_003;
 ## no critic qw(ProhibitUselessNoCritic ProhibitMagicNumbers RequireCheckedSyscalls) # USER DEFAULT 1: allow numeric values & print operator
 ## no critic qw(ProhibitUnreachableCode RequirePodSections RequirePodAtEnd PodSpelling) # DEVELOPER DEFAULT 1: allow unreachable & POD-commented code
 
-use RPerl::Algorithm::Math::GeometricAlgebra;
+use MathPerl::GeometricAlgebra;
 use Data::Dumper;
 
 # variable declarations

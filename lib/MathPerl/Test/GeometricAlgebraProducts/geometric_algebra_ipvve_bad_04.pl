@@ -14,7 +14,7 @@ our $VERSION = 0.000_020;
 ## no critic qw(ProhibitUselessNoCritic ProhibitMagicNumbers RequireCheckedSyscalls) # USER DEFAULT 1: allow numeric values & print operator
 
 # [[[ INCLUDES ]]]
-use RPerl::Algorithm::Math::GeometricAlgebra;
+use MathPerl::GeometricAlgebra;
 
 # [[[ OPERATIONS ]]]
 my number_arrayref $input_vector_1 = [ 'howdy',  3.0, 4.0, 12.0 ];

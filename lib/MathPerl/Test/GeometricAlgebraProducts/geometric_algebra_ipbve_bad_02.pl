@@ -13,7 +13,7 @@ our $VERSION = 0.000_001;
 ## no critic qw(ProhibitUselessNoCritic ProhibitMagicNumbers RequireCheckedSyscalls) # USER DEFAULT 1: allow numeric values & print operator
 
 # [[[ INCLUDES ]]]
-use RPerl::Algorithm::Math::GeometricAlgebra;
+use MathPerl::GeometricAlgebra;
 
 # [[[ OPERATIONS ]]]
 my number_arrayref $retval_vector;

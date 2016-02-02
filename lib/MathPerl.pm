@@ -9,6 +9,10 @@ our $VERSION = 0.000_001;
 use parent qw(RPerl::CompileUnit::Module::Class);  # no non-system inheritance, only inherit from base class
 use RPerl::CompileUnit::Module::Class;
 
+# [[[ INCLUDES ]]]
+use MathPerl::GeometricAlgebra;
+#use MathPerl::Geometry;
+
 # [[[ OO PROPERTIES ]]]
 our hashref $properties = {};
 

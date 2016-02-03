@@ -8,7 +8,7 @@ BEGIN { $ENV{RPERL_WARNINGS} = 0; }
 use strict;
 use warnings;
 use RPerl::AfterSubclass;
-our $VERSION = 0.002_063;
+our $VERSION = 0.001_000;
 
 # [[[ CRITICS ]]]
 ## no critic qw(ProhibitUselessNoCritic ProhibitMagicNumbers RequireCheckedSyscalls)  # USER DEFAULT 1: allow numeric values & print operator
@@ -25,6 +25,8 @@ use Test::More;
 use File::Find qw(find);
 use IPC::Open3;
 use IO::Select;
+
+use MathPerl;
 
 # [[[ OPERATIONS ]]]
 
@@ -70,7 +72,7 @@ find(
             return;
         }
     },
-    $RPerl::INCLUDE_PATH . '/MathPerl/Test'
+    $MathPerl::INCLUDE_PATH . '/MathPerl/Test'
 );
 
 #RPerl::diag( 'in 03_interpret_execute.t, have $test_files = ' . "\n" . Dumper($test_files) . "\n" );
@@ -81,11 +83,11 @@ for my $test_file ( sort keys %{$test_files} ) {
 
     #    RPerl::diag( 'in 03_interpret_execute.t, have $test_file = ' . $test_file . "\n" );
     my $pid;
-    if ( $RPerl::INCLUDE_PATH =~ /blib/ ) {
-        $pid = open3( 0, \*STDOUT_TEST, \*STDERR_TEST, ( $EXECUTABLE_NAME . ' -Mblib=' . $RPerl::INCLUDE_PATH . ' ' . $test_file ) );    # disable STDIN w/ 0
+    if ( $MathPerl::INCLUDE_PATH =~ /blib/ ) {
+        $pid = open3( 0, \*STDOUT_TEST, \*STDERR_TEST, ( $EXECUTABLE_NAME . ' -Mblib=' . $MathPerl::INCLUDE_PATH . ' ' . $test_file ) );    # disable STDIN w/ 0
     }
     else {
-        $pid = open3( 0, \*STDOUT_TEST, \*STDERR_TEST, ( $EXECUTABLE_NAME . ' -I' . $RPerl::INCLUDE_PATH . ' ' . $test_file ) );         # disable STDIN w/ 0
+        $pid = open3( 0, \*STDOUT_TEST, \*STDERR_TEST, ( $EXECUTABLE_NAME . ' -I' . $MathPerl::INCLUDE_PATH . ' ' . $test_file ) );         # disable STDIN w/ 0
     }
 
     my $stdout_select;

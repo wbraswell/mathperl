@@ -10,6 +10,7 @@ use parent qw(RPerl::CompileUnit::Module::Class);  # no non-system inheritance, 
 use RPerl::CompileUnit::Module::Class;
 
 # [[[ INCLUDES ]]]
+use MathPerl::Config;
 use MathPerl::GeometricAlgebra;
 #use MathPerl::Geometry;
 

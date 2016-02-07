@@ -2,7 +2,7 @@
 
 use strict;
 use warnings;
-our $VERSION = 0.001_000;
+our $VERSION = 0.001_001;
 use ExtUtils::MakeMaker;
 
 BEGIN { use English; }
@@ -16,7 +16,7 @@ WriteMakefile(
     AUTHOR           => 'Will Braswell <wbraswell@cpan.org>',
     VERSION_FROM     => 'lib/MathPerl.pm',
     LICENSE          => 'perl_5',
-    EXE_FILES        => ['script/mathperl'],
+    EXE_FILES        => [ 'script/mathperl', 'script/demo/pi_digits.pl' ],
     MIN_PERL_VERSION => '5.10.0',                                            # NEED ANSWER: is RPerl truly incompatible with Perl v5.8 and earlier?
     PREREQ_PM        => {
         'ExtUtils::MakeMaker' => 7.04,     # for compatibility with Inline::C >= v0.75
@@ -25,6 +25,7 @@ WriteMakefile(
         'Test::CPAN::Changes' => 0.400002,
         'Test::Number::Delta' => 1.06,     # for compatibility with Perls compiled using -Duselongdouble
         'RPerl' => 1.5,
+        'Time::HiRes' => 1.9726
     },
     META_MERGE => {
         'meta-spec' => {
@@ -41,7 +42,7 @@ WriteMakefile(
 #            package => [ 'foo', 'bar' ],
 
             # DEV NOTE: disable indexing of all test package namespaces
-            namespace => ['MathPerl::Test'],
+            namespace => ['MathPerl::Test']
         },
         release_status => 'stable',
         keywords       => [qw(mathperl math rperl perl5 optimizing compiler optimize compile)],
@@ -54,9 +55,9 @@ WriteMakefile(
             repository => {
                 type => 'git',
                 url  => 'git://github.com/wbraswell/mathperl.git',
-                web  => 'https://github.com/wbraswell/mathperl',
-            },
-        },
+                web  => 'https://github.com/wbraswell/mathperl'
+            }
+        }
     },
 
     # NEED UPDATE, CORRELATION #rp05: list of _Inline directories to delete/exclude in Makefile.PL, .gitignore, and MANIFEST.SKIP
@@ -65,7 +66,7 @@ WriteMakefile(
     clean => {
         FILES =>
             'pod2htmd.tmp Makefile.old MANIFEST.bak _Inline lib/_Inline script/_Inline script/development/_Inline script/development/unused/_Inline t/_Inline lib/MathPerl/_Inline'
-    },
+    }
 );
 
 package MY;

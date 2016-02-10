@@ -4,7 +4,7 @@ use RPerl;
 package MathPerl::Fractal::Mandelbrot;
 use strict;
 use warnings;
-our $VERSION = 0.001_000;
+our $VERSION = 0.001_001;
 
 # [[[ OO INHERITANCE ]]]
 use parent qw(MathPerl::Fractal);
@@ -26,12 +26,14 @@ our hashref $properties = {};
 
 # [[[ OO METHODS & SUBROUTINES ]]]
 
-our number_arrayref $mandelbrot_escape_time = sub {
+our integer_arrayref_arrayref $mandelbrot_escape_time = sub {
     ( my integer $x_pixel_count, my integer $y_pixel_count ) = @_;
-    my number $x_scaling_factor = ( X_SCALE_MAX() - X_SCALE_MIN() ) / $x_pixel_count;
-    my number $y_scaling_factor = ( Y_SCALE_MAX() - Y_SCALE_MIN() ) / $y_pixel_count;
+    my integer_arrayref_arrayref $mandelbrot_set = [];
+    my number $x_scaling_factor                  = ( X_SCALE_MAX() - X_SCALE_MIN() ) / $x_pixel_count;
+    my number $y_scaling_factor                  = ( Y_SCALE_MAX() - Y_SCALE_MIN() ) / $y_pixel_count;
 
     foreach my integer $y_pixel ( 0 .. ( $y_pixel_count - 1 ) ) {
+        $mandelbrot_set->[$y_pixel] = [];
         foreach my integer $x_pixel ( 0 .. ( $x_pixel_count - 1 ) ) {
             my number $x_scaled = $x_pixel * $x_scaling_factor;
             my number $y_scaled = $y_pixel * $y_scaling_factor;
@@ -45,10 +47,10 @@ our number_arrayref $mandelbrot_escape_time = sub {
                 $x = $x_tmp;
                 $i = $i + 1;
             }
-            my number $color = $palette->[$i];
-            plot( $x_pixel, $y_pixel, $color );
+            $mandelbrot_set->[$y_pixel]->[$x_pixel] = $i;
         }
     }
+    return $mandelbrot_set;
 };
 
 1;    # end of class

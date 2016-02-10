@@ -2,7 +2,7 @@
 
 use strict;
 use warnings;
-our $VERSION = 0.001_001;
+our $VERSION = 0.001_002;
 use ExtUtils::MakeMaker;
 
 BEGIN { use English; }
@@ -25,7 +25,8 @@ WriteMakefile(
         'Test::CPAN::Changes' => 0.400002,
         'Test::Number::Delta' => 1.06,     # for compatibility with Perls compiled using -Duselongdouble
         'RPerl' => 1.5,
-        'Time::HiRes' => 1.9726
+        'Time::HiRes' => 1.9726,
+        'SDL'         => 2.546
     },
     META_MERGE => {
         'meta-spec' => {

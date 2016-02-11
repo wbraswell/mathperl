@@ -27,7 +27,7 @@ our hashref $properties = {};
 # [[[ OO METHODS & SUBROUTINES ]]]
 
 our integer_arrayref_arrayref $mandelbrot_escape_time = sub {
-    ( my integer $x_pixel_count, my integer $y_pixel_count ) = @_;
+    ( my integer $x_pixel_count, my integer $y_pixel_count, my integer $i_max ) = @_;
     my integer_arrayref_arrayref $mandelbrot_set = [];
     my number $x_scaling_factor                  = ( X_SCALE_MAX() - X_SCALE_MIN() ) / $x_pixel_count;
     my number $y_scaling_factor                  = ( Y_SCALE_MAX() - Y_SCALE_MIN() ) / $y_pixel_count;
@@ -40,7 +40,6 @@ our integer_arrayref_arrayref $mandelbrot_escape_time = sub {
             my number $x        = 0.0;
             my number $y        = 0.0;
             my integer $i       = 0;
-            my integer $$i_max  = 1_000;
             while ( ( ( $x * $x ) + ( $y * $y ) < ( 2 * 2 ) ) and ( $i < $i_max ) ) {
                 my number $x_tmp = ( $x * $x ) - ( $y * $y ) + $x_scaled;
                 $y = ( 2 * $x * $y ) + $y_scaled;

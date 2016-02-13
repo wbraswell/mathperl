@@ -10,7 +10,7 @@ use parent qw(MathPerl);
 use MathPerl;
 
 # [[[ INCLUDES ]]]
-use MathPerl::Fractal::Mandelbrot;
+#use MathPerl::Fractal::Mandelbrot;  # ERROR ECOCODE01: circular dependency
 #use MathPerl::Fractal::Julia;
 
 # [[[ OO PROPERTIES ]]]

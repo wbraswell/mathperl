@@ -11,7 +11,7 @@ use RPerl::CompileUnit::Module::Class;
 
 # [[[ INCLUDES ]]]
 use MathPerl::Config;
-use MathPerl::GeometricAlgebra;
+#use MathPerl::GeometricAlgebra;  # ERROR ECOCODE01: circular dependency
 #use MathPerl::Geometry;
 
 # [[[ OO PROPERTIES ]]]

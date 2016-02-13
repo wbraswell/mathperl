@@ -16,10 +16,10 @@ use MathPerl::Fractal;
 ## no critic qw(ProhibitConstantPragma ProhibitMagicNumbers)  # USER DEFAULT 3: allow constants
 
 # [[[ CONSTANTS ]]]
-use constant X_SCALE_MIN => my number $X_SCALE_MIN = -2.5;
-use constant X_SCALE_MAX => my number $X_SCALE_MAX = 1.0;
-use constant Y_SCALE_MIN => my number $Y_SCALE_MIN = -1.0;
-use constant Y_SCALE_MAX => my number $Y_SCALE_MAX = 1.0;
+use constant X_SCALE_MIN => my number $TYPED_X_SCALE_MIN = -2.5;
+use constant X_SCALE_MAX => my number $TYPED_X_SCALE_MAX = 1.0;
+use constant Y_SCALE_MIN => my number $TYPED_Y_SCALE_MIN = -1.0;
+use constant Y_SCALE_MAX => my number $TYPED_Y_SCALE_MAX = 1.0;
 
 # [[[ OO PROPERTIES ]]]
 our hashref $properties = {};

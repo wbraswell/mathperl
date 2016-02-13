@@ -3,7 +3,7 @@ package MathPerl::Fractal::MandelbrotRenderer2D;
 use strict;
 use warnings;
 use RPerl::AfterSubclass;
-our $VERSION = 0.001_000;
+our $VERSION = 0.002_000;
 
 # [[[ OO INHERITANCE ]]]
 use parent qw(RPerl::CompileUnit::Module::Class);    # no non-system inheritance, only inherit from base class
@@ -20,8 +20,6 @@ use SDL;
 use SDL::Event;
 use SDL::Video;
 use SDLx::App;
-
-#use SDLx::Sprite;
 use SDLx::Text;
 
 # [[[ OO PROPERTIES ]]]
@@ -40,26 +38,12 @@ our hashref $properties = {
     iterations_inc => my integer $TYPED_iterations_inc                   = 100,
     automatic      => my boolean $TYPED_automatic                        = 0,
     app            => my SDLx::App $TYPED_app                            = undef,
-
-    #    delta_time => my number $TYPED_delta_time = undef,
-    #    time_step_max => my integer $TYPED_time_step_max = undef,
-    #    time_step_current => my integer $TYPED_time_step_current = undef,
-    #    time_steps_per_frame => my integer $TYPED_time_steps_per_frame = undef,
-    #    time_start => my number $TYPED_time_start = undef,
-
 };
 
 # [[[ OO METHODS & SUBROUTINES ]]]
 
 our void::method $init = sub {
     ( my MathPerl::Fractal::MandelbrotRenderer2D $self, my integer $x_pixel_count, my integer $y_pixel_count, my integer $iterations_max ) = @_;
-
-    #    $self->{delta_time} = $delta_time;
-    #    $self->{time_step_max} = $time_step_max;
-    #    $self->{time_step_current} = 0;
-    #    $self->{time_steps_per_frame} = $time_steps_per_frame;
-    #    $self->{time_start} = $time_start;
-
     $self->{window_title}   = 'Mandelbrot Fractal Generator';
     $self->{window_width}   = $x_pixel_count;
     $self->{window_height}  = $y_pixel_count;
@@ -203,17 +187,6 @@ our void::method $mandelbrot_escape_time_render = sub {
 =DISABLE_TEXT
     my string $status = q{};
     my string $status_tmp;
-    $status .= 'Time, Step: ' . ::number_to_string($self->{time_step_current}) . ' of ' . ::number_to_string($self->{time_step_max}) . "\n";
-    $status_tmp = ::number_to_string($self->{delta_time} * $self->{time_step_current});
-    $status_tmp =~ s/[.].*//xms;  # sim time, 0 characters after decimal
-    $status .= 'Time, Sim:  ' . $status_tmp . ' of ' . ::number_to_string($self->{delta_time} * $self->{time_step_max}) . "\n";
-    my number $time_elapsed = time() - $self->{time_start};
-    $status_tmp = ::number_to_string($time_elapsed);
-    $status_tmp =~ s/([.].{1}).*/$1/xms;  # real time elapsed, 1 character after decimal
-    $status .= 'Time, Real: ' . $status_tmp;
-    $status_tmp = ::number_to_string($time_elapsed * ($self->{time_step_max} / $self->{time_step_current}));
-    $status_tmp =~ s/([.].{1}).*/$1/xms;  # real time total estimate, 1 character after decimal
-    $status .= ' of ' . $status_tmp . "\n";
     $status_tmp =  ($self->{time_step_current} / $self->{time_step_max}) * 100;
     $status_tmp =~ s/[.].*//xms;  # sim time, 0 characters after decimal
     $status .= 'Completion: ' . $status_tmp . '%';
@@ -253,17 +226,6 @@ our void::method $move = sub {
         $self->mandelbrot_escape_time_render($app);    # only render additional frames when a change occurs
         $app->update();
     }
-
-=DISABLE
-    # don't overshoot your time_step_max
-    if ( ( $self->{time_step_current} + $self->{time_steps_per_frame} ) > $self->{time_step_max} ) {
-        $self->{time_steps_per_frame} = $self->{time_step_max} - $self->{time_step_current};
-    }
-    $self->{system}->advance_loop( $self->{delta_time}, $self->{time_steps_per_frame} );
-    $self->{time_step_current} += $self->{time_steps_per_frame};
-    if ( $self->{time_step_current} >= $self->{time_step_max} ) { $app->stop(); }
-=cut
-
 };
 
 our void::method $render2d_video = sub {

@@ -27,24 +27,28 @@ our hashref $properties = {};
 # [[[ OO METHODS & SUBROUTINES ]]]
 
 our integer_arrayref_arrayref $mandelbrot_escape_time = sub {
-    ( my integer $x_pixel_count, my integer $y_pixel_count, my integer $i_max ) = @_;
+    ( my integer $x_pixel_count, my integer $y_pixel_count, my integer $iterations_max, my number $x_min, my number $x_max, my number $y_min, my number $y_max )
+        = @_;
+    print 'GENERATE MANDELBROT' . "\n";
+
     my integer_arrayref_arrayref $mandelbrot_set = [];
-    my number $x_scaling_factor                  = ( X_SCALE_MAX() - X_SCALE_MIN() ) / $x_pixel_count;
-    my number $y_scaling_factor                  = ( Y_SCALE_MAX() - Y_SCALE_MIN() ) / $y_pixel_count;
+    my number $x_scaling_factor                  = ( $x_max - $x_min ) / $x_pixel_count;
+    my number $y_scaling_factor                  = ( $y_max - $y_min ) / $y_pixel_count;
 
     foreach my integer $y_pixel ( 0 .. ( $y_pixel_count - 1 ) ) {
         $mandelbrot_set->[$y_pixel] = [];
         foreach my integer $x_pixel ( 0 .. ( $x_pixel_count - 1 ) ) {
-            my number $x_scaled = $x_pixel * $x_scaling_factor;
-            my number $y_scaled = $y_pixel * $y_scaling_factor;
+#            print 'generate ( ' . substr('00' . $x_pixel, -3, 3) . ', ' . substr('00' . $y_pixel, -3, 3) . ' ) ' . "\n";
+            my number $x_scaled = $x_min + ( $x_pixel * $x_scaling_factor );
+            my number $y_scaled = $y_min + ( $y_pixel * $y_scaling_factor );
             my number $x        = 0.0;
             my number $y        = 0.0;
             my integer $i       = 0;
-            while ( ( ( $x * $x ) + ( $y * $y ) < ( 2 * 2 ) ) and ( $i < $i_max ) ) {
+            while ( ( ( ( $x * $x ) + ( $y * $y ) ) < ( 2 * 2 ) ) and ( $i < $iterations_max ) ) {
                 my number $x_tmp = ( $x * $x ) - ( $y * $y ) + $x_scaled;
                 $y = ( 2 * $x * $y ) + $y_scaled;
                 $x = $x_tmp;
-                $i = $i + 1;
+                $i++;
             }
             $mandelbrot_set->[$y_pixel]->[$x_pixel] = $i;
         }

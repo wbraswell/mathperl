@@ -34,17 +34,18 @@ use Time::HiRes qw(time);
 
 # [[[ OPERATIONS ]]]
 
-#my integer $x_pixel_count = 32;    # default
-my integer $x_pixel_count = 64;    # default
+my integer $x_pixel_count = 160;    # default
 #my integer $x_pixel_count = 640;  # default
+#my integer $x_pixel_count = 800;  # default
 if ( defined $ARGV[0] ) { $x_pixel_count = string_to_integer( $ARGV[0] ); }    # user input, command-line argument
 
-#my integer $y_pixel_count = 24;                                                # default
-my integer $y_pixel_count = 48;                                                # default
+my integer $y_pixel_count = 120;                                                # default
 #my integer $y_pixel_count = 480;  # default
+#my integer $y_pixel_count = 600;  # default
 if ( defined $ARGV[1] ) { $y_pixel_count = string_to_integer( $ARGV[1] ); }    # user input, command-line argument
 
-my integer $iterations_max = 200;                                              # default
+my integer $iterations_max = 100;                                              # default
+#my integer $iterations_max = 200;                                              # default
 #my integer $iterations_max = 1_000;  # default
 if ( defined $ARGV[2] ) { $iterations_max = string_to_integer( $ARGV[2] ); }    # user input, command-line argument
 
@@ -53,14 +54,17 @@ if ( defined $ARGV[3] ) { $enable_graphics = string_to_boolean( $ARGV[3] ); }   
 
 my number $time_start = time();
 
-my integer_arrayref_arrayref $mandelbrot_set = mandelbrot_escape_time( $x_pixel_count, $y_pixel_count, $iterations_max );
-
 if ($enable_graphics) {
     my MathPerl::Fractal::MandelbrotRenderer2D $renderer = MathPerl::Fractal::MandelbrotRenderer2D->new();
-    $renderer->init();
-    $renderer->render2d_frame($mandelbrot_set, $iterations_max);
+    $renderer->init($x_pixel_count, $y_pixel_count, $iterations_max);
+    $renderer->render2d_video();
 }
 else {
+    my integer_arrayref_arrayref $mandelbrot_set = mandelbrot_escape_time( 
+        $x_pixel_count, $y_pixel_count, $iterations_max, 
+        MathPerl::Fractal::Mandelbrot::X_SCALE_MIN(), MathPerl::Fractal::Mandelbrot::X_SCALE_MAX(),
+        MathPerl::Fractal::Mandelbrot::Y_SCALE_MIN(), MathPerl::Fractal::Mandelbrot::Y_SCALE_MAX());
+
     #print Dumper($mandelbrot_set) . "\n";
     print '[' . "\n";
     foreach my integer_arrayref $row ( @{$mandelbrot_set} ) {

@@ -48,10 +48,19 @@ our void::method $init = sub {
     $self->{window_width}   = $x_pixel_count;
     $self->{window_height}  = $y_pixel_count;
     $self->{iterations_max} = $iterations_max;
-    $self->{x_min}          = MathPerl::Fractal::Mandelbrot::X_SCALE_MIN();
-    $self->{x_max}          = MathPerl::Fractal::Mandelbrot::X_SCALE_MAX();
-    $self->{y_min}          = MathPerl::Fractal::Mandelbrot::Y_SCALE_MIN();
-    $self->{y_max}          = MathPerl::Fractal::Mandelbrot::Y_SCALE_MAX();
+
+# START HERE: make the following ->new()-> syntax work in Perl as well as C++ mode, implement foreach() in C++
+# START HERE: make the following ->new()-> syntax work in Perl as well as C++ mode, implement foreach() in C++
+# START HERE: make the following ->new()-> syntax work in Perl as well as C++ mode, implement foreach() in C++
+
+    $self->{x_min}          = MathPerl::Fractal::Mandelbrot->new()->X_SCALE_MIN();
+    $self->{x_max}          = MathPerl::Fractal::Mandelbrot->new()->X_SCALE_MAX();
+    $self->{y_min}          = MathPerl::Fractal::Mandelbrot->new()->Y_SCALE_MIN();
+    $self->{y_max}          = MathPerl::Fractal::Mandelbrot->new()->Y_SCALE_MAX();
+#    $self->{x_min}          = MathPerl::Fractal::Mandelbrot::X_SCALE_MIN();
+#    $self->{x_max}          = MathPerl::Fractal::Mandelbrot::X_SCALE_MAX();
+#    $self->{y_min}          = MathPerl::Fractal::Mandelbrot::Y_SCALE_MIN();
+#    $self->{y_max}          = MathPerl::Fractal::Mandelbrot::Y_SCALE_MAX();
 
     SDL::init(SDL_INIT_VIDEO);
 
@@ -60,7 +69,7 @@ our void::method $init = sub {
         width  => $self->{window_width},
         height => $self->{window_height},
         depth  => 32,                       # 32-bit color
-        delay  => 25,                       # don't let SDL use all CPU
+        delay  => 25,                       # don't let SDL overload the CPU
     );
 };
 
@@ -123,10 +132,14 @@ our void::method $events = sub {
         }
         elsif ( $key_name eq 'r' ) {                                           # RESET
             $self->{automatic} = 0;
-            $self->{x_min}     = MathPerl::Fractal::Mandelbrot::X_SCALE_MIN();
-            $self->{x_max}     = MathPerl::Fractal::Mandelbrot::X_SCALE_MAX();
-            $self->{y_min}     = MathPerl::Fractal::Mandelbrot::Y_SCALE_MIN();
-            $self->{y_max}     = MathPerl::Fractal::Mandelbrot::Y_SCALE_MAX();
+            $self->{x_min}     = MathPerl::Fractal::Mandelbrot->new()->X_SCALE_MIN();
+            $self->{x_max}     = MathPerl::Fractal::Mandelbrot->new()->X_SCALE_MAX();
+            $self->{y_min}     = MathPerl::Fractal::Mandelbrot->new()->Y_SCALE_MIN();
+            $self->{y_max}     = MathPerl::Fractal::Mandelbrot->new()->Y_SCALE_MAX();
+#            $self->{x_min}     = MathPerl::Fractal::Mandelbrot::X_SCALE_MIN();
+#            $self->{x_max}     = MathPerl::Fractal::Mandelbrot::X_SCALE_MAX();
+#            $self->{y_min}     = MathPerl::Fractal::Mandelbrot::Y_SCALE_MIN();
+#            $self->{y_max}     = MathPerl::Fractal::Mandelbrot::Y_SCALE_MAX();
         }
         elsif ( $key_name eq 'a' ) {                                           # AUTOMATIC ON
             $self->{automatic} = 1;

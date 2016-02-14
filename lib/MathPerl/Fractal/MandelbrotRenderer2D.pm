@@ -52,6 +52,7 @@ our void::method $init = sub {
 # START HERE: implement foreach() in C++
 # START HERE: implement foreach() in C++
 # START HERE: implement foreach() in C++
+# TRIGGER FIRST TRAVIS BUILD
 
     $self->{x_min}          = MathPerl::Fractal::Mandelbrot->new()->X_SCALE_MIN();
     $self->{x_max}          = MathPerl::Fractal::Mandelbrot->new()->X_SCALE_MAX();

@@ -1,5 +1,5 @@
 language: perl
-# v0.001_000
+# v0.001_100
 perl:
 # NEED FIX? Perl v5.8 $CPP_LINKED global symbol errors, leave disabled?
 #  - "5.8"
@@ -58,7 +58,7 @@ notifications:
     # to enable skip_join, in IRC channel first execute `/mode -n`
     skip_join: true
     template:
-      - "MathPerl build %{result}. %{author} says '%{commit_message}'"
+      - "RPerl build %{result}. %{author} says '%{commit_message}'"
       - "%{build_url} %{compare_url}"
 
     # DEFAULT TEMPLATE

@@ -49,14 +49,16 @@ our void::method $init = sub {
     $self->{window_height}  = $y_pixel_count;
     $self->{iterations_max} = $iterations_max;
 
-# START HERE: make the following ->new()-> syntax work in Perl as well as C++ mode, implement foreach() in C++
-# START HERE: make the following ->new()-> syntax work in Perl as well as C++ mode, implement foreach() in C++
-# START HERE: make the following ->new()-> syntax work in Perl as well as C++ mode, implement foreach() in C++
+# START HERE: implement foreach() in C++
+# START HERE: implement foreach() in C++
+# START HERE: implement foreach() in C++
 
     $self->{x_min}          = MathPerl::Fractal::Mandelbrot->new()->X_SCALE_MIN();
     $self->{x_max}          = MathPerl::Fractal::Mandelbrot->new()->X_SCALE_MAX();
     $self->{y_min}          = MathPerl::Fractal::Mandelbrot->new()->Y_SCALE_MIN();
     $self->{y_max}          = MathPerl::Fractal::Mandelbrot->new()->Y_SCALE_MAX();
+
+    # PERLOPS_PERLTYPES only
 #    $self->{x_min}          = MathPerl::Fractal::Mandelbrot::X_SCALE_MIN();
 #    $self->{x_max}          = MathPerl::Fractal::Mandelbrot::X_SCALE_MAX();
 #    $self->{y_min}          = MathPerl::Fractal::Mandelbrot::Y_SCALE_MIN();

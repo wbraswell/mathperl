@@ -58,7 +58,7 @@ notifications:
     # to enable skip_join, in IRC channel first execute `/mode -n`
     skip_join: true
     template:
-      - "RPerl build %{result}. %{author} says '%{commit_message}'"
+      - "MathPerl build %{result}. %{author} says '%{commit_message}'"
       - "%{build_url} %{compare_url}"
 
     # DEFAULT TEMPLATE

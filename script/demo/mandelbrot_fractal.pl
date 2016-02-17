@@ -34,22 +34,24 @@ use Time::HiRes qw(time);
 
 # [[[ OPERATIONS ]]]
 
-my integer $x_pixel_count = 160;    # default
-#my integer $x_pixel_count = 640;  # default
-#my integer $x_pixel_count = 800;  # default
+#my integer $x_pixel_count = 160;
+#my integer $x_pixel_count = 640;
+my integer $x_pixel_count = 800;
+#my integer $x_pixel_count = 1200;
 if ( defined $ARGV[0] ) { $x_pixel_count = string_to_integer( $ARGV[0] ); }    # user input, command-line argument
 
-my integer $y_pixel_count = 120;                                                # default
-#my integer $y_pixel_count = 480;  # default
-#my integer $y_pixel_count = 600;  # default
+#my integer $y_pixel_count = 120;
+#my integer $y_pixel_count = 480;
+my integer $y_pixel_count = 600;
+#my integer $y_pixel_count = 800;
 if ( defined $ARGV[1] ) { $y_pixel_count = string_to_integer( $ARGV[1] ); }    # user input, command-line argument
 
-my integer $iterations_max = 100;                                              # default
-#my integer $iterations_max = 200;                                              # default
-#my integer $iterations_max = 1_000;  # default
+my integer $iterations_max = 100;
+#my integer $iterations_max = 200;
+#my integer $iterations_max = 1_000;
 if ( defined $ARGV[2] ) { $iterations_max = string_to_integer( $ARGV[2] ); }    # user input, command-line argument
 
-my boolean $enable_graphics = 1;                                                # default
+my boolean $enable_graphics = 1;
 if ( defined $ARGV[3] ) { $enable_graphics = string_to_boolean( $ARGV[3] ); }   # user input, command-line argument
 
 my number $time_start = time();

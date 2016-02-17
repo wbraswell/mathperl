@@ -4,7 +4,7 @@ use RPerl;
 package MathPerl::Fractal::Mandelbrot;
 use strict;
 use warnings;
-our $VERSION = 0.001_001;
+our $VERSION = 0.003_000;
 
 # [[[ OO INHERITANCE ]]]
 use parent qw(MathPerl::Fractal);
@@ -31,14 +31,13 @@ our integer_arrayref_arrayref $mandelbrot_escape_time = sub {
         = @_;
     print 'GENERATE MANDELBROT' . "\n";
 
-    my integer_arrayref_arrayref $mandelbrot_set = [];
-    my number $x_scaling_factor                  = ( $x_max - $x_min ) / $x_pixel_count;
-    my number $y_scaling_factor                  = ( $y_max - $y_min ) / $y_pixel_count;
+    my integer_arrayref_arrayref $mandelbrot_set = integer_arrayref_arrayref::new( $y_pixel_count, $x_pixel_count );    # row-major form (RMF)
+    my number $x_scaling_factor     = ( $x_max - $x_min ) / $x_pixel_count;
+    my number $y_scaling_factor     = ( $y_max - $y_min ) / $y_pixel_count;
+    my number $color_scaling_factor = 255 / $iterations_max;
 
-    foreach my integer $y_pixel ( 0 .. ( $y_pixel_count - 1 ) ) {
-        $mandelbrot_set->[$y_pixel] = [];
-        foreach my integer $x_pixel ( 0 .. ( $x_pixel_count - 1 ) ) {
-#            print 'generate ( ' . substr('00' . $x_pixel, -3, 3) . ', ' . substr('00' . $y_pixel, -3, 3) . ' ) ' . "\n";
+    for my integer $y_pixel ( 0 .. ( $y_pixel_count - 1 ) ) {  # row-major form (RMF)
+        for my integer $x_pixel ( 0 .. ( $x_pixel_count - 1 ) ) {
             my number $x_scaled = $x_min + ( $x_pixel * $x_scaling_factor );
             my number $y_scaled = $y_min + ( $y_pixel * $y_scaling_factor );
             my number $x        = 0.0;
@@ -50,10 +49,12 @@ our integer_arrayref_arrayref $mandelbrot_escape_time = sub {
                 $x = $x_tmp;
                 $i++;
             }
-            $mandelbrot_set->[$y_pixel]->[$x_pixel] = $i;
+#            $mandelbrot_set->[$y_pixel]->[$x_pixel] = $i;  # do not scale to become color, leave as iteration count
+            $mandelbrot_set->[$y_pixel]->[$x_pixel] = $i * $color_scaling_factor;  # scale to become color, black background
+#            $mandelbrot_set->[$y_pixel]->[$x_pixel] = 255 - ( $i * $color_scaling_factor );    # scale to become color, invert for white background
         }
     }
     return $mandelbrot_set;
 };
 
-1;    # end of class
+1;                                                                                             # end of class

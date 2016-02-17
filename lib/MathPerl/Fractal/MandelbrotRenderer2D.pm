@@ -3,7 +3,7 @@ package MathPerl::Fractal::MandelbrotRenderer2D;
 use strict;
 use warnings;
 use RPerl::AfterSubclass;
-our $VERSION = 0.002_000;
+our $VERSION = 0.003_000;
 
 # [[[ OO INHERITANCE ]]]
 use parent qw(RPerl::CompileUnit::Module::Class);    # no non-system inheritance, only inherit from base class
@@ -24,20 +24,21 @@ use SDLx::Text;
 
 # [[[ OO PROPERTIES ]]]
 our hashref $properties = {
-    mandelbrot_set => my integer_arrayref_arrayref $TYPED_mandelbrot_set = undef,
-    iterations_max => my integer $TYPED_iterations_max                   = undef,
-    window_title   => my string $TYPED_window_title                      = undef,
-    window_width   => my integer $TYPED_window_width                     = undef,
-    window_height  => my integer $TYPED_window_height                    = undef,
-    x_min          => my number $TYPED_x_min                             = undef,
-    x_max          => my number $TYPED_x_max                             = undef,
-    y_min          => my number $TYPED_y_min                             = undef,
-    y_max          => my number $TYPED_y_max                             = undef,
-    move_factor    => my number $TYPED_move_factor                       = 0.1,     # NEED FIX: remove hard-coded values?
-    zoom_factor    => my number $TYPED_zoom_factor                       = 0.2,
-    iterations_inc => my integer $TYPED_iterations_inc                   = 100,
-    automatic      => my boolean $TYPED_automatic                        = 0,
-    app            => my SDLx::App $TYPED_app                            = undef,
+    mandelbrot_set  => my integer_arrayref_arrayref $TYPED_mandelbrot_set = undef,
+    iterations_max  => my integer $TYPED_iterations_max                   = undef,
+    window_title    => my string $TYPED_window_title                      = undef,
+    window_width    => my integer $TYPED_window_width                     = undef,
+    window_height   => my integer $TYPED_window_height                    = undef,
+    x_min           => my number $TYPED_x_min                             = undef,
+    x_max           => my number $TYPED_x_max                             = undef,
+    y_min           => my number $TYPED_y_min                             = undef,
+    y_max           => my number $TYPED_y_max                             = undef,
+    move_factor     => my number $TYPED_move_factor                       = 0.1,      # NEED FIX: remove hard-coded values?
+    zoom_factor     => my number $TYPED_zoom_factor                       = 0.2,
+    iterations_inc  => my integer $TYPED_iterations_inc                   = 100,
+    iterations_init => my integer $TYPED_iterations_init                  = undef,
+    automatic       => my boolean $TYPED_automatic                        = 0,
+    app             => my SDLx::App $TYPED_app                            = undef,
 };
 
 # [[[ OO METHODS & SUBROUTINES ]]]
@@ -48,22 +49,18 @@ our void::method $init = sub {
     $self->{window_width}   = $x_pixel_count;
     $self->{window_height}  = $y_pixel_count;
     $self->{iterations_max} = $iterations_max;
+    $self->{iterations_init} = $iterations_max;
 
-# START HERE: implement foreach() in C++
-# START HERE: implement foreach() in C++
-# START HERE: implement foreach() in C++
-# TRIGGER FIRST TRAVIS BUILD
-
-    $self->{x_min}          = MathPerl::Fractal::Mandelbrot->new()->X_SCALE_MIN();
-    $self->{x_max}          = MathPerl::Fractal::Mandelbrot->new()->X_SCALE_MAX();
-    $self->{y_min}          = MathPerl::Fractal::Mandelbrot->new()->Y_SCALE_MIN();
-    $self->{y_max}          = MathPerl::Fractal::Mandelbrot->new()->Y_SCALE_MAX();
+    $self->{x_min} = MathPerl::Fractal::Mandelbrot->new()->X_SCALE_MIN();
+    $self->{x_max} = MathPerl::Fractal::Mandelbrot->new()->X_SCALE_MAX();
+    $self->{y_min} = MathPerl::Fractal::Mandelbrot->new()->Y_SCALE_MIN();
+    $self->{y_max} = MathPerl::Fractal::Mandelbrot->new()->Y_SCALE_MAX();
 
     # PERLOPS_PERLTYPES only
-#    $self->{x_min}          = MathPerl::Fractal::Mandelbrot::X_SCALE_MIN();
-#    $self->{x_max}          = MathPerl::Fractal::Mandelbrot::X_SCALE_MAX();
-#    $self->{y_min}          = MathPerl::Fractal::Mandelbrot::Y_SCALE_MIN();
-#    $self->{y_max}          = MathPerl::Fractal::Mandelbrot::Y_SCALE_MAX();
+    #    $self->{x_min}          = MathPerl::Fractal::Mandelbrot::X_SCALE_MIN();
+    #    $self->{x_max}          = MathPerl::Fractal::Mandelbrot::X_SCALE_MAX();
+    #    $self->{y_min}          = MathPerl::Fractal::Mandelbrot::Y_SCALE_MIN();
+    #    $self->{y_max}          = MathPerl::Fractal::Mandelbrot::Y_SCALE_MAX();
 
     SDL::init(SDL_INIT_VIDEO);
 
@@ -139,29 +136,31 @@ our void::method $events = sub {
             $self->{x_max}     = MathPerl::Fractal::Mandelbrot->new()->X_SCALE_MAX();
             $self->{y_min}     = MathPerl::Fractal::Mandelbrot->new()->Y_SCALE_MIN();
             $self->{y_max}     = MathPerl::Fractal::Mandelbrot->new()->Y_SCALE_MAX();
-#            $self->{x_min}     = MathPerl::Fractal::Mandelbrot::X_SCALE_MIN();
-#            $self->{x_max}     = MathPerl::Fractal::Mandelbrot::X_SCALE_MAX();
-#            $self->{y_min}     = MathPerl::Fractal::Mandelbrot::Y_SCALE_MIN();
-#            $self->{y_max}     = MathPerl::Fractal::Mandelbrot::Y_SCALE_MAX();
+            $self->{iterations_max} = $self->{iterations_init};
+
+            #            $self->{x_min}     = MathPerl::Fractal::Mandelbrot::X_SCALE_MIN();
+            #            $self->{x_max}     = MathPerl::Fractal::Mandelbrot::X_SCALE_MAX();
+            #            $self->{y_min}     = MathPerl::Fractal::Mandelbrot::Y_SCALE_MIN();
+            #            $self->{y_max}     = MathPerl::Fractal::Mandelbrot::Y_SCALE_MAX();
         }
-        elsif ( $key_name eq 'a' ) {                                           # AUTOMATIC ON
+        elsif ( $key_name eq 'a' ) {    # AUTOMATIC ON
             $self->{automatic} = 1;
             return;
         }
-        elsif ( $key_name eq 'space' ) {                                       # AUTOMATIC OFF
+        elsif ( $key_name eq 'space' ) {    # AUTOMATIC OFF
             $self->{automatic} = 0;
             return;
         }
-        else { return; }                                                       # UNUSED KEYSTROKE
+        else { return; }                    # UNUSED KEYSTROKE
 
-        $self->mandelbrot_escape_time_render($app);                            # only render additional frames when a change occurs
+        $self->mandelbrot_escape_time_render($app);    # only render additional frames when a change occurs
         $app->update();
     }
 };
 
 our void::method $mandelbrot_escape_time_render = sub {
     ( my MathPerl::Fractal::MandelbrotRenderer2D $self, my SDLx::App $app ) = @_;
-    SDL::Video::fill_rect( $app, SDL::Rect->new( 0, 0, $app->w(), $app->h() ), 0 );
+    SDL::Video::fill_rect( $app, SDL::Rect->new( 0, 0, $app->w(), $app->h() ), 0 );  # black background
 
     $self->{mandelbrot_set} = MathPerl::Fractal::Mandelbrot::mandelbrot_escape_time(
         $self->{window_width},
@@ -170,35 +169,21 @@ our void::method $mandelbrot_escape_time_render = sub {
         $self->{x_min}, $self->{x_max}, $self->{y_min}, $self->{y_max}
     );
 
-    my number $color_scaling_factor = 255 / $self->{iterations_max};
-
     my $x = 0;
     my $y = 0;
     foreach my integer_arrayref $row ( @{ $self->{mandelbrot_set} } ) {
         foreach my integer $pixel ( @{$row} ) {
-
-            #            print 'color    ( ' . substr('00' . $x, -3, 3) . ', ' . substr('00' . $y, -3, 3) . ' ) ' . "\n";
-            my integer_arrayref $pixel_color = [ 0, 0, 0, 0 ];
-            $pixel_color->[3] = $pixel * $color_scaling_factor;    # blue only
-            $app->[$x][$y] = $pixel_color;
+            $app->[$x][$y] = [ 0, 0, 0, $pixel ]; # blue on black background
+#            $app->[$x][$y] = [ 255, 255, $pixel, $pixel ]; # red on white background
             $x++;
         }
         $x = 0;
         $y++;
     }
 
-=DISABLE_DEBUG
-    print '[' . "\n";
-    foreach my integer_arrayref_arrayref $row ( @{$app} ) {
-        print '    [';
-        foreach my integer_arrayref $pixel ( @{$row} ) {
-#            print '[' . $pixel->[0] . ', ' . $pixel->[1] . ', ' . $pixel->[2] . ', ' . $pixel->[3] . '], ';
-            print $pixel . ', ';
-        }
-        print '],' . "\n";
-    }
-    print ']' . "\n";
-=cut
+# START HERE: enable text display; auto mode via $auto_moves
+# START HERE: enable text display; auto mode via $auto_moves
+# START HERE: enable text display; auto mode via $auto_moves
 
 =DISABLE_TEXT
     my string $status = q{};
@@ -226,12 +211,16 @@ our void::method $mandelbrot_escape_time_render = sub {
 our void::method $move = sub {
     ( my MathPerl::Fractal::MandelbrotRenderer2D $self, my number $dt, my SDLx::App $app, my number $t ) = @_;
 
+    my string_arrayref $auto_moves
+        = [qw(up up up right right i i i right right i i up i i i i i i i i i i + i i down down + i i i i i i i i down down i i + i i i + down down left left i i i i + + up up i i i i i i i i i i i r)];
+
     if ( $self->{automatic} ) {
+
         # check for SPACE keystroke both in events() and here in move(), double keystroke checking is standard practice
         SDL::Events::pump_events();
         my $keys_ref = SDL::Events::get_key_state();
         if ( $keys_ref->[SDLK_SPACE] ) { $self->{automatic} = 0; }
- 
+
         my number $x_zoom = ( $self->{x_max} - $self->{x_min} ) * $self->{zoom_factor};
         $self->{x_min} += $x_zoom;
         $self->{x_max} -= $x_zoom;

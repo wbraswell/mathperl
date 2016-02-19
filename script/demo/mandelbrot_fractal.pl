@@ -34,15 +34,15 @@ use Time::HiRes qw(time);
 
 # [[[ OPERATIONS ]]]
 
-#my integer $x_pixel_count = 160;
+my integer $x_pixel_count = 160;
 #my integer $x_pixel_count = 640;
-my integer $x_pixel_count = 800;
+#my integer $x_pixel_count = 800;
 #my integer $x_pixel_count = 1200;
 if ( defined $ARGV[0] ) { $x_pixel_count = string_to_integer( $ARGV[0] ); }    # user input, command-line argument
 
-#my integer $y_pixel_count = 120;
+my integer $y_pixel_count = 120;
 #my integer $y_pixel_count = 480;
-my integer $y_pixel_count = 600;
+#my integer $y_pixel_count = 600;
 #my integer $y_pixel_count = 800;
 if ( defined $ARGV[1] ) { $y_pixel_count = string_to_integer( $ARGV[1] ); }    # user input, command-line argument
 

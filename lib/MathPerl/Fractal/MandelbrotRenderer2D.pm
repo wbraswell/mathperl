@@ -35,7 +35,7 @@ our hashref $properties = {
     y_max           => my number $TYPED_y_max                             = undef,
     move_factor     => my number $TYPED_move_factor                       = 0.1,      # NEED FIX: remove hard-coded values?
     zoom_factor     => my number $TYPED_zoom_factor                       = 0.2,
-    iterations_inc  => my integer $TYPED_iterations_inc                   = 100,
+    iterations_inc  => my integer $TYPED_iterations_inc                   = 25,
     iterations_init => my integer $TYPED_iterations_init                  = undef,
     automatic       => my boolean $TYPED_automatic                        = 0,
     app             => my SDLx::App $TYPED_app                            = undef,
@@ -185,26 +185,24 @@ our void::method $mandelbrot_escape_time_render = sub {
 # START HERE: enable text display; auto mode via $auto_moves
 # START HERE: enable text display; auto mode via $auto_moves
 
-=DISABLE_TEXT
     my string $status = q{};
     my string $status_tmp;
-    $status_tmp =  ($self->{time_step_current} / $self->{time_step_max}) * 100;
-    $status_tmp =~ s/[.].*//xms;  # sim time, 0 characters after decimal
-    $status .= 'Completion: ' . $status_tmp . '%';
-    $status_tmp = ::number_to_string($self->{time_step_current} / $time_elapsed);
-    $status_tmp =~ s/[.].*//xms;  # steps per real time, 0 characters after decimal
-    $status .= ' at ' . $status_tmp . ' Steps / Second' . "\n";
+    $status_tmp = ::number_to_string((MathPerl::Fractal::Mandelbrot->new()->X_SCALE_MAX() - MathPerl::Fractal::Mandelbrot->new()->X_SCALE_MIN()) / ($self->{x_max} - $self->{x_min}));
+    if ($status_tmp !~ m/[.]/xms) { $status_tmp .= '.00'; }  # add 2 significant digits after decimal, if missing
+    $status_tmp =~ s/([.]..).*/$1/xms;  # limit to exactly 2 significant digits after decimal
+    $status .= 'Zoom:       ' . $status_tmp . 'x' . "\n";
+    $status .= 'Iterations: ' . ::integer_to_string($self->{iterations_max}) . "\n";
 
     # NEED FIX: remove hard-coded font path
     SDLx::Text->new(
         font    => 'fonts/VeraMono.ttf',
         size    => 15,
-        color   => [255, 255, 255],
+        color   => [255, 255, 255],  # white text
+#        color   => [0, 0, 0],  # black text
         text    => $status,
         x       => 10,
         y       => 10,
     )->write_to($app);
-=cut
 
 };
 

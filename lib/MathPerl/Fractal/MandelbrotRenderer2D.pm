@@ -107,18 +107,22 @@ our void::method $events = sub {
             $self->{x_max} += $x_move;
         }
         elsif ( $key_name eq 'i' ) {        # ZOOM IN
-            my number $x_zoom = ( $self->{x_max} - $self->{x_min} ) * $self->{zoom_factor};
+#            my number $x_zoom = ( $self->{x_max} - $self->{x_min} ) * $self->{zoom_factor};
+            my number $x_zoom = (( $self->{x_max} - $self->{x_min} ) * $self->{zoom_factor} ) / 2;
             $self->{x_min} += $x_zoom;
             $self->{x_max} -= $x_zoom;
-            my number $y_zoom = ( $self->{y_max} - $self->{y_min} ) * $self->{zoom_factor};
+#            my number $y_zoom = ( $self->{y_max} - $self->{y_min} ) * $self->{zoom_factor};
+            my number $y_zoom = (( $self->{y_max} - $self->{y_min} ) * $self->{zoom_factor} ) / 2;
             $self->{y_min} += $y_zoom;
             $self->{y_max} -= $y_zoom;
         }
         elsif ( $key_name eq 'o' ) {        # ZOOM OUT
-            my number $x_zoom = ( $self->{x_max} - $self->{x_min} ) * $self->{zoom_factor};
+#            my number $x_zoom = ( $self->{x_max} - $self->{x_min} ) * $self->{zoom_factor};
+            my number $x_zoom = (( $self->{x_max} - $self->{x_min} ) * (1 - (1 / (1 + $self->{zoom_factor}))) ) / 2;
             $self->{x_min} -= $x_zoom;
             $self->{x_max} += $x_zoom;
-            my number $y_zoom = ( $self->{y_max} - $self->{y_min} ) * $self->{zoom_factor};
+#            my number $y_zoom = ( $self->{y_max} - $self->{y_min} ) * $self->{zoom_factor};
+            my number $y_zoom = (( $self->{y_max} - $self->{y_min} ) * (1 - (1 / (1 + $self->{zoom_factor}))) ) / 2;
             $self->{y_min} -= $y_zoom;
             $self->{y_max} += $y_zoom;
         }

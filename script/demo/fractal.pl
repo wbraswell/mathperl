@@ -39,12 +39,14 @@ use Time::HiRes qw(time);
 my string $set_name = 'julia';
 if ( defined $ARGV[0] ) { $set_name = lc $ARGV[0]; }    # user input, command-line argument
 
+#my integer $x_pixel_count = 16;
 my integer $x_pixel_count = 160;
 #my integer $x_pixel_count = 640;
 #my integer $x_pixel_count = 800;
 #my integer $x_pixel_count = 1200;
 if ( defined $ARGV[1] ) { $x_pixel_count = string_to_integer( $ARGV[0] ); }    # user input, command-line argument
 
+#my integer $y_pixel_count = 12;
 my integer $y_pixel_count = 120;
 #my integer $y_pixel_count = 480;
 #my integer $y_pixel_count = 600;
@@ -52,29 +54,47 @@ my integer $y_pixel_count = 120;
 if ( defined $ARGV[2] ) { $y_pixel_count = string_to_integer( $ARGV[1] ); }    # user input, command-line argument
 
 my integer $iterations_max = 150;
+
 #my integer $iterations_max = 200;
 if ( defined $ARGV[3] ) { $iterations_max = string_to_integer( $ARGV[2] ); }    # user input, command-line argument
 
 my boolean $enable_graphics = 1;
-if ( defined $ARGV[4] ) { $enable_graphics = string_to_boolean( $ARGV[3] ); }   # user input, command-line argument
+if ( defined $ARGV[4] ) { $enable_graphics = string_to_boolean( $ARGV[3] ); }    # user input, command-line argument
 
 my number $time_start = time();
 
 if ($enable_graphics) {
     my MathPerl::Fractal::Renderer2D $renderer = MathPerl::Fractal::Renderer2D->new();
-    $renderer->init($set_name, $x_pixel_count, $y_pixel_count, $iterations_max);
+    $renderer->init( $set_name, $x_pixel_count, $y_pixel_count, $iterations_max );
     $renderer->render2d_video();
 }
 else {
-    # NEED UPGRADE: default to Mandelbrot only for non-graphics mode
-    my integer_arrayref_arrayref $mandelbrot_set = mandelbrot_escape_time( 
-        $x_pixel_count, $y_pixel_count, $iterations_max, 
-        MathPerl::Fractal::Mandelbrot::X_SCALE_MIN(), MathPerl::Fractal::Mandelbrot::X_SCALE_MAX(),
-        MathPerl::Fractal::Mandelbrot::Y_SCALE_MIN(), MathPerl::Fractal::Mandelbrot::Y_SCALE_MAX(), 0);
+    my integer_arrayref_arrayref $set;
+    if ( $set_name eq 'mandelbrot' ) {
+        my number $x_scaling_factor = ( MathPerl::Fractal::Mandelbrot::X_SCALE_MAX() - MathPerl::Fractal::Mandelbrot::X_SCALE_MIN() ) / $x_pixel_count;
+        my number $y_scaling_factor = ( MathPerl::Fractal::Mandelbrot::Y_SCALE_MAX() - MathPerl::Fractal::Mandelbrot::Y_SCALE_MIN() ) / $y_pixel_count;
+        $set = mandelbrot_escape_time(
+            $x_scaling_factor, $y_scaling_factor, $x_pixel_count, $y_pixel_count, $iterations_max,
+            MathPerl::Fractal::Mandelbrot::X_SCALE_MIN(), MathPerl::Fractal::Mandelbrot::X_SCALE_MAX(),
+            MathPerl::Fractal::Mandelbrot::Y_SCALE_MIN(), MathPerl::Fractal::Mandelbrot::Y_SCALE_MAX(), 0
+        );
+    }
+    elsif ( $set_name eq 'julia' ) {
+        $set = julia_escape_time(
+            -0.7, 0.270_15, 
+            $x_pixel_count, $y_pixel_count, $iterations_max,
+            MathPerl::Fractal::Julia::X_SCALE_MIN(),
+            MathPerl::Fractal::Julia::X_SCALE_MAX(),
+            MathPerl::Fractal::Julia::Y_SCALE_MIN(),
+            MathPerl::Fractal::Julia::Y_SCALE_MAX(), 0
+        );
+    }
 
-    #print Dumper($mandelbrot_set) . "\n";
+#die 'TMP DEBUG';
+
+    #print Dumper($set) . "\n";
     print '[' . "\n";
-    foreach my integer_arrayref $row ( @{$mandelbrot_set} ) {
+    foreach my integer_arrayref $row ( @{$set} ) {
         print '    [';
         foreach my integer $pixel ( @{$row} ) {
             print $pixel . ', ';

@@ -22,7 +22,7 @@
 use RPerl;
 use strict;
 use warnings;
-our $VERSION = 0.001_000;
+our $VERSION = 0.002_000;
 
 # [[[ CRITICS ]]]
 ## no critic qw(ProhibitUselessNoCritic ProhibitMagicNumbers RequireCheckedSyscalls)  # USER DEFAULT 1: allow numeric values & print operator
@@ -36,7 +36,8 @@ use Time::HiRes qw(time);
 # [[[ OPERATIONS ]]]
 
 #my string $set_name = 'mandelbrot';
-my string $set_name = 'julia';
+#my string $set_name = 'julia';
+my string $set_name = 'mandelbrot_julia';
 if ( defined $ARGV[0] ) { $set_name = lc $ARGV[0]; }    # user input, command-line argument
 
 #my integer $x_pixel_count = 16;

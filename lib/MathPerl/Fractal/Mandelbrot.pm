@@ -4,7 +4,7 @@ use RPerl;
 package MathPerl::Fractal::Mandelbrot;
 use strict;
 use warnings;
-our $VERSION = 0.003_000;
+our $VERSION = 0.004_000;
 
 # [[[ OO INHERITANCE ]]]
 use parent qw(MathPerl::Fractal);
@@ -46,8 +46,8 @@ our integer_arrayref_arrayref::method $escape_time = sub {
 
 # procedural interface
 our integer_arrayref_arrayref $mandelbrot_escape_time = sub {
-    (   my number $x_scaling_factor,
-        my number $y_scaling_factor,
+    (   my number $unused_argument_0,
+        my number $unused_argument_1,
         my integer $x_pixel_count,
         my integer $y_pixel_count,
         my integer $iterations_max,
@@ -61,18 +61,20 @@ our integer_arrayref_arrayref $mandelbrot_escape_time = sub {
     #    print 'GENERATE MANDELBROT' . "\n";
 
     my integer_arrayref_arrayref $mandelbrot_set = integer_arrayref_arrayref::new( $y_pixel_count, $x_pixel_count );    # row-major form (RMF)
-    my number $color_scaling_factor = 255 / $iterations_max;
+    my number $color_scaling_factor              = 255 / $iterations_max;
+    my number $x_scaling_factor                  = ( $x_max - $x_min ) / $x_pixel_count;
+    my number $y_scaling_factor                  = ( $y_max - $y_min ) / $y_pixel_count;
 
     for my integer $y_pixel ( 0 .. ( $y_pixel_count - 1 ) ) {                                                           # row-major form (RMF)
+        my number $y_offset = $y_min + ( $y_pixel * $y_scaling_factor );
         for my integer $x_pixel ( 0 .. ( $x_pixel_count - 1 ) ) {
-            my number $x_scaled = $x_min + ( $x_pixel * $x_scaling_factor );
-            my number $y_scaled = $y_min + ( $y_pixel * $y_scaling_factor );
-            my number $real     = 0.0;
+            my number $x_offset  = $x_min + ( $x_pixel * $x_scaling_factor );
+            my number $real      = 0.0;
             my number $imaginary = 0.0;
             my integer $i        = 0;
             while ( ( ( ( $real * $real ) + ( $imaginary * $imaginary ) ) < 4 ) and ( $i < $iterations_max ) ) {
-                my number $real_tmp = ( $real * $real ) - ( $imaginary * $imaginary ) + $x_scaled;
-                $imaginary = ( 2 * $real * $imaginary ) + $y_scaled;
+                my number $real_tmp = ( $real * $real ) - ( $imaginary * $imaginary ) + $x_offset;
+                $imaginary = ( 2 * $real * $imaginary ) + $y_offset;
                 $real      = $real_tmp;
                 $i++;
             }

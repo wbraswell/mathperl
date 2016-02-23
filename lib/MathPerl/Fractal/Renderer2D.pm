@@ -3,7 +3,7 @@ package MathPerl::Fractal::Renderer2D;
 use strict;
 use warnings;
 use RPerl::AfterSubclass;
-our $VERSION = 0.003_000;
+our $VERSION = 0.005_000;
 
 # [[[ OO INHERITANCE ]]]
 use parent qw(RPerl::CompileUnit::Module::Class);    # no non-system inheritance, only inherit from base class
@@ -21,74 +21,55 @@ use POSIX qw(floor);
 use SDL;
 use SDL::Event;
 use SDL::Video;
+#use SDL::Mouse;  # NEED REMOVE: not necessary?
 use SDLx::App;
 use SDLx::Text;
 
 # [[[ OO PROPERTIES ]]]
 our hashref $properties = {
-    set             => my integer_arrayref_arrayref $TYPED_set = undef,
-    set_name        => my string $TYPED_set_name               = undef,
-    set_object      => my MathPerl::Fractal $TYPED_set_object  = undef,
-    iterations_max  => my integer $TYPED_iterations_max        = undef,
-    window_title    => my string $TYPED_window_title           = undef,
-    window_width    => my integer $TYPED_window_width          = undef,
-    window_height   => my integer $TYPED_window_height         = undef,
-    x_min           => my number $TYPED_x_min                  = undef,
-    x_max           => my number $TYPED_x_max                  = undef,
-    y_min           => my number $TYPED_y_min                  = undef,
-    y_max           => my number $TYPED_y_max                  = undef,
-    zoom            => my number $TYPED_zoom                   = undef,
-    move_factor     => my number $TYPED_move_factor            = 0.1,                  # NEED FIX: remove hard-coded values?
-    zoom_factor     => my number $TYPED_zoom_factor            = 0.2,
-    iterations_inc  => my integer $TYPED_iterations_inc        = 10,
-    iterations_init => my integer $TYPED_iterations_init       = undef,
-    automatic       => my boolean $TYPED_automatic             = 0,
-    automatic_step  => my integer $TYPED_automatic_step        = undef,
-    app             => my SDLx::App $TYPED_app                 = undef,
-    color_invert    => my boolean $TYPED_color_invert          = undef,
-    color_mode      => my integer $TYPED_color_mode            = undef,
-    color_modes     => my integer_arrayref $TYPED_color_modes  = [ 0, 1, 127, 255 ],
-    color_masks     => my integer_arrayref $TYPED_color_masks  = undef,
+    set            => my integer_arrayref_arrayref $TYPED_set = undef,
+    set_name       => my string $TYPED_set_name               = undef,
+    set_names      => my string_arrayref $TYPED_set_names     = ['mandelbrot', 'julia', 'mandelbrot_julia' ],  # NEED UPGRADE: remove redundant data via unique_hashref data structure
+    set_mode       => my integer $TYPED_set_mode              = undef,
+    set_modes      => my integer_hashref $TYPED_set_modes     = { 'mandelbrot' => 0, 'julia' => 1, 'mandelbrot_julia' => 2 },
+    set_object     => my MathPerl::Fractal $TYPED_set_object  = undef,
+    iterations_max => my integer $TYPED_iterations_max        = undef,
+    window_title   => my string $TYPED_window_title           = undef,
+    window_width   => my integer $TYPED_window_width          = undef,
+    window_height  => my integer $TYPED_window_height         = undef,
+    x_pixel_count  => my integer $TYPED_x_pixel_count         = undef,
+    y_pixel_count  => my integer $TYPED_y_pixel_count         = undef,
+    x_pixel_offset => my integer $TYPED_x_pixel_offset = undef,
+    x_min          => my number $TYPED_x_min                  = undef,
+    x_max          => my number $TYPED_x_max                  = undef,
+    y_min          => my number $TYPED_y_min                  = undef,
+    y_max          => my number $TYPED_y_max                  = undef,
+    zoom           => my number $TYPED_zoom                   = undef,
+    move_factor     => my number $TYPED_move_factor           = 0.1,                  # NEED FIX: remove hard-coded values?
+    zoom_factor     => my number $TYPED_zoom_factor           = 0.2,
+    iterations_inc  => my integer $TYPED_iterations_inc       = 10,
+    iterations_init => my integer $TYPED_iterations_init      = undef,
+    automatic       => my boolean $TYPED_automatic            = 0,
+    automatic_step  => my integer $TYPED_automatic_step       = undef,
+    app             => my SDLx::App $TYPED_app                = undef,
+    color_invert    => my boolean $TYPED_color_invert         = undef,
+    color_mode      => my integer $TYPED_color_mode           = undef,
+    color_modes     => my integer_arrayref $TYPED_color_modes = [ 0, 1, 127, 255 ],
+    color_masks     => my integer_arrayref $TYPED_color_masks = undef,
+    real_arg => my number $TYPED_real_arg = undef,
+    real_arg_inc => my number $TYPED_real_arg_inc = 0.1,
+    imaginary_arg => my number $TYPED_imaginary_arg = undef,
+    imaginary_arg_inc => my number $TYPED_imaginary_arg_inc = 0.1,
+    mouse_clicked => my boolean $TYPED_mouse_clicked = undef,
 };
 
 # [[[ OO METHODS & SUBROUTINES ]]]
 
 our void::method $init = sub {
     ( my MathPerl::Fractal::Renderer2D $self, my string $set_name, my integer $x_pixel_count, my integer $y_pixel_count, my integer $iterations_max ) = @_;
-    $self->{set_name}        = $set_name;
-    $self->{window_title}    = 'Fractal Generator';
-    $self->{window_width}    = $x_pixel_count;
-    $self->{window_height}   = $y_pixel_count;
-    $self->{iterations_max}  = $iterations_max;
-    $self->{iterations_init} = $iterations_max;
 
-    if    ( $self->{set_name} eq 'mandelbrot' ) { 
-        $self->{set_object} = MathPerl::Fractal::Mandelbrot->new();
-        $self->{real_arg} = ( $self->{set_object}->X_SCALE_MAX() - $self->{set_object}->X_SCALE_MIN() ) / $x_pixel_count;
-        $self->{imaginary_arg} = ( $self->{set_object}->Y_SCALE_MAX() - $self->{set_object}->Y_SCALE_MIN() ) / $y_pixel_count;
-    }
-    elsif ( $self->{set_name} eq 'julia' )      { 
-        $self->{set_object} = MathPerl::Fractal::Julia->new();
-        $self->{real_arg} = -0.7;
-        $self->{imaginary_arg} = 0.270_15;
-    }
-    else                                        { die 'Unknown fractal set name ' . $set_name . ', dying' . "\n"; }
-    $self->{x_min} = $self->{set_object}->X_SCALE_MIN();
-    $self->{x_max} = $self->{set_object}->X_SCALE_MAX();
-    $self->{y_min} = $self->{set_object}->Y_SCALE_MIN();
-    $self->{y_max} = $self->{set_object}->Y_SCALE_MAX();
-
-    $self->{zoom}           = 1.0;
-    $self->{automatic_step} = 0;
-    $self->{color_invert}   = 0;
-    $self->{color_mode}     = 5;                                                                                       # blue on black
-
-    #    $self->{color_invert} = 1;  $self->{color_mode} = 3;  # red on white
-    $self->{color_masks} = [
-        $self->{color_modes}->[ $self->{color_mode} % 4 ],
-        $self->{color_modes}->[ floor( ( $self->{color_mode} % 16 ) / 4 ) ],
-        $self->{color_modes}->[ floor( ( $self->{color_mode} % 64 ) / 16 ) ]
-    ];
+    $self->{iterations_init} = $iterations_max;  # save for use on reset
+    MathPerl::Fractal::Renderer2D::init_values(@_);
 
     SDL::init(SDL_INIT_VIDEO);
 
@@ -98,23 +79,114 @@ our void::method $init = sub {
         height => $self->{window_height},
         depth  => 32,                       # 32-bit color
         delay  => 25,                       # don't let SDL overload the CPU
+        resizeable => 1                     # dual modes require window resize
     );
+};
+
+our void::method $init_values = sub {
+    ( my MathPerl::Fractal::Renderer2D $self, my string $set_name, my integer $x_pixel_count, my integer $y_pixel_count, my integer $iterations_max ) = @_;
+    if ( not exists $self->{set_modes}->{$set_name} ) { die 'Unknown fractal set name ' . $set_name . ', dying' . "\n"; }
+    $self->{set_name}        = $set_name;
+    $self->{set_mode}        = $self->{set_modes}->{$set_name};
+    $self->{window_title}    = 'Fractal Generator';
+    $self->{iterations_max}  = $iterations_max;
+    $self->{x_pixel_count} = $x_pixel_count;
+    $self->{y_pixel_count} = $y_pixel_count;
+    $self->{x_pixel_offset} = 0;
+
+    if ( $self->{set_name} eq 'mandelbrot' ) {
+        $self->{window_width}  = $x_pixel_count;
+        $self->{window_height} = $y_pixel_count;
+        $self->{set_object}    = MathPerl::Fractal::Mandelbrot->new();
+        $self->{real_arg}      = 0;  # unused in Mandelbrot
+        $self->{imaginary_arg} = 0;
+    }
+    elsif ( $self->{set_name} eq 'julia' ) {
+        $self->{window_width}  = $x_pixel_count;
+        $self->{window_height} = $y_pixel_count;
+        $self->{set_object}    = MathPerl::Fractal::Julia->new();
+        $self->{real_arg}      = -0.7;
+        $self->{imaginary_arg} = 0.270_15;
+    }
+    elsif ( $self->{set_name} eq 'mandelbrot_julia' ) {
+        $self->{window_width}  = $x_pixel_count * 2;
+        $self->{window_height} = $y_pixel_count;
+        $self->{set_object}    = MathPerl::Fractal::Julia->new();
+        $self->{x_pixel_offset} += $self->{x_pixel_count};
+        $self->{real_arg}      = -0.7;
+        $self->{imaginary_arg} = 0.270_15;
+    }
+
+    $self->{x_min} = $self->{set_object}->X_SCALE_MIN();
+    $self->{x_max} = $self->{set_object}->X_SCALE_MAX();
+    $self->{y_min} = $self->{set_object}->Y_SCALE_MIN();
+    $self->{y_max} = $self->{set_object}->Y_SCALE_MAX();
+    $self->{zoom}           = 1.0;
+    $self->{automatic_step} = 0;
+    $self->{color_invert}   = 0;
+    $self->{color_mode}     = 5;     # blue on black
+
+    #    $self->{color_invert} = 1;  $self->{color_mode} = 3;  # red on white
+    $self->{color_masks} = [
+        $self->{color_modes}->[ $self->{color_mode} % 4 ],
+        $self->{color_modes}->[ floor( ( $self->{color_mode} % 16 ) / 4 ) ],
+        $self->{color_modes}->[ floor( ( $self->{color_mode} % 64 ) / 16 ) ]
+    ];
+
+    $self->{mouse_clicked} = 0;
 };
 
 our void::method $events = sub {
     ( my MathPerl::Fractal::Renderer2D $self, my SDL::Event $event, my SDLx::App $app ) = @_;
     if ( $event->type() == SDL_QUIT ) { $app->stop(); }
-    elsif ( $event->type == SDL_KEYDOWN ) {
+    if ( $event->type() == SDL_KEYDOWN ) {
         my string $key_name   = SDL::Events::get_key_name( $event->key_sym );
         my integer $mod_state = SDL::Events::get_mod_state();
         $self->process_keystroke( $app, $key_name, $mod_state );
+    }
+
+    if ($event->type() == SDL_MOUSEBUTTONUP && $event->button_button() == SDL_BUTTON_LEFT) {
+#        print 'Mouse Button: Up' . "\n";
+        $self->{mouse_clicked} = 0;
+    }
+    if ($event->type() == SDL_MOUSEBUTTONDOWN && $event->button_button() == SDL_BUTTON_LEFT) {
+#        print 'Mouse Button: Down' . "\n";
+        $self->{mouse_clicked} = 1;
+        (my integer $mouse_mask, my integer $mouse_x, my integer $mouse_y) = @{ SDL::Events::get_mouse_state( ) };
+        $self->process_mouseclick( $app, $mouse_mask, $mouse_x, $mouse_y );
+    }
+    if ($event->type() == SDL_MOUSEMOTION) {
+#        print 'Mouse Location: ' . $event->motion_x() . ', ' . $event->motion_y() . "\n";
+        (my integer $mouse_mask, my integer $mouse_x, my integer $mouse_y) = @{ SDL::Events::get_mouse_state( ) };
+        $self->process_mouseclick( $app, $mouse_mask, $mouse_x, $mouse_y );
+#        $self->process_mouseclick( $app, $mouse_mask, $event->motion_x(), $event->motion_y() );
+    }
+};
+
+our void::method $process_mouseclick = sub {
+    ( my MathPerl::Fractal::Renderer2D $self, my SDLx::App $app, my integer $mouse_mask, my integer $mouse_x, my integer $mouse_y ) = @_;
+#    print 'Mouse Button: Left' . "\n" if ($mouse_mask & SDL_BUTTON_LMASK);
+#    print 'Mouse Button: Right' . "\n" if ($mouse_mask & SDL_BUTTON_RMASK);
+#    print 'Mouse Button: Middle' . "\n" if ($mouse_mask & SDL_BUTTON_MMASK);
+#    print 'Mouse Location: ' . $mouse_x.', '.$mouse_y . "\n";
+
+    # only use clicks in mandelbrot_julia dual mode, don't use clicks from the Julia screen area on the right, check $self->{mouse_clicked} to allow mouse dragging
+    if ($self->{mouse_clicked} and ($self->{set_name} eq 'mandelbrot_julia') and ($mouse_x < $self->{x_pixel_count}) and ($mouse_y < $self->{y_pixel_count})) {
+        $self->{real_arg} = MathPerl::Fractal::Mandelbrot->new()->X_SCALE_MIN() + ($mouse_x * ((MathPerl::Fractal::Mandelbrot->new()->X_SCALE_MAX() - MathPerl::Fractal::Mandelbrot->new()->X_SCALE_MIN()) / $self->{x_pixel_count}));
+        $self->{imaginary_arg} = MathPerl::Fractal::Mandelbrot->new()->Y_SCALE_MIN() + ($mouse_y * ((MathPerl::Fractal::Mandelbrot->new()->Y_SCALE_MAX() - MathPerl::Fractal::Mandelbrot->new()->Y_SCALE_MIN()) / $self->{y_pixel_count}));
+        $self->escape_time_render($app);    # only render additional frames when a change occurs
+        $app->update();
     }
 };
 
 our void::method $process_keystroke = sub {
     ( my MathPerl::Fractal::Renderer2D $self, my SDLx::App $app, my string $key_name, my integer $mod_state ) = @_;
 
-    #    print $key_name . ' ';
+#    print $key_name . ' ';
+
+# START HERE: ctrl-c for HSV color, minibrot auto, julia auto, dual mode not-first-mode, tests, compiled darker color
+# START HERE: ctrl-c for HSV color, minibrot auto, julia auto, dual mode not-first-mode, tests, compiled darker color
+# START HERE: ctrl-c for HSV color, minibrot auto, julia auto, dual mode not-first-mode, tests, compiled darker color
 
     if ( $key_name eq 'q' ) {    # QUIT
         $app->stop();
@@ -178,12 +250,7 @@ our void::method $process_keystroke = sub {
         }
     }
     elsif ( $key_name eq 'r' ) {                                                                    # RESET
-        $self->{x_min}          = $self->{set_object}->X_SCALE_MIN();
-        $self->{x_max}          = $self->{set_object}->X_SCALE_MAX();
-        $self->{y_min}          = $self->{set_object}->Y_SCALE_MIN();
-        $self->{y_max}          = $self->{set_object}->Y_SCALE_MAX();
-        $self->{zoom}           = 1.0;
-        $self->{iterations_max} = $self->{iterations_init};
+        $self->init_values( $self->{set_name}, $self->{x_pixel_count}, $self->{y_pixel_count}, $self->{iterations_init} );
     }
     elsif ( $key_name eq 'a' ) {                                                                    # AUTOMATIC ON
         $self->{automatic} = 1;
@@ -210,6 +277,32 @@ our void::method $process_keystroke = sub {
             if ( ( $self->{color_masks}->[0] == 0 ) or ( $self->{color_masks}->[1] == 0 ) or ( $self->{color_masks}->[2] == 0 ) ) { last; }
         }
     }
+    elsif ( $key_name eq 's' ) {    # SET CYCLE
+        if   ( $self->{set_mode} < (( scalar @{$self->{set_names}} ) - 1 ) ) { $self->{set_mode}++; $self->{set_name} = $self->{set_names}->[$self->{set_mode}]; }
+        else                                                                 { $self->{set_mode} = 0; $self->{set_name} = $self->{set_names}->[$self->{set_mode}]; }
+        $self->init_values( $self->{set_name}, $self->{x_pixel_count}, $self->{y_pixel_count}, $self->{iterations_max} );
+        $self->{app}->resize($self->{window_width}, $self->{window_height});
+    }
+    elsif ( ( ( $key_name eq '[' ) and ( $mod_state & KMOD_SHIFT ) ) or ( $key_name eq '{' ) ) {    # JULIA CONSTANT IMAGINARY DECREASE
+        if ($self->{set_name} eq 'julia') {
+            $self->{imaginary_arg} -= $self->{imaginary_arg_inc};
+        }
+    }
+    elsif ( ( ( $key_name eq ']' ) and ( $mod_state & KMOD_SHIFT ) ) or ( $key_name eq '}' ) ) {    # JULIA CONSTANT IMAGINARY INCREASE
+        if ($self->{set_name} eq 'julia') {
+            $self->{imaginary_arg} += $self->{imaginary_arg_inc};
+        }
+    }
+    elsif ( $key_name eq '[' ) {    # JULIA CONSTANT REAL DECREASE
+        if ($self->{set_name} eq 'julia') {
+            $self->{real_arg} -= $self->{real_arg_inc};
+        }
+    }
+    elsif ( $key_name eq ']' ) {    # JULIA CONSTANT REAL INCREASE
+        if ($self->{set_name} eq 'julia') {
+            $self->{real_arg} += $self->{real_arg_inc};
+        }
+    }
     else { return; }    # UNUSED KEYSTROKE
 
     $self->escape_time_render($app);    # only render additional frames when a change occurs
@@ -218,20 +311,16 @@ our void::method $process_keystroke = sub {
 
 our void::method $escape_time_render = sub {
     ( my MathPerl::Fractal::Renderer2D $self, my SDLx::App $app ) = @_;
-    SDL::Video::fill_rect( $app, SDL::Rect->new( 0, 0, $app->w(), $app->h() ), 0 );    # avoid window resize on exit
+#    SDL::Video::fill_rect( $app, SDL::Rect->new( 0, 0, $app->w(), $app->h() ), 0 );    # avoid window resize on exit, blanks out Mandelbrot in mandelbrot_julia dual mode
 
     $self->{set} = $self->{set_object}->escape_time(
-        $self->{real_arg},
-        $self->{imaginary_arg},
-        $self->{window_width},
-        $self->{window_height},
-        $self->{iterations_max},
-        $self->{x_min}, $self->{x_max}, $self->{y_min}, $self->{y_max}, $self->{color_invert}
+        $self->{real_arg}, $self->{imaginary_arg}, $self->{x_pixel_count}, $self->{y_pixel_count}, $self->{iterations_max},
+        $self->{x_min},    $self->{x_max},         $self->{y_min},        $self->{y_max},         $self->{color_invert}
     );
 
-    my $x = 0;
-    my $y = 0;
-
+    my integer $x = $self->{x_pixel_offset};
+    my integer $y = 0;
+    
     # pre-fetch color masks to speed up loop below
     my integer $color_mask_red   = $self->{color_masks}->[0];
     my integer $color_mask_green = $self->{color_masks}->[1];
@@ -242,7 +331,7 @@ our void::method $escape_time_render = sub {
             $app->[$x][$y] = [ undef, $color_mask_red || $pixel, $color_mask_green || $pixel, $color_mask_blue || $pixel ];
             $x++;
         }
-        $x = 0;
+        $x = $self->{x_pixel_offset};
         $y++;
     }
 
@@ -254,11 +343,26 @@ our void::method $escape_time_render = sub {
     #    if ($status_tmp !~ m/[.]/xms) { $status_tmp .= '.00'; }  # add 2 significant digits after decimal, if missing
     #    $status_tmp =~ s/([.]..).*/$1/xms;  # limit to exactly 2 significant digits after decimal
     #    $status .= 'ZoomCalc:   ' . $status_tmp . 'x' . "\n";
+    $status_tmp = pop [split /_/, $self->{set_name}];  # if set name contains underscore(s), select characters after final underscore
+    $status .= 'Set:    ' . (ucfirst $status_tmp) . "\n";
     $status_tmp = ::number_to_string( $self->{zoom} );
     if ( $status_tmp !~ m/[.]/xms ) { $status_tmp .= '.00'; }    # add 2 significant digits after decimal, if missing
     $status_tmp =~ s/([.]..).*/$1/xms;                           # limit to exactly 2 significant digits after decimal
-    $status .= 'Zoom:       ' . $status_tmp . 'x' . "\n";
-    $status .= 'Iterations: ' . ::integer_to_string( $self->{iterations_max} ) . "\n";
+    $status .= 'Zoom:   ' . $status_tmp . 'x' . "\n";
+    $status .= 'Detail: ' . ::integer_to_string( $self->{iterations_max} ) . "\n";
+#    if ($self->{set_name} eq 'julia') {
+    if ($self->{set_name} =~ m/julia/xms) {
+        if ((abs $self->{real_arg}) < 0.0001) { $status_tmp = '0.00'; }  # fix rounding error when close to 0
+        else { $status_tmp = ::number_to_string( $self->{real_arg} ); }
+        if ( $status_tmp !~ m/[.]/xms ) { $status_tmp .= '.00'; }    # add 2 significant digits after decimal, if missing
+        $status_tmp =~ s/([.]..).*/$1/xms;                           # limit to exactly 2 significant digits after decimal
+        $status .= 'Real:   ' . $status_tmp . "\n";
+        if ((abs $self->{imaginary_arg}) < 0.0001) { $status_tmp = '0.00'; }  # fix rounding error when close to 0
+        else { $status_tmp = ::number_to_string( $self->{imaginary_arg} ); }
+        if ( $status_tmp !~ m/[.]/xms ) { $status_tmp .= '.00'; }    # add 2 significant digits after decimal, if missing
+        $status_tmp =~ s/([.]..).*/$1/xms;                           # limit to exactly 2 significant digits after decimal
+        $status .= 'Imag:   ' . $status_tmp . "\n";
+    }
 
     # scale font within limits
     my integer $font_size = floor $self->{window_height} / 12;
@@ -274,7 +378,7 @@ our void::method $escape_time_render = sub {
         size  => $font_size,
         color => $font_color,
         text  => $status,
-        x     => 10,
+        x     => 10 + $self->{x_pixel_offset},
         y     => 10,
     )->write_to($app);
 
@@ -315,6 +419,15 @@ our void::method $move = sub {
 
 our void::method $render2d_video = sub {
     ( my MathPerl::Fractal::Renderer2D $self ) = @_;
+
+    # render Mandelbrot only once in mandelbrot_julia dual mode
+    if ( $self->{set_name} eq 'mandelbrot_julia' ) {
+        $self->init_values('mandelbrot', $self->{x_pixel_count}, $self->{y_pixel_count}, $self->{iterations_max});
+        $self->escape_time_render($self->{app});
+        $self->{app}->update();
+        $self->init_values('mandelbrot_julia', $self->{x_pixel_count}, $self->{y_pixel_count}, $self->{iterations_max});
+    }
+
     $self->escape_time_render( $self->{app} );    # render first frame
     $self->{app}->update();
 

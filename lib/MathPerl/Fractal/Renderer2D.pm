@@ -186,9 +186,9 @@ our void::method $process_keystroke = sub {
 
 #    print $key_name . ' ';
 
-# START HERE: ctrl-c for HSV color, minibrot auto, julia auto, dual mode not-first-mode, tests, compiled darker color
-# START HERE: ctrl-c for HSV color, minibrot auto, julia auto, dual mode not-first-mode, tests, compiled darker color
-# START HERE: ctrl-c for HSV color, minibrot auto, julia auto, dual mode not-first-mode, tests, compiled darker color
+# START HERE: ctrl-c for HSV color, minibrot auto, julia auto, tests, compiled darker color
+# START HERE: ctrl-c for HSV color, minibrot auto, julia auto, tests, compiled darker color
+# START HERE: ctrl-c for HSV color, minibrot auto, julia auto, tests, compiled darker color
 
     if ( $key_name eq 'q' ) {    # QUIT
         $app->stop();
@@ -282,9 +282,9 @@ our void::method $process_keystroke = sub {
     elsif ( $key_name eq 's' ) {    # SET CYCLE
         if   ( $self->{set_mode} < (( scalar @{$self->{set_names}} ) - 1 ) ) { $self->{set_mode}++; $self->{set_name} = $self->{set_names}->[$self->{set_mode}]; }
         else                                                                 { $self->{set_mode} = 0; $self->{set_name} = $self->{set_names}->[$self->{set_mode}]; }
-        $self->escape_time_render_pre();  # possibly pre-render zeroth frame
         $self->init_values( $self->{set_name}, $self->{x_pixel_count}, $self->{y_pixel_count}, $self->{iterations_max} );
         $self->{app}->resize($self->{window_width}, $self->{window_height});
+        $self->escape_time_render_pre();  # possibly pre-render zeroth frame
     }
     elsif ( ( ( $key_name eq '[' ) and ( $mod_state & KMOD_SHIFT ) ) or ( $key_name eq '{' ) ) {    # JULIA CONSTANT IMAGINARY DECREASE
         if ($self->{set_name} eq 'julia') {

@@ -35,9 +35,9 @@ use Time::HiRes qw(time);
 
 # [[[ OPERATIONS ]]]
 
-#my string $set_name = 'mandelbrot';
+my string $set_name = 'mandelbrot';
 #my string $set_name = 'julia';
-my string $set_name = 'mandelbrot_julia';
+#my string $set_name = 'mandelbrot_julia';
 if ( defined $ARGV[0] ) { $set_name = lc $ARGV[0]; }    # user input, command-line argument
 
 #my integer $x_pixel_count = 16;

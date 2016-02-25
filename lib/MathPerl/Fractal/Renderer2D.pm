@@ -172,8 +172,10 @@ our void::method $process_mouseclick = sub {
 
     # only use clicks in mandelbrot_julia dual mode, don't use clicks from the Julia screen area on the right, check $self->{mouse_clicked} to allow mouse dragging
     if ($self->{mouse_clicked} and ($self->{set_name} eq 'mandelbrot_julia') and ($mouse_x < $self->{x_pixel_count}) and ($mouse_y < $self->{y_pixel_count})) {
-        $self->{real_arg} = MathPerl::Fractal::Mandelbrot->new()->X_SCALE_MIN() + ($mouse_x * ((MathPerl::Fractal::Mandelbrot->new()->X_SCALE_MAX() - MathPerl::Fractal::Mandelbrot->new()->X_SCALE_MIN()) / $self->{x_pixel_count}));
-        $self->{imaginary_arg} = MathPerl::Fractal::Mandelbrot->new()->Y_SCALE_MIN() + ($mouse_y * ((MathPerl::Fractal::Mandelbrot->new()->Y_SCALE_MAX() - MathPerl::Fractal::Mandelbrot->new()->Y_SCALE_MIN()) / $self->{y_pixel_count}));
+        $self->{real_arg} = MathPerl::Fractal::Mandelbrot->new()->X_SCALE_MIN() + 
+            ($mouse_x * ((MathPerl::Fractal::Mandelbrot->new()->X_SCALE_MAX() - MathPerl::Fractal::Mandelbrot->new()->X_SCALE_MIN()) / $self->{x_pixel_count}));
+        $self->{imaginary_arg} = MathPerl::Fractal::Mandelbrot->new()->Y_SCALE_MIN() + 
+            ($mouse_y * ((MathPerl::Fractal::Mandelbrot->new()->Y_SCALE_MAX() - MathPerl::Fractal::Mandelbrot->new()->Y_SCALE_MIN()) / $self->{y_pixel_count}));
         $self->escape_time_render($app);    # only render additional frames when a change occurs
         $app->update();
     }
@@ -280,6 +282,7 @@ our void::method $process_keystroke = sub {
     elsif ( $key_name eq 's' ) {    # SET CYCLE
         if   ( $self->{set_mode} < (( scalar @{$self->{set_names}} ) - 1 ) ) { $self->{set_mode}++; $self->{set_name} = $self->{set_names}->[$self->{set_mode}]; }
         else                                                                 { $self->{set_mode} = 0; $self->{set_name} = $self->{set_names}->[$self->{set_mode}]; }
+        $self->escape_time_render_pre();  # possibly pre-render zeroth frame
         $self->init_values( $self->{set_name}, $self->{x_pixel_count}, $self->{y_pixel_count}, $self->{iterations_max} );
         $self->{app}->resize($self->{window_width}, $self->{window_height});
     }
@@ -420,14 +423,7 @@ our void::method $move = sub {
 our void::method $render2d_video = sub {
     ( my MathPerl::Fractal::Renderer2D $self ) = @_;
 
-    # render Mandelbrot only once in mandelbrot_julia dual mode
-    if ( $self->{set_name} eq 'mandelbrot_julia' ) {
-        $self->init_values('mandelbrot', $self->{x_pixel_count}, $self->{y_pixel_count}, $self->{iterations_max});
-        $self->escape_time_render($self->{app});
-        $self->{app}->update();
-        $self->init_values('mandelbrot_julia', $self->{x_pixel_count}, $self->{y_pixel_count}, $self->{iterations_max});
-    }
-
+    $self->escape_time_render_pre();  # possibly pre-render zeroth frame
     $self->escape_time_render( $self->{app} );    # render first frame
     $self->{app}->update();
 
@@ -438,6 +434,18 @@ our void::method $render2d_video = sub {
 
     #    $self->{app}->fullscreen();
     $self->{app}->run();
+};
+
+our void::method $escape_time_render_pre = sub {
+    ( my MathPerl::Fractal::Renderer2D $self ) = @_;
+
+    # render Mandelbrot only once in mandelbrot_julia dual mode
+    if ( $self->{set_name} eq 'mandelbrot_julia' ) {
+        $self->init_values('mandelbrot', $self->{x_pixel_count}, $self->{y_pixel_count}, $self->{iterations_max});
+        $self->escape_time_render($self->{app});
+        $self->{app}->update();
+        $self->init_values('mandelbrot_julia', $self->{x_pixel_count}, $self->{y_pixel_count}, $self->{iterations_max});
+    }
 };
 
 1;    # end of class

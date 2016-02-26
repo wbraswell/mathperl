@@ -1,16 +1,13 @@
 # [[[ HEADER ]]]
 use RPerl;
-package MathPerl::GeometricAlgebra;
+package MathPerl::Color;
 use strict;
 use warnings;
-our $VERSION = 0.000_003;
+our $VERSION = 0.000_001;
 
 # [[[ OO INHERITANCE ]]]
 use parent qw(MathPerl);
 use MathPerl;
-
-# [[[ INCLUDES ]]]
-use MathPerl::GeometricAlgebra::Products;
 
 # [[[ OO PROPERTIES ]]]
 our hashref $properties = {};

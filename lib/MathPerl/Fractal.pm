@@ -1,8 +1,8 @@
 # [[[ HEADER ]]]
+use RPerl;
 package MathPerl::Fractal;
 use strict;
 use warnings;
-use RPerl::AfterSubclass;
 our $VERSION = 0.000_001;
 
 # [[[ OO INHERITANCE ]]]

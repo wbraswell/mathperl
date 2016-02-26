@@ -52,9 +52,13 @@ our hashref $properties = {
     automatic       => my boolean $TYPED_automatic            = 0,
     automatic_step  => my integer $TYPED_automatic_step       = undef,
     app             => my SDLx::App $TYPED_app                = undef,
+    coloring_name       => my string $TYPED_coloring_name               = undef,
+    coloring_names      => my string_arrayref $TYPED_coloring_names     = ['RGB', 'HSV' ],  # NEED UPGRADE: remove redundant data via unique_hashref data structure
+    coloring_mode       => my integer $TYPED_coloring_mode              = undef,
+    coloring_modes      => my integer_hashref $TYPED_coloring_modes     = { 'RGB' => 0, 'HSV' => 1 },
     color_invert    => my boolean $TYPED_color_invert         = undef,
-    color_mode      => my integer $TYPED_color_mode           = undef,
-    color_modes     => my integer_arrayref $TYPED_color_modes = [ 0, 1, 127, 255 ],
+    color_value      => my integer $TYPED_color_value           = undef,
+    color_values     => my integer_arrayref $TYPED_color_values = [ 0, 1, 127, 255 ],
     color_masks     => my integer_arrayref $TYPED_color_masks = undef,
     real_arg => my number $TYPED_real_arg = undef,
     real_arg_inc => my number $TYPED_real_arg_inc = 0.1,
@@ -84,8 +88,13 @@ our void::method $init = sub {
 };
 
 our void::method $init_values = sub {
-    ( my MathPerl::Fractal::Renderer2D $self, my string $set_name, my integer $x_pixel_count, my integer $y_pixel_count, my integer $iterations_max ) = @_;
+    ( my MathPerl::Fractal::Renderer2D $self, my string $set_name, my integer $x_pixel_count, my integer $y_pixel_count, my integer $iterations_max, my string $coloring_name ) = @_;
     if ( not exists $self->{set_modes}->{$set_name} ) { die 'Unknown fractal set name ' . $set_name . ', dying' . "\n"; }
+    if ($x_pixel_count < 10) { die 'X pixel count ' . $x_pixel_count . ' below minimum of 10, dying' . "\n"; }
+    if ($y_pixel_count < 10) { die 'Y pixel count ' . $y_pixel_count . ' below minimum of 10, dying' . "\n"; }
+    if ($iterations_max < 10) { die 'Detail maximum iterations ' . $iterations_max . ' below minimum of 10, dying' . "\n"; }
+    if ( not exists $self->{coloring_modes}->{$coloring_name} ) { die 'Unknown fractal coloring name ' . $coloring_name . ', dying' . "\n"; }
+
     $self->{set_name}        = $set_name;
     $self->{set_mode}        = $self->{set_modes}->{$set_name};
     $self->{window_title}    = 'Fractal Generator';
@@ -123,15 +132,22 @@ our void::method $init_values = sub {
     $self->{y_max} = $self->{set_object}->Y_SCALE_MAX();
     $self->{zoom}           = 1.0;
     $self->{automatic_step} = 0;
-    $self->{color_invert}   = 0;
-    $self->{color_mode}     = 5;     # blue on black
 
-    #    $self->{color_invert} = 1;  $self->{color_mode} = 3;  # red on white
-    $self->{color_masks} = [
-        $self->{color_modes}->[ $self->{color_mode} % 4 ],
-        $self->{color_modes}->[ floor( ( $self->{color_mode} % 16 ) / 4 ) ],
-        $self->{color_modes}->[ floor( ( $self->{color_mode} % 64 ) / 16 ) ]
-    ];
+    $self->{coloring_name}        = $coloring_name;
+    $self->{coloring_mode}        = $self->{coloring_modes}->{$coloring_name};
+    $self->{color_invert}   = 0;
+
+    if ($self->{coloring_name} eq 'RGB') {
+        $self->{color_value}     = 5;     # blue on black
+#       $self->{color_invert} = 1;  $self->{color_value} = 3;  # red on white
+        $self->{color_masks} = [
+            $self->{color_values}->[ $self->{color_value} % 4 ],
+            $self->{color_values}->[ floor( ( $self->{color_value} % 16 ) / 4 ) ],
+            $self->{color_values}->[ floor( ( $self->{color_value} % 64 ) / 16 ) ]
+        ];
+    }
+    if ($self->{coloring_name} eq 'HSV') {
+    }
 
     $self->{mouse_clicked} = 0;
 };
@@ -262,17 +278,21 @@ our void::method $process_keystroke = sub {
         $self->{automatic} = 0;
         return;
     }
-    elsif ( ( ( $key_name eq 'c' ) and ( $mod_state & KMOD_SHIFT ) ) or ( $key_name eq 'C' ) ) {    # COLOR INVERT
+    elsif ( ( $key_name eq 'c' ) and ( $mod_state & KMOD_CTRL ) ) {    # COLOR MODE
+        if   ( $self->{coloring_mode} < (( scalar @{$self->{coloring_names}} ) - 1 ) ) { $self->{coloring_mode}++; $self->{coloring_name} = $self->{coloring_names}->[$self->{coloring_mode}]; }
+        else                                                                 { $self->{coloring_mode} = 0; $self->{coloring_name} = $self->{coloring_names}->[$self->{coloring_mode}]; }
+    }
+    elsif ( ( ( $key_name eq 'c' ) and ( $mod_state & KMOD_SHIFT ) ) or ( $key_name eq 'C' ) ) {    # COLOR VALUE INVERT
         $self->{color_invert} = not $self->{color_invert};
     }
-    elsif ( $key_name eq 'c' ) {                                                                    # COLOR CYCLE
+    elsif ( $key_name eq 'c' ) {                                                                    # COLOR VALUE CYCLE
         while (1) {
-            if   ( $self->{color_mode} < 63 ) { $self->{color_mode}++; }
-            else                              { $self->{color_mode} = 1; }
+            if   ( $self->{color_value} < 63 ) { $self->{color_value}++; }
+            else                              { $self->{color_value} = 1; }
             $self->{color_masks} = [
-                $self->{color_modes}->[ $self->{color_mode} % 4 ],
-                $self->{color_modes}->[ floor( ( $self->{color_mode} % 16 ) / 4 ) ],
-                $self->{color_modes}->[ floor( ( $self->{color_mode} % 64 ) / 16 ) ]
+                $self->{color_values}->[ $self->{color_value} % 4 ],
+                $self->{color_values}->[ floor( ( $self->{color_value} % 16 ) / 4 ) ],
+                $self->{color_values}->[ floor( ( $self->{color_value} % 64 ) / 16 ) ]
             ];
 
             # require at least one color mask is 0, enabling pixel data

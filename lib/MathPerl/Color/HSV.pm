@@ -43,16 +43,15 @@ our number_arrayref $hsv_raw_to_rgb_raw = sub {
     ( my number_arrayref $hsv) = @_;
     my MathPerl::Color::RGB $retval;
 
-# START HERE: determine solutions to unsigned char & >> operators
-# START HERE: determine solutions to unsigned char & >> operators
-# START HERE: determine solutions to unsigned char & >> operators
+# START HERE: determine solution to >> operators
+# START HERE: determine solution to >> operators
+# START HERE: determine solution to >> operators
 
-    #        unsigned char region, remainder, p, q, t;
-    my integer $region;
-    my integer $remainder;
-    my integer $p;
-    my integer $q;
-    my integer $t;
+    my unsigned_integer $region;
+    my unsigned_integer $remainder;
+    my unsigned_integer $p;
+    my unsigned_integer $q;
+    my unsigned_integer $t;
 
     if ( $hsv->[1] == 0 ) {
         $retval->{red}   = $hsv->[2];

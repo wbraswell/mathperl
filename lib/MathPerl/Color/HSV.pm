@@ -43,9 +43,9 @@ our number_arrayref $hsv_raw_to_rgb_raw = sub {
     ( my number_arrayref $hsv) = @_;
     my MathPerl::Color::RGB $retval;
 
-# START HERE: determine solution to >> operators
-# START HERE: determine solution to >> operators
-# START HERE: determine solution to >> operators
+# START HERE: implement >> operators in RPerl
+# START HERE: implement >> operators in RPerl
+# START HERE: implement >> operators in RPerl
 
     my unsigned_integer $region;
     my unsigned_integer $remainder;

@@ -61,7 +61,8 @@ our integer_arrayref_arrayref $mandelbrot_escape_time = sub {
     #    print 'GENERATE MANDELBROT' . "\n";
 
     my integer_arrayref_arrayref $mandelbrot_set = integer_arrayref_arrayref::new( $y_pixel_count, $x_pixel_count );    # row-major form (RMF)
-    my number $color_scaling_factor              = 255 / $iterations_max;
+#    my number $color_scaling_factor              = 255 / $iterations_max;
+    my number $color_scaling_factor              = 1;
     my number $x_scaling_factor                  = ( $x_max - $x_min ) / $x_pixel_count;
     my number $y_scaling_factor                  = ( $y_max - $y_min ) / $y_pixel_count;
 

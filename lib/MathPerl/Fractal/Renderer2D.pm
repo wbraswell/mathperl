@@ -138,17 +138,14 @@ our void::method $init_values = sub {
     $self->{coloring_mode}        = $self->{coloring_modes}->{$coloring_name};
     $self->{color_invert}   = 0;
 
-    if ($self->{coloring_name} eq 'RGB') {
-        $self->{color_value}     = 5;     # blue on black
-#       $self->{color_invert} = 1;  $self->{color_value} = 3;  # red on white
-        $self->{color_masks} = [
-            $self->{color_values}->[ $self->{color_value} % 4 ],
-            $self->{color_values}->[ floor( ( $self->{color_value} % 16 ) / 4 ) ],
-            $self->{color_values}->[ floor( ( $self->{color_value} % 64 ) / 16 ) ]
-        ];
-    }
-    if ($self->{coloring_name} eq 'HSV') {
-    }
+    # only used for RGB coloring mode, not HSV coloring mode
+    $self->{color_value}     = 5;     # blue on black
+#   $self->{color_invert} = 1;  $self->{color_value} = 3;  # red on white
+    $self->{color_masks} = [
+        $self->{color_values}->[ $self->{color_value} % 4 ],
+        $self->{color_values}->[ floor( ( $self->{color_value} % 16 ) / 4 ) ],
+        $self->{color_values}->[ floor( ( $self->{color_value} % 64 ) / 16 ) ]
+    ];
 
     $self->{mouse_clicked} = 0;
 };
@@ -203,9 +200,9 @@ our void::method $process_keystroke = sub {
 
 #    print $key_name . ' ';
 
-# START HERE: ctrl-c for HSV color, minibrot auto, julia auto, tests, compiled darker color
-# START HERE: ctrl-c for HSV color, minibrot auto, julia auto, tests, compiled darker color
-# START HERE: ctrl-c for HSV color, minibrot auto, julia auto, tests, compiled darker color
+# START HERE: correct HSV color, minibrot auto, julia auto, tests, compiled darker color
+# START HERE: correct HSV color, minibrot auto, julia auto, tests, compiled darker color
+# START HERE: correct HSV color, minibrot auto, julia auto, tests, compiled darker color
 
     if ( $key_name eq 'q' ) {    # QUIT
         $app->stop();
@@ -337,9 +334,12 @@ our void::method $escape_time_render = sub {
     ( my MathPerl::Fractal::Renderer2D $self, my SDLx::App $app ) = @_;
 #    SDL::Video::fill_rect( $app, SDL::Rect->new( 0, 0, $app->w(), $app->h() ), 0 );    # avoid window resize on exit, blanks out Mandelbrot in mandelbrot_julia dual mode
 
+    my boolean $color_invert_adjusted = $self->{color_invert};
+    if ($self->{coloring_name} eq 'HSV') { $color_invert_adjusted = not $color_invert_adjusted; }
+
     $self->{set} = $self->{set_object}->escape_time(
         $self->{real_arg}, $self->{imaginary_arg}, $self->{x_pixel_count}, $self->{y_pixel_count}, $self->{iterations_max},
-        $self->{x_min},    $self->{x_max},         $self->{y_min},        $self->{y_max},         $self->{color_invert}
+        $self->{x_min},    $self->{x_max},         $self->{y_min},        $self->{y_max},      $color_invert_adjusted   
     );
 
     my integer $x = $self->{x_pixel_offset};
@@ -348,19 +348,20 @@ our void::method $escape_time_render = sub {
     my integer $color_or_mask_green;
     my integer $color_or_mask_blue;
  
-    if ($self->{coloring_mode} eq 'RGB') {
+    if ($self->{coloring_name} eq 'RGB') {
         # pre-fetch color masks to speed up loop below
-        my integer $color_or_mask_red   = $self->{color_masks}->[0];
-        my integer $color_or_mask_green = $self->{color_masks}->[1];
-        my integer $color_or_mask_blue  = $self->{color_masks}->[2];
+        $color_or_mask_red   = $self->{color_masks}->[0];
+        $color_or_mask_green = $self->{color_masks}->[1];
+        $color_or_mask_blue  = $self->{color_masks}->[2];
     }
 
     foreach my integer_arrayref $row ( @{ $self->{set} } ) {
         foreach my integer $pixel ( @{$row} ) {
-            if ($self->{coloring_mode} eq 'RGB') {
+            if ($self->{coloring_name} eq 'RGB') {
                 $app->[$x][$y] = [ undef, $color_or_mask_red || $pixel, $color_or_mask_green || $pixel, $color_or_mask_blue || $pixel ];
             }
             else {  # HSV
+                print 'in escape_time_render(), loop (' . $x . ', ' . $y . '), have ($pixel % 256) = ' . ($pixel % 256) . "\n";
                 ($color_or_mask_red, $color_or_mask_green, $color_or_mask_blue) = 
                     @{ MathPerl::Color::HSV::hsv_raw_to_rgb_raw([$pixel % 256, 255, 255 * ($pixel < $self->{iterations_max})]) };
                 $app->[$x][$y] = [ undef, $color_or_mask_red, $color_or_mask_green, $color_or_mask_blue ];
@@ -386,6 +387,9 @@ our void::method $escape_time_render = sub {
     $status_tmp =~ s/([.]..).*/$1/xms;                           # limit to exactly 2 significant digits after decimal
     $status .= 'Zoom:   ' . $status_tmp . 'x' . "\n";
     $status .= 'Detail: ' . ::integer_to_string( $self->{iterations_max} ) . "\n";
+    $status .= 'Color:  ' . $self->{coloring_name};
+    if ($self->{color_invert}) { $status .= ' Inverted'; }
+    $status .= "\n";
 #    if ($self->{set_name} eq 'julia') {
     if ($self->{set_name} =~ m/julia/xms) {
         if ((abs $self->{real_arg}) < 0.0001) { $status_tmp = '0.00'; }  # fix rounding error when close to 0

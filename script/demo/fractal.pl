@@ -22,7 +22,7 @@
 use RPerl;
 use strict;
 use warnings;
-our $VERSION = 0.002_000;
+our $VERSION = 0.002_100;
 
 # [[[ CRITICS ]]]
 ## no critic qw(ProhibitUselessNoCritic ProhibitMagicNumbers RequireCheckedSyscalls)  # USER DEFAULT 1: allow numeric values & print operator
@@ -45,28 +45,32 @@ my integer $x_pixel_count = 160;
 #my integer $x_pixel_count = 640;
 #my integer $x_pixel_count = 800;
 #my integer $x_pixel_count = 1200;
-if ( defined $ARGV[1] ) { $x_pixel_count = string_to_integer( $ARGV[0] ); }    # user input, command-line argument
+if ( defined $ARGV[1] ) { $x_pixel_count = string_to_integer( $ARGV[1] ); }    # user input, command-line argument
 
 #my integer $y_pixel_count = 12;
 my integer $y_pixel_count = 120;
 #my integer $y_pixel_count = 480;
 #my integer $y_pixel_count = 600;
 #my integer $y_pixel_count = 800;
-if ( defined $ARGV[2] ) { $y_pixel_count = string_to_integer( $ARGV[1] ); }    # user input, command-line argument
+if ( defined $ARGV[2] ) { $y_pixel_count = string_to_integer( $ARGV[2] ); }    # user input, command-line argument
 
 my integer $iterations_max = 150;
 
 #my integer $iterations_max = 200;
-if ( defined $ARGV[3] ) { $iterations_max = string_to_integer( $ARGV[2] ); }    # user input, command-line argument
+if ( defined $ARGV[3] ) { $iterations_max = string_to_integer( $ARGV[3] ); }    # user input, command-line argument
 
 my boolean $enable_graphics = 1;
-if ( defined $ARGV[4] ) { $enable_graphics = string_to_boolean( $ARGV[3] ); }    # user input, command-line argument
+if ( defined $ARGV[4] ) { $enable_graphics = string_to_boolean( $ARGV[4] ); }    # user input, command-line argument
+
+#my string $coloring_name = 'RGB';
+my string $coloring_name = 'HSV';
+if ( defined $ARGV[5] ) { $coloring_name = $ARGV[5]; }    # user input, command-line argument
 
 my number $time_start = time();
 
 if ($enable_graphics) {
     my MathPerl::Fractal::Renderer2D $renderer = MathPerl::Fractal::Renderer2D->new();
-    $renderer->init( $set_name, $x_pixel_count, $y_pixel_count, $iterations_max );
+    $renderer->init( $set_name, $x_pixel_count, $y_pixel_count, $iterations_max, $coloring_name );
     $renderer->render2d_video();
 }
 else {

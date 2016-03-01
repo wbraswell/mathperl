@@ -3,7 +3,7 @@ package MathPerl::Fractal::Renderer2D;
 use strict;
 use warnings;
 use RPerl::AfterSubclass;
-our $VERSION = 0.005_000;
+our $VERSION = 0.006_000;
 
 # [[[ OO INHERITANCE ]]]
 use parent qw(RPerl::CompileUnit::Module::Class);    # no non-system inheritance, only inherit from base class
@@ -16,6 +16,7 @@ use RPerl::CompileUnit::Module::Class;
 # [[[ INCLUDES ]]]
 use MathPerl::Fractal::Mandelbrot;
 use MathPerl::Fractal::Julia;
+use MathPerl::Color::HSV;
 use Time::HiRes qw(time);
 use POSIX qw(floor);
 use SDL;
@@ -268,7 +269,7 @@ our void::method $process_keystroke = sub {
         }
     }
     elsif ( $key_name eq 'r' ) {                                                                    # RESET
-        $self->init_values( $self->{set_name}, $self->{x_pixel_count}, $self->{y_pixel_count}, $self->{iterations_init} );
+        $self->init_values( $self->{set_name}, $self->{x_pixel_count}, $self->{y_pixel_count}, $self->{iterations_init}, $self->{coloring_name} );
     }
     elsif ( $key_name eq 'a' ) {                                                                    # AUTOMATIC ON
         $self->{automatic} = 1;
@@ -302,7 +303,7 @@ our void::method $process_keystroke = sub {
     elsif ( $key_name eq 's' ) {    # SET CYCLE
         if   ( $self->{set_mode} < (( scalar @{$self->{set_names}} ) - 1 ) ) { $self->{set_mode}++; $self->{set_name} = $self->{set_names}->[$self->{set_mode}]; }
         else                                                                 { $self->{set_mode} = 0; $self->{set_name} = $self->{set_names}->[$self->{set_mode}]; }
-        $self->init_values( $self->{set_name}, $self->{x_pixel_count}, $self->{y_pixel_count}, $self->{iterations_max} );
+        $self->init_values( $self->{set_name}, $self->{x_pixel_count}, $self->{y_pixel_count}, $self->{iterations_max}, $self->{coloring_name} );
         $self->{app}->resize($self->{window_width}, $self->{window_height});
         $self->escape_time_render_pre();  # possibly pre-render zeroth frame
     }
@@ -343,15 +344,27 @@ our void::method $escape_time_render = sub {
 
     my integer $x = $self->{x_pixel_offset};
     my integer $y = 0;
-    
-    # pre-fetch color masks to speed up loop below
-    my integer $color_mask_red   = $self->{color_masks}->[0];
-    my integer $color_mask_green = $self->{color_masks}->[1];
-    my integer $color_mask_blue  = $self->{color_masks}->[2];
+    my integer $color_or_mask_red;
+    my integer $color_or_mask_green;
+    my integer $color_or_mask_blue;
+ 
+    if ($self->{coloring_mode} eq 'RGB') {
+        # pre-fetch color masks to speed up loop below
+        my integer $color_or_mask_red   = $self->{color_masks}->[0];
+        my integer $color_or_mask_green = $self->{color_masks}->[1];
+        my integer $color_or_mask_blue  = $self->{color_masks}->[2];
+    }
 
     foreach my integer_arrayref $row ( @{ $self->{set} } ) {
         foreach my integer $pixel ( @{$row} ) {
-            $app->[$x][$y] = [ undef, $color_mask_red || $pixel, $color_mask_green || $pixel, $color_mask_blue || $pixel ];
+            if ($self->{coloring_mode} eq 'RGB') {
+                $app->[$x][$y] = [ undef, $color_or_mask_red || $pixel, $color_or_mask_green || $pixel, $color_or_mask_blue || $pixel ];
+            }
+            else {  # HSV
+                ($color_or_mask_red, $color_or_mask_green, $color_or_mask_blue) = 
+                    @{ MathPerl::Color::HSV::hsv_raw_to_rgb_raw([$pixel % 256, 255, 255 * ($pixel < $self->{iterations_max})]) };
+                $app->[$x][$y] = [ undef, $color_or_mask_red, $color_or_mask_green, $color_or_mask_blue ];
+            }
             $x++;
         }
         $x = $self->{x_pixel_offset};
@@ -461,10 +474,10 @@ our void::method $escape_time_render_pre = sub {
 
     # render Mandelbrot only once in mandelbrot_julia dual mode
     if ( $self->{set_name} eq 'mandelbrot_julia' ) {
-        $self->init_values('mandelbrot', $self->{x_pixel_count}, $self->{y_pixel_count}, $self->{iterations_max});
+        $self->init_values('mandelbrot', $self->{x_pixel_count}, $self->{y_pixel_count}, $self->{iterations_max}, $self->{coloring_name});
         $self->escape_time_render($self->{app});
         $self->{app}->update();
-        $self->init_values('mandelbrot_julia', $self->{x_pixel_count}, $self->{y_pixel_count}, $self->{iterations_max});
+        $self->init_values('mandelbrot_julia', $self->{x_pixel_count}, $self->{y_pixel_count}, $self->{iterations_max}, $self->{coloring_name});
     }
 };
 

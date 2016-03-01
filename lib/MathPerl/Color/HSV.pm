@@ -4,18 +4,23 @@ use RPerl;
 package MathPerl::Color::HSV;
 use strict;
 use warnings;
-our $VERSION = 0.000_001;
+our $VERSION = 0.001_000;
 
 # [[[ OO INHERITANCE ]]]
 use parent qw(MathPerl::Color);
 use MathPerl::Color;
 
+# [[[ INCLUDES ]]]
+use MathPerl::Color::RGB;
+
 # [[[ OO PROPERTIES ]]]
 our hashref $properties = {
-    red   => my number $TYPED_red   = undef,
-    green => my number $TYPED_green = undef,
-    blue  => my number $TYPED_blue  = undef,
+    hue        => my number $TYPED_hue        = undef,
+    saturation => my number $TYPED_saturation = undef,
+    value      => my number $TYPED_value      = undef,
 };
+
+# [[[ OO METHODS & SUBROUTINES ]]]
 
 our MathPerl::Color::RGB $hsv_to_rgb = sub {
     ( my MathPerl::Color::HSV $hsv) = @_;
@@ -23,7 +28,7 @@ our MathPerl::Color::RGB $hsv_to_rgb = sub {
 };
 
 # OO interface wrapper
-our MathPerl::Color::RGB_method $to_rgb = sub {
+our MathPerl::Color::RGB::method $to_rgb = sub {
     ( my MathPerl::Color::HSV $self) = @_;
     return hsv_raw_to_rgb( [ $self->{hue}, $self->{saturation}, $self->{value} ] );
 };
@@ -40,12 +45,12 @@ our MathPerl::Color::RGB $hsv_raw_to_rgb = sub {
 };
 
 our number_arrayref $hsv_raw_to_rgb_raw = sub {
-    ( my number_arrayref $hsv) = @_;
-    my MathPerl::Color::RGB $retval;
+    ( my number_arrayref $hsv_raw) = @_;
+    my number_arrayref $retval;
 
-# START HERE: implement >> operators in RPerl
-# START HERE: implement >> operators in RPerl
-# START HERE: implement >> operators in RPerl
+    # START HERE: implement >> operators in RPerl
+    # START HERE: implement >> operators in RPerl
+    # START HERE: implement >> operators in RPerl
 
     my unsigned_integer $region;
     my unsigned_integer $remainder;
@@ -53,50 +58,52 @@ our number_arrayref $hsv_raw_to_rgb_raw = sub {
     my unsigned_integer $q;
     my unsigned_integer $t;
 
-    if ( $hsv->[1] == 0 ) {
-        $retval->{red}   = $hsv->[2];
-        $retval->{green} = $hsv->[2];
-        $retval->{blue}  = $hsv->[2];
+    if ( $hsv_raw->[1] == 0 ) {
+        $retval->[0] = $hsv_raw->[2];
+        $retval->[1] = $hsv_raw->[2];
+        $retval->[2] = $hsv_raw->[2];
         return $retval;
     }
 
-    $region = $hsv->[0] / 43;
-    $remainder = ( $hsv->[0] - ( $region * 43 ) ) * 6;
+    $region = $hsv_raw->[0] / 43;
+    $remainder = ( $hsv_raw->[0] - ( $region * 43 ) ) * 6;
 
-    $p = ( $hsv->[2] * ( 255 - $hsv->[1] ) ) >> 8;
-    $q = ( $hsv->[2] * ( 255 - ( ( $hsv->[1] * remainder ) >> 8 ) ) ) >> 8;
-    $t = ( $hsv->[2] * ( 255 - ( ( $hsv->[1] * ( 255 - remainder ) ) >> 8 ) ) ) >> 8;
+    $p = ( $hsv_raw->[2] * ( 255 - $hsv_raw->[1] ) ) >> 8;
+    $q = ( $hsv_raw->[2] * ( 255 - ( ( $hsv_raw->[1] * $remainder ) >> 8 ) ) ) >> 8;
+    $t = ( $hsv_raw->[2] * ( 255 - ( ( $hsv_raw->[1] * ( 255 - $remainder ) ) >> 8 ) ) ) >> 8;
 
     if ( $region == 0 ) {
-        $retval->{red}   = $hsv->[2];
-        $retval->{green} = $t;
-        $retval->{blue}  = $p;
+        $retval->[0] = $hsv_raw->[2];
+        $retval->[1] = $t;
+        $retval->[2] = $p;
     }
     elsif ( $region == 1 ) {
-        $retval->{red} = q; $retval->{green} = $hsv->[2]; $retval->{blue} = p;
+        $retval->[0] = $q;
+        $retval->[1] = $hsv_raw->[2];
+        $retval->[2] = $p;
     }
     elsif ( $region == 2 ) {
-        $retval->{red}   = $p;
-        $retval->{green} = $hsv->[2];
-        $retval->{blue}  = $t;
+        $retval->[0] = $p;
+        $retval->[1] = $hsv_raw->[2];
+        $retval->[2] = $t;
     }
     elsif ( $region == 3 ) {
-        $retval->{red}   = $p;
-        $retval->{green} = $q;
-        $retval->{blue} = $hsv->[2];
+        $retval->[0] = $p;
+        $retval->[1] = $q;
+        $retval->[2] = $hsv_raw->[2];
     }
     elsif ( $region == 4 ) {
-        $retval->{red}   = $t;
-        $retval->{green} = $p;
-        $retval->{blue}  = $hsv->[2];
+        $retval->[0] = $t;
+        $retval->[1] = $p;
+        $retval->[2] = $hsv_raw->[2];
     }
     else {
-        $retval->{red}   = $hsv->[2];
-        $retval->{green} = $p;
-        $retval->{blue}  = $q;
+        $retval->[0] = $hsv_raw->[2];
+        $retval->[1] = $p;
+        $retval->[2] = $q;
     }
 
     return $retval;
 };
 
-1;                         # end of class
+1;    # end of class

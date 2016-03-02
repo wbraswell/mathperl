@@ -54,7 +54,7 @@ my integer $y_pixel_count = 120;
 #my integer $y_pixel_count = 800;
 if ( defined $ARGV[2] ) { $y_pixel_count = string_to_integer( $ARGV[2] ); }    # user input, command-line argument
 
-my integer $iterations_max = 150;
+my integer $iterations_max = 300;
 
 #my integer $iterations_max = 200;
 if ( defined $ARGV[3] ) { $iterations_max = string_to_integer( $ARGV[3] ); }    # user input, command-line argument
@@ -62,8 +62,8 @@ if ( defined $ARGV[3] ) { $iterations_max = string_to_integer( $ARGV[3] ); }    
 my boolean $enable_graphics = 1;
 if ( defined $ARGV[4] ) { $enable_graphics = string_to_boolean( $ARGV[4] ); }    # user input, command-line argument
 
-my string $coloring_name = 'RGB';
-#my string $coloring_name = 'HSV';
+#my string $coloring_name = 'RGB';
+my string $coloring_name = 'HSV';
 if ( defined $ARGV[5] ) { $coloring_name = $ARGV[5]; }    # user input, command-line argument
 
 my number $time_start = time();

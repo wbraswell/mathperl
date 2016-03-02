@@ -63,6 +63,7 @@ our integer_arrayref_arrayref $mandelbrot_escape_time = sub {
     my integer_arrayref_arrayref $mandelbrot_set = integer_arrayref_arrayref::new( $y_pixel_count, $x_pixel_count );    # row-major form (RMF)
 #    my number $color_scaling_factor              = 255 / $iterations_max;
     my number $color_scaling_factor              = 1;
+#    my number $color_scaling_factor              = 1 / $iterations_max;
     my number $x_scaling_factor                  = ( $x_max - $x_min ) / $x_pixel_count;
     my number $y_scaling_factor                  = ( $y_max - $y_min ) / $y_pixel_count;
 
@@ -80,10 +81,13 @@ our integer_arrayref_arrayref $mandelbrot_escape_time = sub {
                 $i++;
             }
             if ($color_invert) {
-                $mandelbrot_set->[$y_pixel]->[$x_pixel] = 255 - ( $i * $color_scaling_factor );    # scale to become color, invert for white background
+#                $mandelbrot_set->[$y_pixel]->[$x_pixel] = 255 - ( $i * $color_scaling_factor );    # scale to become color, invert for white background
+#                $mandelbrot_set->[$y_pixel]->[$x_pixel] = 1 - ( $i * $color_scaling_factor );    # scale to become color, invert for white background
+                $mandelbrot_set->[$y_pixel]->[$x_pixel] = $i;
             }
             else {
-                $mandelbrot_set->[$y_pixel]->[$x_pixel] = $i * $color_scaling_factor;              # scale to become color, black background
+#                $mandelbrot_set->[$y_pixel]->[$x_pixel] = $i * $color_scaling_factor;              # scale to become color, black background
+                $mandelbrot_set->[$y_pixel]->[$x_pixel] = $i;
             }
         }
     }

@@ -200,10 +200,6 @@ our void::method $process_keystroke = sub {
 
 #    print $key_name . ' ';
 
-# START HERE: correct HSV color, minibrot auto, julia auto, tests, compiled darker color
-# START HERE: correct HSV color, minibrot auto, julia auto, tests, compiled darker color
-# START HERE: correct HSV color, minibrot auto, julia auto, tests, compiled darker color
-
     if ( $key_name eq 'q' ) {    # QUIT
         $app->stop();
         return;
@@ -355,15 +351,23 @@ our void::method $escape_time_render = sub {
         $color_or_mask_blue  = $self->{color_masks}->[2];
     }
 
+# START HERE: correct HSV color, minibrot auto, julia auto, tests, compiled darker color
+# START HERE: correct HSV color, minibrot auto, julia auto, tests, compiled darker color
+# START HERE: correct HSV color, minibrot auto, julia auto, tests, compiled darker color
+
     foreach my integer_arrayref $row ( @{ $self->{set} } ) {
         foreach my integer $pixel ( @{$row} ) {
             if ($self->{coloring_name} eq 'RGB') {
                 $app->[$x][$y] = [ undef, $color_or_mask_red || $pixel, $color_or_mask_green || $pixel, $color_or_mask_blue || $pixel ];
             }
             else {  # HSV
-                print 'in escape_time_render(), loop (' . $x . ', ' . $y . '), have ($pixel % 256) = ' . ($pixel % 256) . "\n";
+#                print 'in escape_time_render(), loop (' . $x . ', ' . $y . '), have ($pixel % 256) = ' . ($pixel % 256) . "\n";
+                print 'in escape_time_render(), loop (' . $x . ', ' . $y . '), have $pixel = ' . $pixel . "\n";
                 ($color_or_mask_red, $color_or_mask_green, $color_or_mask_blue) = 
-                    @{ MathPerl::Color::HSV::hsv_raw_to_rgb_raw([$pixel % 256, 255, 255 * ($pixel < $self->{iterations_max})]) };
+#                    @{ MathPerl::Color::HSV::hsv_raw_to_rgb_raw([$pixel % 256, 255, 255 * ($pixel < $self->{iterations_max})]) };
+                    @{ MathPerl::Color::HSV::hsv_raw_to_rgb_raw([($pixel * 30) % 256, 255, 255 * ($pixel < $self->{iterations_max})]) };
+#                    @{ MathPerl::Color::HSV::hsv_raw_to_rgb_raw([0.95 + ($pixel * 10), 255, 255 * ($pixel < $self->{iterations_max})]) };
+#                    @{ MathPerl::Color::HSV::hsv_raw_to_rgb_raw([$pixel, 255, 255 * ($pixel < $self->{iterations_max})]) };
                 $app->[$x][$y] = [ undef, $color_or_mask_red, $color_or_mask_green, $color_or_mask_blue ];
             }
             $x++;

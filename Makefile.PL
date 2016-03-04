@@ -2,7 +2,7 @@
 
 use strict;
 use warnings;
-our $VERSION = 0.001_002;
+our $VERSION = 0.002_000;
 use ExtUtils::MakeMaker;
 
 BEGIN { use English; }
@@ -17,42 +17,31 @@ WriteMakefile(
     VERSION_FROM     => 'lib/MathPerl.pm',
     LICENSE          => 'perl_5',
     EXE_FILES        => [ 'script/mathperl', 'script/demo/pi_digits.pl' ],
-    MIN_PERL_VERSION => '5.10.0',                                            # NEED ANSWER: is RPerl truly incompatible with Perl v5.8 and earlier?
+    MIN_PERL_VERSION => '5.10.0',  # NEED ANSWER, CORRELATION #rp00: is RPerl truly incompatible with Perl v5.8 and earlier?
     PREREQ_PM        => {
-        'ExtUtils::MakeMaker' => 7.04,     # for compatibility with Inline::C >= v0.75
-        'CPAN::Meta'          => 2.150005, # RPerl system developers only, used for generating CPAN metadata from this file during dist build
+        'ExtUtils::MakeMaker' => 7.04,        # for compatibility with Inline::C >= v0.75
+        'CPAN::Meta'          => 2.150005,    # RPerl system developers only, used for generating CPAN metadata from this file during dist build
         'Test::Exception'     => 0.32,
         'Test::CPAN::Changes' => 0.400002,
-        'Test::Number::Delta' => 1.06,     # for compatibility with Perls compiled using -Duselongdouble
-        'RPerl' => 1.5,
-        'Time::HiRes' => 1.9726,
-        'SDL'         => 2.546
+        'Test::Number::Delta' => 1.06,        # for compatibility with Perls compiled using -Duselongdouble
+        'RPerl'               => 1.6,
+        'Time::HiRes'         => 1.9726,
+        'SDL'                 => 2.546
     },
     META_MERGE => {
         'meta-spec' => {
             version => 2,
             url     => 'https://metacpan.org/pod/CPAN::Meta::Spec'
         },
-
-        # NEED FIX: no_index is a temporary solution to the CPAN indexing and data type package naming issue
-        # mst says we need to set data type package names without using 'package FOO;' like how Lexical::Types works
-        no_index => {
-
-            # DEV NOTE: the following package namespaces are already controlled by some other PAUSE owner on CPAN,
-            # their indexing is double-disabled in that they are both listed here and also given newlines-in-package-declarations
-#            package => [ 'foo', 'bar' ],
-
-            # DEV NOTE: disable indexing of all test package namespaces
-            namespace => ['MathPerl::Test']
-        },
+        no_index       => { namespace => ['MathPerl::Test'] },    # DEV NOTE: disable indexing of all test package namespaces
         release_status => 'stable',
-        keywords       => [qw(mathperl math rperl perl5 optimizing compiler optimize compile)],
-        description    => 'MathPerl is the optimized math library suite for the Perl 5 programming language.  '
-            . 'MathPerl uses the RPerl compiler to optimize performance.',
-        resources => {
-            license    => ['http://dev.perl.org/licenses/'],
-#            homepage   => 'http://www.mathperl.org',
-#            bugtracker => { web => 'http://rt.cpan.org/Public/Dist/Display.html?Name=MathPerl' },
+        keywords    => [qw(mathperl math rperl perl5 optimizing compiler optimize compile)],
+        description => 'MathPerl is the high-performance math suite for the Perl 5 programming language, optimized using the RPerl compiler.',
+        resources   => {
+            license => ['http://dev.perl.org/licenses/'],
+
+            #            homepage   => 'http://www.mathperl.org',
+            #            bugtracker => { web => 'http://rt.cpan.org/Public/Dist/Display.html?Name=MathPerl' },
             repository => {
                 type => 'git',
                 url  => 'git://github.com/wbraswell/mathperl.git',
@@ -61,9 +50,9 @@ WriteMakefile(
         }
     },
 
-    # NEED UPDATE, CORRELATION #rp05: list of _Inline directories to delete/exclude in Makefile.PL, .gitignore, and MANIFEST.SKIP
-    # NEED UPDATE, CORRELATION #rp06: list of CPAN files & directories to delete/exclude in Makefile.PL, .gitignore, and MANIFEST.SKIP
-    # NEED UPDATE, CORRELATION #rp13: list of MathPerl build files & directories to delete/exclude in Makefile.PL, .gitignore, and MANIFEST.SKIP
+    # NEED UPDATE, CORRELATION #mp00: list of _Inline directories to delete/exclude in Makefile.PL, .gitignore, and MANIFEST.SKIP
+    # NEED UPDATE, CORRELATION #mp01: list of CPAN files & directories to delete/exclude in Makefile.PL, .gitignore, and MANIFEST.SKIP
+    # NEED UPDATE, CORRELATION #mp02: list of MathPerl build files & directories to delete/exclude in Makefile.PL, .gitignore, and MANIFEST.SKIP
     clean => {
         FILES =>
             'pod2htmd.tmp Makefile.old MANIFEST.bak _Inline lib/_Inline script/_Inline script/development/_Inline script/development/unused/_Inline t/_Inline lib/MathPerl/_Inline'
@@ -89,14 +78,14 @@ sub pm_to_blib {
 
 # disable PERL_DL_NONLAZY=1 to avoid C++ compile errors for GMP library (and possibly others)
 sub test_via_harness {
-    my $self = shift;
+    my $self    = shift;
     my $command = $self->MM::test_via_harness(@_);
     $command =~ s/\bPERL_DL_NONLAZY=1\s+//gxms;
     return $command;
 }
 
 sub test_via_script {
-    my $self = shift;
+    my $self    = shift;
     my $command = $self->MM::test_via_script(@_);
     $command =~ s/\bPERL_DL_NONLAZY=1\s+//gxms;
     return $command;

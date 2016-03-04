@@ -183,7 +183,7 @@ our number $outer_product__vector_bivector_euclidean = sub {
     #    RPerl::diag("in PERLOPS_PERLTYPES outer_product__vector_bivector_euclidean(), received \$input_vector\n" . Dumper($input_vector) . "\n");
     #    RPerl::diag("in PERLOPS_PERLTYPES outer_product__vector_bivector_euclidean(), received \$input_bivector\n" . Dumper($input_bivector) . "\n");
 
-    # DEV NOTE, CORRELATION #mp00: calculated the same way as outer_product__bivector_vector_euclidean()!
+    # DEV NOTE, CORRELATION #mp10: calculated the same way as outer_product__bivector_vector_euclidean()!
     $return_value_number
         = ( $input_bivector->[1] * $input_vector->[3] ) + ( $input_bivector->[2] * $input_vector->[1] ) + ( $input_bivector->[3] * $input_vector->[2] );
 
@@ -208,7 +208,7 @@ our number $outer_product__bivector_vector_euclidean = sub {
     #    RPerl::diag("in PERLOPS_PERLTYPES outer_product__bivector_vector_euclidean(), received \$input_bivector\n" . Dumper($input_bivector) . "\n");
     #    RPerl::diag("in PERLOPS_PERLTYPES outer_product__bivector_vector_euclidean(), received \$input_vector\n" . Dumper($input_vector) . "\n");
 
-    # DEV NOTE, CORRELATION #mp00: calculated the same way as outer_product__vector_bivector_euclidean()!
+    # DEV NOTE, CORRELATION #mp10: calculated the same way as outer_product__vector_bivector_euclidean()!
     $return_value_number
         = ( $input_bivector->[1] * $input_vector->[3] ) + ( $input_bivector->[2] * $input_vector->[1] ) + ( $input_bivector->[3] * $input_vector->[2] );
 

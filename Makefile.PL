@@ -2,7 +2,7 @@
 
 use strict;
 use warnings;
-our $VERSION = 0.002_000;
+our $VERSION = 0.003_000;
 use ExtUtils::MakeMaker;
 
 BEGIN { use English; }
@@ -16,7 +16,7 @@ WriteMakefile(
     AUTHOR           => 'Will Braswell <wbraswell@cpan.org>',
     VERSION_FROM     => 'lib/MathPerl.pm',
     LICENSE          => 'perl_5',
-    EXE_FILES        => [ 'script/mathperl', 'script/demo/pi_digits.pl' ],
+    EXE_FILES        => [ 'script/mathperl', 'script/demo/fractal.pl', 'script/demo/pi_digits.pl' ],
     MIN_PERL_VERSION => '5.10.0',  # NEED ANSWER, CORRELATION #rp00: is RPerl truly incompatible with Perl v5.8 and earlier?
     PREREQ_PM        => {
         'ExtUtils::MakeMaker' => 7.04,        # for compatibility with Inline::C >= v0.75
@@ -39,9 +39,8 @@ WriteMakefile(
         description => 'MathPerl is the high-performance math suite for the Perl 5 programming language, optimized using the RPerl compiler.',
         resources   => {
             license => ['http://dev.perl.org/licenses/'],
-
-            #            homepage   => 'http://www.mathperl.org',
-            #            bugtracker => { web => 'http://rt.cpan.org/Public/Dist/Display.html?Name=MathPerl' },
+            homepage   => 'http://www.rperl.org',
+            bugtracker => { web => 'http://rt.cpan.org/Public/Dist/Display.html?Name=MathPerl' },
             repository => {
                 type => 'git',
                 url  => 'git://github.com/wbraswell/mathperl.git',
@@ -52,7 +51,6 @@ WriteMakefile(
 
     # NEED UPDATE, CORRELATION #mp00: list of _Inline directories to delete/exclude in Makefile.PL, .gitignore, and MANIFEST.SKIP
     # NEED UPDATE, CORRELATION #mp01: list of CPAN files & directories to delete/exclude in Makefile.PL, .gitignore, and MANIFEST.SKIP
-    # NEED UPDATE, CORRELATION #mp02: list of MathPerl build files & directories to delete/exclude in Makefile.PL, .gitignore, and MANIFEST.SKIP
     clean => {
         FILES =>
             'pod2htmd.tmp Makefile.old MANIFEST.bak _Inline lib/_Inline script/_Inline script/development/_Inline script/development/unused/_Inline t/_Inline lib/MathPerl/_Inline'

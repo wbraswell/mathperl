@@ -2,18 +2,8 @@
 # [ GitHub ]
 # .gitignore is not auto-generated, do not exclude self
 
-# [ Inline Build ]
-# NEED UPDATE, CORRELATION #mp00: list of _Inline directories to delete/exclude in Makefile.PL, .gitignore, and MANIFEST.SKIP
-/_Inline/
-/lib/_Inline/
-/script/_Inline/
-/script/development/_Inline/
-/script/development/unused/_Inline/
-/t/_Inline/
-/lib/MathPerl/_Inline
-
 # [ CPAN Build & Distribution ]
-# NEED UPDATE, CORRELATION #mp01: list of CPAN files & directories to delete/exclude in Makefile.PL, .gitignore, and MANIFEST.SKIP
+# NEED UPDATE, CORRELATION #mp00: list of CPAN files & directories to delete/exclude in Makefile.PL, .gitignore, and MANIFEST.SKIP
 # MANIFEST.SKIP is not auto-generated, do not exclude
 /MANIFEST
 /MANIFEST.bak
@@ -33,9 +23,3 @@
 
 # [ POD ]
 /pod2htmd.tmp
-
-# [ RPerl Compile ]
-# NEED UPDATE, CORRELATION #mp02: list of RPerl build files & directories to delete/exclude in Makefile.PL, .gitignore, and MANIFEST.SKIP
-/lib/MathPerl/FOO.pmc
-/lib/MathPerl/FOO.h
-/lib/MathPerl/FOO.cpp

@@ -2,7 +2,7 @@
 
 use strict;
 use warnings;
-our $VERSION = 0.003_000;
+our $VERSION = 0.003_100;
 use ExtUtils::MakeMaker;
 
 BEGIN { use English; }
@@ -49,11 +49,10 @@ WriteMakefile(
         }
     },
 
-    # NEED UPDATE, CORRELATION #mp00: list of _Inline directories to delete/exclude in Makefile.PL, .gitignore, and MANIFEST.SKIP
-    # NEED UPDATE, CORRELATION #mp01: list of CPAN files & directories to delete/exclude in Makefile.PL, .gitignore, and MANIFEST.SKIP
+    # NEED UPDATE, CORRELATION #mp00: list of CPAN files & directories to delete/exclude in Makefile.PL, .gitignore, and MANIFEST.SKIP
     clean => {
         FILES =>
-            'pod2htmd.tmp Makefile.old MANIFEST.bak _Inline lib/_Inline script/_Inline script/development/_Inline script/development/unused/_Inline t/_Inline lib/MathPerl/_Inline'
+            'pod2htmd.tmp Makefile.old MANIFEST.bak'
     }
 );
 

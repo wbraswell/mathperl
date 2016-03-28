@@ -3,7 +3,7 @@ package MathPerl::Fractal::Renderer2D;
 use strict;
 use warnings;
 use RPerl::AfterSubclass;
-our $VERSION = 0.006_000;
+our $VERSION = 0.006_100;
 
 # [[[ OO INHERITANCE ]]]
 use parent qw(RPerl::CompileUnit::Module::Class);    # no non-system inheritance, only inherit from base class
@@ -384,7 +384,8 @@ our void::method $escape_time_render = sub {
     #    if ($status_tmp !~ m/[.]/xms) { $status_tmp .= '.00'; }  # add 2 significant digits after decimal, if missing
     #    $status_tmp =~ s/([.]..).*/$1/xms;  # limit to exactly 2 significant digits after decimal
     #    $status .= 'ZoomCalc:   ' . $status_tmp . 'x' . "\n";
-    $status_tmp = pop [split /_/, $self->{set_name}];  # if set name contains underscore(s), select characters after final underscore
+#    $status_tmp = pop [split /_/, $self->{set_name}];  # DEV NOTE: error, passing array ref to pop probably only works in Perl v5.14 - 5.22
+    $status_tmp = pop @{[split /_/, $self->{set_name}]};  # if set name contains underscore(s), select characters after final underscore
     $status .= 'Set:    ' . (ucfirst $status_tmp) . "\n";
     $status_tmp = ::number_to_string( $self->{zoom} );
     if ( $status_tmp !~ m/[.]/xms ) { $status_tmp .= '.00'; }    # add 2 significant digits after decimal, if missing

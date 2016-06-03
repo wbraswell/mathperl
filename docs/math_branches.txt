@@ -1,25 +1,70 @@
-arithmetic
+Arithmetic
+Number Theory
 
-scalar algebra
-vector algebra
-geometric algebra
+Scalar Algebra (AKA Elementary Algebra or Algebra)
+Linear Algebra
+Vector Algebra (Algebraic Operations of Vector Calculus, contrasted with Geometric Algebra; overlap with Linear Algebra)
+Geometric Algebra
+Multilinear Algebra
+Abstract Algebra
 
-euclidean geometry
-affine geometry
-FOO geometry
-projective geometry
+Discrete Math
 
-trigonometry
+Scalar Geometry (AKA Euclidean Geometry or Geometry)
+Discrete Geometry
+Algebraic Geometry 
+Differential Geometry
+Finite Geometry
 
-discrete math
+Scalar Calculus (AKA Calculus)
+Vector Calculus
+Geometric Calculus
+Analysis
 
-probability
-statistics
+Digital Signal Processing
 
-scalar calculus
-vector calculus
-geometric calculus
+Category Theory
 
-scalar differential equations
-vector differential equations
-geometric differential equations
+Combinatorics
+
+Computation Theory
+    Automata Theory
+    Computability Theory
+    Computational Complexity Theory
+
+Control Theory
+
+Scalar Differential Equations (AKA Differential Equations)
+Vector Differential Equations
+Geometric Differential Equations
+Dynamical Systems
+
+Functional Analysis
+
+Game Theory
+
+Graph Theory
+
+Information Theory
+
+Lie Theory
+
+Mathematical Logic (BROKEN OUT LogicPerl)
+    Set Theory
+
+Mathematical Physics (BROKEN OUT PhysicsPerl)
+
+Numerical Analysis
+
+Optimization
+
+Probability
+
+Representation Theory
+
+Statistics
+    Mathematical Statistics
+
+Topology
+
+Trigonometry

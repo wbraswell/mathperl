@@ -1,13 +1,13 @@
 # [[[ HEADER ]]]
 use RPerl;
-package MathPerl::Color;
+package MathPerl::DataStructure::Color;
 use strict;
 use warnings;
-our $VERSION = 0.000_001;
+our $VERSION = 0.001_000;
 
 # [[[ OO INHERITANCE ]]]
-use parent qw(MathPerl);
-use MathPerl;
+use parent qw(MathPerl::DataStructure);
+use MathPerl::DataStructure;
 
 # [[[ OO PROPERTIES ]]]
 our hashref $properties = {};

@@ -1,0 +1,28 @@
+MATH
+
+line
+    passes through both head and tail coordinates, extends infinitely in both directions, does not terminate, does not point in either direction
+line segment
+    terminates at both head and tail coordinates, does not point in either direction
+vector AKA free vector
+    terminates at head coordinates only, points from direction of origin to head, has no tail
+bound vector AKA fixed vector AKA localized vector AKA ray
+    terminates at both head and tail coordinates, points from tail to head
+origin
+    point with 0 for all coordinates; (0, 0, 0) in 3D
+tail AKA initial point
+    starting point of bound vector
+head
+    ending point of vector
+
+
+PHYSICS
+
+force vector
+    bound vector representing physical force
+point of application
+    head (or sometimes tail) of force vector, point upon which force works
+line of action
+    line along which a force vector lies
+sliding vector
+    bound vector which can move along its line of action without changing

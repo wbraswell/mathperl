@@ -3,11 +3,11 @@ use RPerl;
 package MathPerl::GeometricAlgebra;
 use strict;
 use warnings;
-our $VERSION = 0.000_003;
+our $VERSION = 0.001_000;
 
 # [[[ OO INHERITANCE ]]]
-use parent qw(MathPerl);
-use MathPerl;
+use parent qw(RPerl::CompileUnit::Module::Class);  # no non-system inheritance, only inherit from base class
+use RPerl::CompileUnit::Module::Class;
 
 # [[[ INCLUDES ]]]
 use MathPerl::GeometricAlgebra::Products;

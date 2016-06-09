@@ -1,6 +1,6 @@
 # [[[ HEADER ]]]
 use RPerl;
-package MathPerl::Fractal;
+package MathPerl::LinearAlgebra;
 use strict;
 use warnings;
 our $VERSION = 0.001_000;
@@ -10,8 +10,7 @@ use parent qw(RPerl::CompileUnit::Module::Class);  # no non-system inheritance, 
 use RPerl::CompileUnit::Module::Class;
 
 # [[[ INCLUDES ]]]
-use MathPerl::Fractal::Mandelbrot;
-use MathPerl::Fractal::Julia;
+use MathPerl::LinearAlgebra::AddVectorVector;
 
 # [[[ OO PROPERTIES ]]]
 our hashref $properties = {};

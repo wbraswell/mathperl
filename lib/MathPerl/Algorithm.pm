@@ -1,6 +1,6 @@
 # [[[ HEADER ]]]
 use RPerl;
-package MathPerl::Fractal;
+package MathPerl::Algorithm;
 use strict;
 use warnings;
 our $VERSION = 0.001_000;
@@ -8,10 +8,6 @@ our $VERSION = 0.001_000;
 # [[[ OO INHERITANCE ]]]
 use parent qw(RPerl::CompileUnit::Module::Class);  # no non-system inheritance, only inherit from base class
 use RPerl::CompileUnit::Module::Class;
-
-# [[[ INCLUDES ]]]
-use MathPerl::Fractal::Mandelbrot;
-use MathPerl::Fractal::Julia;
 
 # [[[ OO PROPERTIES ]]]
 our hashref $properties = {};

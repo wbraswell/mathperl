@@ -7,8 +7,8 @@ use warnings;
 our $VERSION = 0.003_000;
 
 # [[[ OO INHERITANCE ]]]
-use parent qw(MathPerl::Fractal);
-use MathPerl::Fractal;
+use parent qw(MathPerl::Algorithm);
+use MathPerl::Algorithm;
 
 # [[[ CRITICS ]]]
 ## no critic qw(ProhibitUselessNoCritic ProhibitMagicNumbers RequireCheckedSyscalls)  # USER DEFAULT 1: allow numeric values & print operator

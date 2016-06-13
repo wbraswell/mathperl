@@ -1,11 +1,11 @@
 // [[[ HEADER ]]]
 using std::cout;  using std::cerr;  using std::endl;
 
-#ifndef __CPP__INCLUDED__MathPerl__DataStructure__Vector3D_cpp
-#define __CPP__INCLUDED__MathPerl__DataStructure__Vector3D_cpp 0.001_000
+#ifndef __CPP__INCLUDED__MathPerl__DataStructure__Vector_cpp
+#define __CPP__INCLUDED__MathPerl__DataStructure__Vector_cpp 0.001_000
 
 // [[[ INCLUDES ]]]
-#include "/home/wbraswell/austin_perl_mongers/mathperl/mathperl-latest/lib/MathPerl/DataStructure/Vector3D.h"
+#include "MathPerl/DataStructure/Vector.h"
 
 # ifdef __PERL__TYPES
 
@@ -16,6 +16,16 @@ Purposefully_die_from_a_compile-time_error,_due_to____PERL__TYPES_being_defined.
 // [[[<<< BEGIN CPP TYPES >>>]]]
 // [[[<<< BEGIN CPP TYPES >>>]]]
 // [[[<<< BEGIN CPP TYPES >>>]]]
+
+// [[[ OO METHODS & SUBROUTINES ]]]
+
+string MathPerl__DataStructure__Vector::To_string() {
+    return number_arrayref_to_string(this->head);
+}
+
+string MathPerl__DataStructure__Vector__Vector_to_string(MathPerl__DataStructure__Vector input_vector) {
+    return number_arrayref_to_string(input_vector.head);
+}
 
 // [[[<<< END CPP TYPES >>>]]]
 // [[[<<< END CPP TYPES >>>]]]

@@ -9,7 +9,7 @@ using std::cout;  using std::cerr;  using std::endl;
 #include "MathPerl/Operation.cpp"
 #include "MathPerl/DataStructure/Vector.cpp"
 //#include "MathPerl/DataStructure/VectorBound.cpp"
-#include "MathPerl/DataStructure/Vector3D.cpp"
+//#include "MathPerl/DataStructure/Vector3D.cpp"
 //#include "MathPerl/DataStructure/Vector3DBound.cpp"
 #include "MathPerl/Arithmetic/ApproximatelyEqual.cpp"
 
@@ -45,7 +45,7 @@ typedef std::unordered_map<string, MathPerl__LinearAlgebra__AddVectorVector_ptr>
 
 // [[[ SUBROUTINES ]]]
 //MathPerl__DataStructure__Vector3DBound_ptr MathPerl__LinearAlgebra__AddVectorVector__add_vector_3d_bound_vector_3d_bound(MathPerl__DataStructure__Vector3DBound input_0, MathPerl__DataStructure__Vector3DBound input_1);
-MathPerl__DataStructure__Vector3D_ptr MathPerl__LinearAlgebra__AddVectorVector__add_vector3d_vector3d(MathPerl__DataStructure__Vector3D input_0, MathPerl__DataStructure__Vector3D input_1);
+//MathPerl__DataStructure__Vector3D_ptr MathPerl__LinearAlgebra__AddVectorVector__add_vector3d_vector3d(MathPerl__DataStructure__Vector3D input_0, MathPerl__DataStructure__Vector3D input_1);
 //MathPerl__DataStructure__VectorBound_ptr MathPerl__LinearAlgebra__AddVectorVector__add_vector_bound_vector_bound(MathPerl__DataStructure__VectorBound input_0, MathPerl__DataStructure__VectorBound input_1);
 MathPerl__DataStructure__Vector_ptr MathPerl__LinearAlgebra__AddVectorVector__add_vector_vector(MathPerl__DataStructure__Vector input_0, MathPerl__DataStructure__Vector input_1);
 number_arrayref MathPerl__LinearAlgebra__AddVectorVector__add_vector_vector_raw(number_arrayref input_0, number_arrayref input_1);

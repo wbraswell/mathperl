@@ -1,1 +1,1 @@
-/tmp/mathperl/Vector.cpp
+../../../tmp_mathperl/Vector.cpp.GOOD

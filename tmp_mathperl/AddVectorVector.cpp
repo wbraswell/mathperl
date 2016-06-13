@@ -52,7 +52,6 @@ MathPerl__DataStructure__Vector3DBound_ptr MathPerl__LinearAlgebra__AddVectorVec
 
     return return_value;
 }
-*/
 
 MathPerl__DataStructure__Vector3D_ptr MathPerl__LinearAlgebra__AddVectorVector__add_vector3d_vector3d(MathPerl__DataStructure__Vector3D input_0, MathPerl__DataStructure__Vector3D input_1) {
     MathPerl__DataStructure__Vector3D_ptr return_value(new MathPerl__DataStructure__Vector3D);
@@ -62,7 +61,6 @@ MathPerl__DataStructure__Vector3D_ptr MathPerl__LinearAlgebra__AddVectorVector__
     return return_value;
 }
 
-/*
 MathPerl__DataStructure__VectorBound_ptr MathPerl__LinearAlgebra__AddVectorVector__add_vector_bound_vector_bound(MathPerl__DataStructure__VectorBound input_0, MathPerl__DataStructure__VectorBound input_1) {
     integer i;
     integer input_0_tail_dimensionality = input_0.tail.size();
@@ -92,10 +90,18 @@ number_arrayref MathPerl__LinearAlgebra__AddVectorVector__add_vector_vector_raw(
     integer i;
     integer input_0_dimensionality = input_0.size();
     integer input_1_dimensionality = input_1.size();
-    if ( input_0_dimensionality != input_0_dimensionality ) {
+
+    cout << "in AddVectorVector.cpp MathPerl__LinearAlgebra__AddVectorVector__add_vector_vector_raw(), have input_0_dimensionality = " << input_0_dimensionality << endl;
+    cout << "in AddVectorVector.cpp MathPerl__LinearAlgebra__AddVectorVector__add_vector_vector_raw(), have input_1_dimensionality = " << input_1_dimensionality << endl;
+
+//    if ( input_0_dimensionality != input_0_dimensionality ) {
 //        die( (const string) "ERROR EMPLAADVV00: Dimensionality mismatch, input Vector 0 raw number_arrayref contains " + input_0_dimensionality + (const string) " elements and input Vector 1 raw number_arrayref contains " + input_1_dimensionality + (const string) " elements, dying" + (const string) "\n" );
-    }
-    number_arrayref return_value = {};
+//    }
+
+//    number_arrayref return_value = {};
+    number_arrayref return_value;
+    return_value.resize(5);
+
     for ( i = 0; i < input_0_dimensionality; i++ ) {
         return_value[i] = input_0[i] + input_1[i];
     }

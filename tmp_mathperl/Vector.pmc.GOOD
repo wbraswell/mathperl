@@ -1,0 +1,70 @@
+# [[[ HEADER ]]]
+package MathPerl::DataStructure::Vector;
+use strict;
+use warnings;
+use RPerl::AfterSubclass;
+our $VERSION = 0.001_000;
+
+# [[[ CRITICS ]]]
+## no critic qw(ProhibitStringyEval)  # SYSTEM DEFAULT 1: allow eval()
+
+# [[[ INCLUDES ]]]
+use RPerl::Inline;
+
+# [[[ SUBROUTINES ]]]
+
+# <<< OO PROPERTIES, SUBROUTINES, SHIMS >>>
+sub Vector_to_string { return main::MathPerl__DataStructure__Vector__Vector_to_string(@_); }
+
+# <<< C++ LOADER >>>
+#our void::method $cpp_load = sub {
+sub cpp_load {
+    my $need_load_cpp = 0;
+    if (    ( exists $main::{'MathPerl__DataStructure__Vector__MODE_ID'} )
+        and ( defined &{ $main::{'MathPerl__DataStructure__Vector__MODE_ID'} } ) )
+    {
+#RPerl::diag('in MathPerl::DataStructure::Vector::cpp_load, MathPerl__DataStructure__Vector__MODE_ID() exists & defined' . "\n");
+#RPerl::diag(q{in MathPerl::DataStructure::Vector::cpp_load, have MathPerl__DataStructure__Vector__MODE_ID() retval = '} . main::MathPerl__DataStructure__Vector__MODE_ID() . q{'} . "\n");
+        if ( $RPerl::MODES->{ main::MathPerl__DataStructure__Vector__MODE_ID() }->{ops} ne 'CPP' ) {
+            $need_load_cpp = 1;
+        }
+    }
+    else {
+        #RPerl::diag('in MathPerl::DataStructure::Vector::cpp_load, MathPerl__DataStructure__Vector__MODE_ID() does not exist or undefined' . "\n");
+        $need_load_cpp = 1;
+    }
+
+    if ($need_load_cpp) {
+
+        #RPerl::diag('in MathPerl::DataStructure::Vector::cpp_load, need load CPP code' . "\n");
+
+        my $eval_string = <<"EOF";
+package main;
+use RPerl::Inline;
+BEGIN { RPerl::diag("[[[ BEGIN 'use Inline' STAGE for '/home/wbraswell/austin_perl_mongers/mathperl/mathperl-latest/lib/MathPerl/DataStructure/Vector.cpp' ]]]\n" x 1); }
+use Inline (CPP => '/home/wbraswell/austin_perl_mongers/mathperl/mathperl-latest/lib/MathPerl/DataStructure/Vector.cpp', \%RPerl::Inline::ARGS);
+RPerl::diag("[[[ END 'use Inline' STAGE for '/home/wbraswell/austin_perl_mongers/mathperl/mathperl-latest/lib/MathPerl/DataStructure/Vector.cpp' ]]]\n" x 1);
+1;
+EOF
+
+        $RPerl::Inline::ARGS{ccflagsex} = $RPerl::Inline::CCFLAGSEX . $RPerl::TYPES_CCFLAG;
+        $RPerl::Inline::ARGS{cppflags}  = $RPerl::TYPES_CCFLAG;
+
+#RPerl::diag('in MathPerl::DataStructure::Vector::cpp_load(), CPP not yet loaded, about to call eval() on $eval_string =' . "\n" . '<<< BEGIN EVAL STRING>>>' . "\n" . $eval_string . '<<< END EVAL STRING >>>' . "\n");
+
+        eval $eval_string or croak( $OS_ERROR . "\n" . $EVAL_ERROR );
+        if ($EVAL_ERROR) { croak($EVAL_ERROR); }
+    }
+
+    #else { RPerl::diag('in MathPerl::DataStructure::Vector::cpp_load(), CPP already loaded, DOING NOTHING' . "\n"); }
+}
+
+# DEV NOTE, CORRELATION #rp15: suppress 'Too late to run INIT block' at run-time loading via require or eval
+no warnings;
+INIT {
+    # actually compile and load C++ code when 'use MathPerl::DataStructure::Vector' is called
+    MathPerl::DataStructure::Vector::cpp_load();
+}
+use warnings;
+
+1;    # end of package

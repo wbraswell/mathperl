@@ -15,91 +15,12 @@ use MathPerl::Operation;
 
 # [[[ INCLUDES ]]]
 use MathPerl::DataStructure::Vector;
-use MathPerl::DataStructure::VectorBound;
-use MathPerl::DataStructure::Vector3D;
-use MathPerl::DataStructure::Vector3DBound;
 use MathPerl::Arithmetic::ApproximatelyEqual;
 
 # [[[ OO PROPERTIES ]]]
 our hashref $properties = {};
 
 # [[[ OO METHODS & SUBROUTINES ]]]
-
-our MathPerl::DataStructure::Vector3DBound $add_vector_3d_bound_vector_3d_bound = sub {
-    (   my MathPerl::DataStructure::Vector3DBound $input_0,
-        my MathPerl::DataStructure::Vector3DBound $input_1
-    ) = @_;
-
-    if (not approximately_equal($input_0->{tail_x}, $input_1->{tail_x})) {
-        die 'ERROR EMPLAADVV03: Tail value mismatch, input vector 0 tail element x contains value ' . $input_0->{tail_x} .
-            ' and input vector 1 tail element x contains value ' . $input_1->{tail_x} .
-            ', can not add together bound vectors with unequal tails, dying' . "\n";
-    }
-
-    if (not approximately_equal($input_0->{tail_y}, $input_1->{tail_y})) {
-        die 'ERROR EMPLAADVV03: Tail value mismatch, input vector 0 tail element y contains value ' . $input_0->{tail_y} .
-            ' and input vector 1 tail element y contains value ' . $input_1->{tail_y} .
-            ', can not add together bound vectors with unequal tails, dying' . "\n";
-    }
-
-    if (not approximately_equal($input_0->{tail_z}, $input_1->{tail_z})) {
-        die 'ERROR EMPLAADVV03: Tail value mismatch, input vector 0 tail element z contains value ' . $input_0->{tail_z} .
-            ' and input vector 1 tail element z contains value ' . $input_1->{tail_z} .
-            ', can not add together bound vectors with unequal tails, dying' . "\n";
-    }
-
-    my MathPerl::DataStructure::Vector3DBound $return_value = MathPerl::DataStructure::Vector3DBound->new();
-    $return_value->{tail_x} = $input_0->{tail_x};
-    $return_value->{tail_y} = $input_0->{tail_y};
-    $return_value->{tail_z} = $input_0->{tail_z};
-
-    $return_value->{head_x} = $input_0->{head_x} + $input_1->{head_x};
-    $return_value->{head_y} = $input_0->{head_y} + $input_1->{head_y};
-    $return_value->{head_z} = $input_0->{head_z} + $input_1->{head_z};
- 
-    return $return_value;
-};
-
-our MathPerl::DataStructure::Vector3D $add_vector3d_vector3d = sub {
-    (   my MathPerl::DataStructure::Vector3D $input_0,
-        my MathPerl::DataStructure::Vector3D $input_1
-    ) = @_;
-
-    my MathPerl::DataStructure::Vector3D $return_value = MathPerl::DataStructure::Vector3D->new();
-
-    $return_value->{x} = $input_0->{x} + $input_1->{x};
-    $return_value->{y} = $input_0->{y} + $input_1->{y};
-    $return_value->{z} = $input_0->{z} + $input_1->{z};
-
-    return $return_value;
-};
-
-our MathPerl::DataStructure::VectorBound $add_vector_bound_vector_bound = sub {
-    (   my MathPerl::DataStructure::VectorBound $input_0,
-        my MathPerl::DataStructure::VectorBound $input_1
-    ) = @_;
-
-    my integer $input_0_tail_dimensionality = scalar @{$input_0->{tail}};
-    my integer $input_1_tail_dimensionality = scalar @{$input_1->{tail}};
-
-    if ($input_0_tail_dimensionality != $input_1_tail_dimensionality) {
-        die 'ERROR EMPLAADVV01: Dimensionality mismatch, input VectorBound 0 tail contains ' . $input_0_tail_dimensionality .
-            ' elements and input VectorBound 1 tail contains ' . $input_1_tail_dimensionality . ' elements, dying' . "\n";
-    }
-
-    for my integer $i (0 .. ($input_0_tail_dimensionality - 1)) {
-        if (not approximately_equal($input_0->{tail}->[$i], $input_1->{tail}->[$i])) {
-            die 'ERROR EMPLAADVV02: Tail value mismatch, input VectorBound 0 tail element ' . $i . ' contains value ' . $input_0->{tail}->[$i] .
-                ' and input VectorBound 1 tail element ' . $i . ' contains value ' . $input_1->{tail}->[$i] .
-                ', can not add together bound vectors with unequal tails, dying' . "\n";
-        }
-    }
-
-    my MathPerl::DataStructure::VectorBound $return_value = MathPerl::DataStructure::VectorBound->new();
-    $return_value->{tail} = $input_0->{tail};
-    $return_value->{head} = add_vector_vector_raw($input_0->{head}, $input_1->{head});
-    return $return_value;
-};
 
 our MathPerl::DataStructure::Vector $add_vector_vector = sub {
     (   my MathPerl::DataStructure::Vector $input_0,

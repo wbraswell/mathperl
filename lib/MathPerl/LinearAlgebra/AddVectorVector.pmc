@@ -15,11 +15,10 @@ require MathPerl::Arithmetic::ApproximatelyEqual;
 # [[[ SUBROUTINES ]]]
 
 # <<< OO PROPERTIES, SUBROUTINES, SHIMS >>>
-sub add_vector_3d_bound_vector_3d_bound { return main::MathPerl__LinearAlgebra__AddVectorVector__add_vector_3d_bound_vector_3d_bound(@_); }
-sub add_vector3d_vector3d               { return main::MathPerl__LinearAlgebra__AddVectorVector__add_vector3d_vector3d(@_); }
-sub add_vector_bound_vector_bound       { return main::MathPerl__LinearAlgebra__AddVectorVector__add_vector_bound_vector_bound(@_); }
-sub add_vector_vector                   { return main::MathPerl__LinearAlgebra__AddVectorVector__add_vector_vector(@_); }
-sub add_vector_vector_raw               { return main::MathPerl__LinearAlgebra__AddVectorVector__add_vector_vector_raw(@_); }
+#sub add_vector_vector     { print Dumper(\%main::);  return main::MathPerl__LinearAlgebra__AddVectorVector__add_vector_vectoreee(@_); }
+#sub add_vector_vector     { print Dumper(\%main::);  return MathPerl__LinearAlgebra__AddVectorVector::add_vector_vectoreee(@_); }
+
+#sub add_vector_vector_raw { return main::MathPerl__LinearAlgebra__AddVectorVector__add_vector_vector_raw(@_); }
 
 # <<< C++ LOADER >>>
 #our void::method $cpp_load = sub {
@@ -46,9 +45,9 @@ sub cpp_load {
         my $eval_string = <<"EOF";
 package main;
 use RPerl::Inline;
-BEGIN { RPerl::diag("[[[ BEGIN 'use Inline' STAGE for './lib/MathPerl/LinearAlgebra/AddVectorVector.cpp' ]]]\n" x 1); }
-use Inline (CPP => './lib/MathPerl/LinearAlgebra/AddVectorVector.cpp', \%RPerl::Inline::ARGS);
-RPerl::diag("[[[ END 'use Inline' STAGE for './lib/MathPerl/LinearAlgebra/AddVectorVector.cpp' ]]]\n" x 1);
+BEGIN { RPerl::diag("[[[ BEGIN 'use Inline' STAGE for 'lib/MathPerl/LinearAlgebra/AddVectorVector.cpp' ]]]\n" x 1); }
+use Inline (CPP => 'lib/MathPerl/LinearAlgebra/AddVectorVector.cpp', \%RPerl::Inline::ARGS);
+RPerl::diag("[[[ END 'use Inline' STAGE for 'lib/MathPerl/LinearAlgebra/AddVectorVector.cpp' ]]]\n" x 1);
 1;
 EOF
 

@@ -25,7 +25,7 @@ our hashref $properties = {};
 
 # [[[ OO METHODS & SUBROUTINES ]]]
 
-our MathPerl::DataStructure::Vector $add_vector_3d_bound_vector_3d_bound = sub {
+our MathPerl::DataStructure::Vector3DBound $add_vector_3d_bound_vector_3d_bound = sub {
     (   my MathPerl::DataStructure::Vector3DBound $input_0,
         my MathPerl::DataStructure::Vector3DBound $input_1
     ) = @_;
@@ -49,8 +49,14 @@ our MathPerl::DataStructure::Vector $add_vector_3d_bound_vector_3d_bound = sub {
     }
 
     my MathPerl::DataStructure::Vector3DBound $return_value = MathPerl::DataStructure::Vector3DBound->new();
-    $return_value->{tail} = $input_0->{tail};
-    $return_value->{head} = add_vector_vector_raw($input_0->{head}, $input_1->{head});
+    $return_value->{tail_x} = $input_0->{tail_x};
+    $return_value->{tail_y} = $input_0->{tail_y};
+    $return_value->{tail_z} = $input_0->{tail_z};
+
+    $return_value->{head_x} = $input_0->{head_x} + $input_1->{head_x};
+    $return_value->{head_y} = $input_0->{head_y} + $input_1->{head_y};
+    $return_value->{head_z} = $input_0->{head_z} + $input_1->{head_z};
+ 
     return $return_value;
 };
 
@@ -68,7 +74,7 @@ our MathPerl::DataStructure::Vector3D $add_vector3d_vector3d = sub {
     return $return_value;
 };
 
-our MathPerl::DataStructure::Vector $add_vector_bound_vector_bound = sub {
+our MathPerl::DataStructure::VectorBound $add_vector_bound_vector_bound = sub {
     (   my MathPerl::DataStructure::VectorBound $input_0,
         my MathPerl::DataStructure::VectorBound $input_1
     ) = @_;
@@ -111,10 +117,6 @@ our number_arrayref $add_vector_vector_raw = sub {
 
     my integer $input_0_dimensionality = scalar @{$input_0};
     my integer $input_1_dimensionality = scalar @{$input_1};
-
-# START HERE: C++ generate for die(), write tests
-# START HERE: C++ generate for die(), write tests
-# START HERE: C++ generate for die(), write tests
 
     if ($input_0_dimensionality != $input_0_dimensionality) {
         die 'ERROR EMPLAADVV00: Dimensionality mismatch, input Vector 0 raw number_arrayref contains ' . $input_0_dimensionality .

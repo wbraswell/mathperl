@@ -2,7 +2,7 @@
 
 use strict;
 use warnings;
-our $VERSION = 0.003_200;
+our $VERSION = 0.003_300;
 use ExtUtils::MakeMaker;
 
 BEGIN { use English; }
@@ -20,12 +20,12 @@ WriteMakefile(
     MIN_PERL_VERSION => '5.10.0',  # NEED ANSWER, CORRELATION #rp00: is RPerl truly incompatible with Perl v5.8 and earlier?
     PREREQ_PM        => {
         'ExtUtils::MakeMaker' => 7.04,        # for compatibility with Inline::C >= v0.75
-        'CPAN::Meta'          => 2.150005,    # RPerl system developers only, used for generating CPAN metadata from this file during dist build
+        'CPAN::Meta'          => 2.150_005,    # RPerl system developers only, used for generating CPAN metadata from this file during dist build
         'Test::Exception'     => 0.32,
-        'Test::CPAN::Changes' => 0.400002,
+        'Test::CPAN::Changes' => 0.400_002,
         'Test::Number::Delta' => 1.06,        # for compatibility with Perls compiled using -Duselongdouble
-        'RPerl'               => 1.75,
-        'Time::HiRes'         => 1.9726,
+        'RPerl'               => 1.750_100,
+        'Time::HiRes'         => 1.972_6,
         'SDL'                 => 2.546
     },
     META_MERGE => {

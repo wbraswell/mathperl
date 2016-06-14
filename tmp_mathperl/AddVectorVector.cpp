@@ -80,9 +80,11 @@ MathPerl__DataStructure__VectorBound_ptr MathPerl__LinearAlgebra__AddVectorVecto
 }
 */
 
-MathPerl__DataStructure__Vector_ptr MathPerl__LinearAlgebra__AddVectorVector__add_vector_vector(MathPerl__DataStructure__Vector input_0, MathPerl__DataStructure__Vector input_1) {
-    MathPerl__DataStructure__Vector_ptr return_value(new MathPerl__DataStructure__Vector);
-    return_value->head = add_vector_vector_raw(input_0.head, input_1.head);
+MathPerl__DataStructure__Vector_rawptr MathPerl__LinearAlgebra__AddVectorVector__add_vector_vector(MathPerl__DataStructure__Vector_rawptr input_0, MathPerl__DataStructure__Vector_rawptr input_1, const char* CLASS) {
+//    cout << "in AddVectorVector.cpp MathPerl__LinearAlgebra__AddVectorVector__add_vector_vector(), top of subroutine..." << endl;
+    MathPerl__DataStructure__Vector_rawptr return_value = new MathPerl__DataStructure__Vector;
+    return_value->head = add_vector_vector_raw(input_0->head, input_1->head);
+//    cout << "in AddVectorVector.cpp MathPerl__LinearAlgebra__AddVectorVector__add_vector_vector(), bottom of subroutine..." << endl;
     return return_value;
 }
 
@@ -91,8 +93,8 @@ number_arrayref MathPerl__LinearAlgebra__AddVectorVector__add_vector_vector_raw(
     integer input_0_dimensionality = input_0.size();
     integer input_1_dimensionality = input_1.size();
 
-    cout << "in AddVectorVector.cpp MathPerl__LinearAlgebra__AddVectorVector__add_vector_vector_raw(), have input_0_dimensionality = " << input_0_dimensionality << endl;
-    cout << "in AddVectorVector.cpp MathPerl__LinearAlgebra__AddVectorVector__add_vector_vector_raw(), have input_1_dimensionality = " << input_1_dimensionality << endl;
+//    cout << "in AddVectorVector.cpp MathPerl__LinearAlgebra__AddVectorVector__add_vector_vector_raw(), have input_0_dimensionality = " << input_0_dimensionality << endl;
+//    cout << "in AddVectorVector.cpp MathPerl__LinearAlgebra__AddVectorVector__add_vector_vector_raw(), have input_1_dimensionality = " << input_1_dimensionality << endl;
 
 //    if ( input_0_dimensionality != input_0_dimensionality ) {
 //        die( (const string) "ERROR EMPLAADVV00: Dimensionality mismatch, input Vector 0 raw number_arrayref contains " + input_0_dimensionality + (const string) " elements and input Vector 1 raw number_arrayref contains " + input_1_dimensionality + (const string) " elements, dying" + (const string) "\n" );

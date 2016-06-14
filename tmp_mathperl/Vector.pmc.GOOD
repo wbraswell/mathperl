@@ -15,6 +15,7 @@ use RPerl::Inline;
 
 # <<< OO PROPERTIES, SUBROUTINES, SHIMS >>>
 sub Vector_to_string { return main::MathPerl__DataStructure__Vector__Vector_to_string(@_); }
+sub test_constructor { return main::MathPerl__DataStructure__Vector__test_constructor(@_, 'MathPerl::DataStructure::Vector'); }
 
 # <<< C++ LOADER >>>
 #our void::method $cpp_load = sub {
@@ -66,5 +67,21 @@ INIT {
     MathPerl::DataStructure::Vector::cpp_load();
 }
 use warnings;
+
+1;    # end of package
+
+
+# [[[ HEADER ]]]
+package main;
+use strict;
+use warnings;
+use RPerl::AfterSubclass;
+our $VERSION = 0.001_000;
+
+# [[[ SUBROUTINES ]]]
+
+# <<< OO PROPERTIES, SUBROUTINES, SHIMS >>>
+sub Vector_to_string { return main::MathPerl__DataStructure__Vector__Vector_to_string(@_); }
+sub test_constructor { return main::MathPerl__DataStructure__Vector__test_constructor(@_, 'MathPerl::DataStructure::Vector'); }
 
 1;    # end of package

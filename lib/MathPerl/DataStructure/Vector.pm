@@ -18,6 +18,18 @@ our hashref $properties = { head => my number_arrayref $TYPED_head = [] };
 
 # [[[ OO METHODS & SUBROUTINES ]]]
 
+our MathPerl::DataStructure::Vector $test_constructor = sub {
+    ( my integer $i ) = @_;
+    my MathPerl::DataStructure::Vector $retval = MathPerl::DataStructure::Vector->new();
+    $retval->{head}->[$i - 1] = undef;  # NEED RECOGNIZE AS resize()
+    
+    for (my integer $j = 0; $j < $i; $j++) {
+        $retval->{head}->[$j] = $j * 5;
+    }
+
+    return $retval;
+};
+
 # [[[ STRINGIFY ]]]
 
 our string::method $To_string = sub {

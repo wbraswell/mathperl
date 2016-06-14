@@ -27,11 +27,11 @@ public:
     // [[[ OO METHODS ]]]
 
     // <<< OO PROPERTIES, ACCESSORS & MUTATORS >>>
-    number_arrayref get_head() { cout << "in Vector.h get_head()..." << endl; return this->head; }
+    number_arrayref get_head() { /* cout << "in Vector.h get_head()..." << endl; */ return this->head; }
     void set_head(number_arrayref head_new) { this->head = head_new; }
 
     // <<< CONSTRUCTOR & DESTRUCTOR >>>
-    MathPerl__DataStructure__Vector() {}
+    MathPerl__DataStructure__Vector() { /* cout << "in Vector.h Vector() constructor..." << endl; */ }
     ~MathPerl__DataStructure__Vector() {}
 
     // <<< CLASS NAME REPORTER >>>
@@ -49,7 +49,9 @@ typedef std::unordered_map<string, MathPerl__DataStructure__Vector_ptr> MathPerl
 typedef std::unordered_map<string, MathPerl__DataStructure__Vector_ptr>::iterator MathPerl__DataStructure__Vector_hashref_iterator;
 
 // [[[ SUBROUTINES ]]]
-string MathPerl__DataStructure__Vector__Vector_to_string(MathPerl__DataStructure__Vector input_vector);
+//string MathPerl__DataStructure__Vector__Vector_to_string(MathPerl__DataStructure__Vector input_vector);  // DOES NOT WORK
+string MathPerl__DataStructure__Vector__Vector_to_string(MathPerl__DataStructure__Vector_rawptr input_vector_rawptr);
+MathPerl__DataStructure__Vector_rawptr MathPerl__DataStructure__Vector__test_constructor(integer i, const char* CLASS);
 
 // <<< SHIM MACROS >>>
 #define Vector_to_string(input_vector) MathPerl__DataStructure__Vector__Vector_to_string(input_vector)

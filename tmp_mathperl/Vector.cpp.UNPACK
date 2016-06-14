@@ -1,0 +1,74 @@
+// [[[ HEADER ]]]
+using std::cout;  using std::cerr;  using std::endl;
+
+#ifndef __CPP__INCLUDED__MathPerl__DataStructure__Vector_cpp
+#define __CPP__INCLUDED__MathPerl__DataStructure__Vector_cpp 0.001_000
+
+// [[[ INCLUDES ]]]
+#include "MathPerl/DataStructure/Vector.h"
+
+# ifdef __PERL__TYPES
+
+Purposefully_die_from_a_compile-time_error,_due_to____PERL__TYPES_being_defined.__We_need_to_define_only___CPP__TYPES_in_this_file!
+
+# elif defined __CPP__TYPES
+
+// [[[<<< BEGIN CPP TYPES >>>]]]
+// [[[<<< BEGIN CPP TYPES >>>]]]
+// [[[<<< BEGIN CPP TYPES >>>]]]
+
+// [[[ OO METHODS & SUBROUTINES ]]]
+
+string MathPerl__DataStructure__Vector::To_string() {
+    return number_arrayref_to_string(this->head);
+}
+
+string MathPerl__DataStructure__Vector__Vector_to_string(MathPerl__DataStructure__Vector input_vector) {
+    return number_arrayref_to_string(input_vector.head);
+}
+
+// [[[ TYPEMAP PACK/UNPACK FOR __CPP__TYPES ]]]
+
+/*
+// convert from (Perl SV containing RV to (C++ MathPerl__DataStructure__Vector_rawptr)) to (C++ MathPerl__DataStructure__Vector_rawptr) ???
+MathPerl__DataStructure__Vector_rawptr XS_unpack_MathPerl__DataStructure__Vector(SV* input_objref)
+//MathPerl__DataStructure__Vector_rawptr XS_unpack_MathPerl__DataStructure__Vector(SV* input_objref, const char* CLASS)
+{
+    fprintf(stderr, "in CPPOPS_CPPTYPES XS_unpack_MathPerl__DataStructure__Vector(), top of subroutine\n");
+
+    const char* CLASS = "MathPerl::DataStructure::Vector";
+
+    MathPerl__DataStructure__Vector_rawptr output_object_rawptr;  // dereference SV(RV(object_rawptr) to object_rawptr
+//    MathPerl__DataStructure__Vector_rawptr output_object_rawptr = SvRV(input_objref);  // dereference SV(RV(object_rawptr) to object_rawptr
+
+    fprintf(stderr, "in CPPOPS_CPPTYPES XS_unpack_MathPerl__DataStructure__Vector(), bottom of subroutine\n");
+
+    return output_object_rawptr;
+}
+
+// convert from (C++ MathPerl__DataStructure__Vector_rawptr) to (Perl SV containing RV to (C++ MathPerl__DataStructure__Vector_rawptr)) ???
+void XS_pack_MathPerl__DataStructure__Vector(SV* output_objref, MathPerl__DataStructure__Vector_rawptr input_object_rawptr)
+{
+    fprintf(stderr, "in CPPOPS_CPPTYPES XS_pack_MathPerl__DataStructure__Vector(), top of subroutine\n");
+
+    // CALL DIRECTLY FROM PERL, KEEP C++ OBJECT
+    output_objref = sv_newmortal();  // create new SV*
+    sv_setref_pv( output_objref, (const char *)"MathPerl::DataStructure::Vector", (void*)input_object_rawptr );  // make SV* into RV, bless into class, set value to object_rawptr
+
+    fprintf(stderr, "in CPPOPS_CPPTYPES XS_pack_MathPerl__DataStructure__Vector(), bottom of subroutine\n");
+}
+*/
+
+// [[[<<< END CPP TYPES >>>]]]
+// [[[<<< END CPP TYPES >>>]]]
+// [[[<<< END CPP TYPES >>>]]]
+
+# else
+
+Purposefully_die_from_a_compile-time_error,_due_to_neither___PERL__TYPES_nor___CPP__TYPES_being_defined.__We_need_to_define_only___CPP__TYPES_in_this_file!
+
+# endif
+
+#endif
+
+// end of class

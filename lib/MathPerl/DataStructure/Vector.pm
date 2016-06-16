@@ -11,7 +11,9 @@ use parent qw(MathPerl::DataStructure);
 use MathPerl::DataStructure;
 
 # [[[ CRITICS ]]]
-# # no critic qw(ProhibitMultiplePackages ProhibitReusedNames ProhibitPackageVars)  # USER DEFAULT 8: allow additional & subclass & shorthand package names
+## no critic qw(ProhibitUselessNoCritic ProhibitMagicNumbers RequireCheckedSyscalls)  # USER DEFAULT 1: allow numeric values & print operator
+## no critic qw(ProhibitCStyleForLoops)  # USER DEFAULT 6: allow C-style for() loop headers
+## no critic qw(ProhibitMultiplePackages ProhibitReusedNames ProhibitPackageVars)  # USER DEFAULT 8: allow additional & subclass & shorthand package names
 
 # [[[ OO PROPERTIES ]]]
 our hashref $properties = { head => my number_arrayref $TYPED_head = [] };
@@ -22,7 +24,7 @@ our MathPerl::DataStructure::Vector $test_constructor = sub {
     ( my integer $i ) = @_;
     my MathPerl::DataStructure::Vector $retval = MathPerl::DataStructure::Vector->new();
     $retval->{head}->[$i - 1] = undef;  # NEED RECOGNIZE AS resize()
-    
+
     for (my integer $j = 0; $j < $i; $j++) {
         $retval->{head}->[$j] = $j * 5;
     }
@@ -48,18 +50,18 @@ our string $Vector_to_string = sub {
 # [[[ SHORTHAND CLASSES ]]]
 
 # [[[ HEADER ]]]
-#use RPerl;
-#package  # hide from PAUSE indexing
-#    Vector;
-#use strict;
-#use warnings;
-#our $VERSION = 0.001_000;
+use RPerl;
+package  # hide from PAUSE indexing
+    Vector;
+use strict;
+use warnings;
+our $VERSION = 0.001_000;
 
 # [[[ OO INHERITANCE ]]]
-#use parent qw(MathPerl::DataStructure::Vector);
-#require MathPerl::DataStructure::Vector;
+use parent qw(MathPerl::DataStructure::Vector);
+require MathPerl::DataStructure::Vector;
 
 # [[[ OO PROPERTIES ]]]
-#our hashref $properties = $MathPerl::DataStructure::Vector::properties;
+our hashref $properties = $MathPerl::DataStructure::Vector::properties;
 
-#1;    # end of class
+1;    # end of class

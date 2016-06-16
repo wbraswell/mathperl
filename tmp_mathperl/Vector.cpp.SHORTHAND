@@ -20,31 +20,22 @@ Purposefully_die_from_a_compile-time_error,_due_to____PERL__TYPES_being_defined.
 // [[[ OO METHODS & SUBROUTINES ]]]
 
 string MathPerl__DataStructure__Vector::To_string() {
-//    cout << "in Vector.cpp MathPerl__DataStructure__Vector::To_string()..." << endl;
     return number_arrayref_to_string(this->head);
 }
 
-string MathPerl__DataStructure__Vector__Vector_to_string(MathPerl__DataStructure__Vector_rawptr input_vector_rawptr) {
-//    cout << "in Vector.cpp MathPerl__DataStructure__Vector__Vector_to_string() rawptr..." << endl;
-    return number_arrayref_to_string(input_vector_rawptr->head);
+MathPerl__DataStructure__Vector_ptr MathPerl__DataStructure__Vector__test_constructor(integer i) {
+    integer j;
+    MathPerl__DataStructure__Vector_ptr retval(new MathPerl__DataStructure__Vector);
+    retval->head[i - 1] = // <<< RP::O::E::SE::L::U __DUMMY_SOURCE_CODE CPPOPS_CPPTYPES >>>
+        ;
+    for ( j = 0; j < i; j++ ) {
+        retval->head[j] = j * 5;
+    }
+    return retval;
 }
 
-MathPerl__DataStructure__Vector_rawptr MathPerl__DataStructure__Vector__test_constructor(integer i, const char* CLASS) {
-//    cout << "in Vector.cpp MathPerl__DataStructure__Vector__test_constructor(), top of subroutine" << endl;
-//    cout << "in Vector.cpp MathPerl__DataStructure__Vector__test_constructor(), have CLASS = " << CLASS << endl;
-//    cout << "in Vector.cpp MathPerl__DataStructure__Vector__test_constructor(), have i = " << i << endl;
-
-    MathPerl__DataStructure__Vector_rawptr retval = new MathPerl__DataStructure__Vector;
-
-    retval->head.resize(i);
-    for (integer j = 0; j < i; j++) {
-//        cout << "in Vector.cpp MathPerl__DataStructure__Vector__test_constructor(), top of loop j = " << j << endl;
-        retval->head[j] = j * 5;
-//        cout << "in Vector.cpp MathPerl__DataStructure__Vector__test_constructor(), bottom of loop j = " << j << ", set retval->head[j] = " << retval->head[j] << endl;
-    }
-//    cout << "in Vector.cpp MathPerl__DataStructure__Vector__test_constructor(), bottom of subroutine" << endl;
-
-    return retval;
+string MathPerl__DataStructure__Vector__Vector_to_string(MathPerl::DataStructure::Vector input_vector) {
+    return number_arrayref_to_string(input_vector->head);
 }
 
 // [[[<<< END CPP TYPES >>>]]]

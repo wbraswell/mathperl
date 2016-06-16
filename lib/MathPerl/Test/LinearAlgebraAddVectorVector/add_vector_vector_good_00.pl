@@ -31,9 +31,9 @@ use MathPerl::LinearAlgebra::AddVectorVector;
 
 print 'have MathPerl__DataStructure__Vector__MODE_ID() = ' . MathPerl__DataStructure__Vector__MODE_ID() . "\n\n";
 
-# START HERE: shorthand class, C++ generate for die() & croak(), tests for other vector additions, vector-scalar-mult & tests, cross product & tests, dot product & tests
-# START HERE: shorthand class, C++ generate for die() & croak(), tests for other vector additions, vector-scalar-mult & tests, cross product & tests, dot product & tests
-# START HERE: shorthand class, C++ generate for die() & croak(), tests for other vector additions, vector-scalar-mult & tests, cross product & tests, dot product & tests
+# START HERE: shorthand class, C++ generate for die() & croak(), tests for other vector additions, CPPOPS_CPTYPES generate & execute tests, vector-scalar-mult & tests, cross product & tests, dot product & tests
+# START HERE: shorthand class, C++ generate for die() & croak(), tests for other vector additions, CPPOPS_CPTYPES generate & execute tests, vector-scalar-mult & tests, cross product & tests, dot product & tests
+# START HERE: shorthand class, C++ generate for die() & croak(), tests for other vector additions, CPPOPS_CPTYPES generate & execute tests, vector-scalar-mult & tests, cross product & tests, dot product & tests
 
 # DEV NOTE: prefer shorthand classes in user code, Vector instead of MathPerl::DataStructure::Vector
 # NEED FIX: enable shorthand

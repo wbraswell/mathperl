@@ -22,16 +22,16 @@ Purposefully_die_from_a_compile-time_error,_due_to____PERL__TYPES_being_defined.
 class MathPerl__DataStructure__Vector : public MathPerl__DataStructure {
 public:
     // [[[ OO PROPERTIES ]]]
-    number_arrayref head;
+    number_arrayref head = {};
 
     // [[[ OO METHODS ]]]
 
     // <<< OO PROPERTIES, ACCESSORS & MUTATORS >>>
-    number_arrayref get_head() { /* cout << "in Vector.h get_head()..." << endl; */ return this->head; }
+    number_arrayref get_head() { return this->head; }
     void set_head(number_arrayref head_new) { this->head = head_new; }
 
     // <<< CONSTRUCTOR & DESTRUCTOR >>>
-    MathPerl__DataStructure__Vector() { /* cout << "in Vector.h Vector() constructor..." << endl; */ }
+    MathPerl__DataStructure__Vector() {}
     ~MathPerl__DataStructure__Vector() {}
 
     // <<< CLASS NAME REPORTER >>>
@@ -49,11 +49,11 @@ typedef std::unordered_map<string, MathPerl__DataStructure__Vector_ptr> MathPerl
 typedef std::unordered_map<string, MathPerl__DataStructure__Vector_ptr>::iterator MathPerl__DataStructure__Vector_hashref_iterator;
 
 // [[[ SUBROUTINES ]]]
-//string MathPerl__DataStructure__Vector__Vector_to_string(MathPerl__DataStructure__Vector input_vector);  // DOES NOT WORK
-string MathPerl__DataStructure__Vector__Vector_to_string(MathPerl__DataStructure__Vector_rawptr input_vector_rawptr);
-MathPerl__DataStructure__Vector_rawptr MathPerl__DataStructure__Vector__test_constructor(integer i, const char* CLASS);
+MathPerl__DataStructure__Vector_ptr MathPerl__DataStructure__Vector__test_constructor(integer i);
+string MathPerl__DataStructure__Vector__Vector_to_string(MathPerl::DataStructure::Vector input_vector);
 
 // <<< SHIM MACROS >>>
+#define test_constructor(i) MathPerl__DataStructure__Vector__test_constructor(i)
 #define Vector_to_string(input_vector) MathPerl__DataStructure__Vector__Vector_to_string(input_vector)
 
 // <<< OPERATIONS & DATA TYPES REPORTER >>>

@@ -31,7 +31,7 @@ public:
     void set_head(number_arrayref head_new) { this->head = head_new; }
 
     // <<< CONSTRUCTOR & DESTRUCTOR >>>
-    MathPerl__DataStructure__Vector() { /* cout << "in Vector.h Vector() constructor..." << endl; */ }
+    MathPerl__DataStructure__Vector() { cout << "in Vector.h Vector() constructor..." << endl; }
     ~MathPerl__DataStructure__Vector() {}
 
     // <<< CLASS NAME REPORTER >>>

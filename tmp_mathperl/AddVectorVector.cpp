@@ -17,7 +17,7 @@ Purposefully_die_from_a_compile-time_error,_due_to____PERL__TYPES_being_defined.
 // [[[<<< BEGIN CPP TYPES >>>]]]
 // [[[<<< BEGIN CPP TYPES >>>]]]
 
-// [[[ OO METHODS & SUBROUTINES ]]]
+// [[[ SUBROUTINES & OO METHODS ]]]
 
 /*
 MathPerl__DataStructure__Vector3DBound_ptr MathPerl__LinearAlgebra__AddVectorVector__add_vector_3d_bound_vector_3d_bound(MathPerl__DataStructure__Vector3DBound input_0, MathPerl__DataStructure__Vector3DBound input_1) {

@@ -16,7 +16,7 @@ use MathPerl::Operation;
 # [[[ OO PROPERTIES ]]]
 our hashref $properties = {};
 
-# [[[ OO METHODS & SUBROUTINES ]]]
+# [[[ SUBROUTINES & OO METHODS ]]]
 
 our boolean $approximately_equal = sub {
     (   my number $input_0,

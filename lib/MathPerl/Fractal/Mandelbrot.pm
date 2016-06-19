@@ -24,7 +24,7 @@ use constant Y_SCALE_MAX => my number $TYPED_Y_SCALE_MAX = 1.0;
 # [[[ OO PROPERTIES ]]]
 our hashref $properties = {};
 
-# [[[ OO METHODS & SUBROUTINES ]]]
+# [[[ SUBROUTINES & OO METHODS ]]]
 
 # OO interface wrapper
 our integer_arrayref_arrayref::method $escape_time = sub {

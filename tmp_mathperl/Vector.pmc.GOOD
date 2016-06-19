@@ -14,8 +14,10 @@ use RPerl::Inline;
 # [[[ SUBROUTINES ]]]
 
 # <<< OO PROPERTIES, SUBROUTINES, SHIMS >>>
-sub Vector_to_string { return main::MathPerl__DataStructure__Vector__Vector_to_string(@_); }
-sub test_constructor { return main::MathPerl__DataStructure__Vector__test_constructor(@_, 'MathPerl::DataStructure::Vector'); }
+sub       Vector_to_string { return main::MathPerl__DataStructure__Vector__Vector_to_string(@_); }
+sub main::Vector_to_string { return main::MathPerl__DataStructure__Vector__Vector_to_string(@_); }
+sub       test_constructor { return main::MathPerl__DataStructure__Vector__test_constructor(@_, 'MathPerl::DataStructure::Vector'); }
+sub main::test_constructor { return main::MathPerl__DataStructure__Vector__test_constructor(@_, 'MathPerl::DataStructure::Vector'); }
 
 # <<< C++ LOADER >>>
 #our void::method $cpp_load = sub {
@@ -71,17 +73,14 @@ use warnings;
 1;    # end of package
 
 
+# [[[ ADDITIONAL CLASSES ]]]
+
 # [[[ HEADER ]]]
-package main;
+package  # hide from PAUSE indexing
+    Vector;
 use strict;
 use warnings;
 use RPerl::AfterSubclass;
 our $VERSION = 0.001_000;
 
-# [[[ SUBROUTINES ]]]
-
-# <<< OO PROPERTIES, SUBROUTINES, SHIMS >>>
-sub Vector_to_string { return main::MathPerl__DataStructure__Vector__Vector_to_string(@_); }
-sub test_constructor { return main::MathPerl__DataStructure__Vector__test_constructor(@_, 'MathPerl::DataStructure::Vector'); }
-
-1;    # end of package
+1;    # end of class

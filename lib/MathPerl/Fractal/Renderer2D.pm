@@ -68,7 +68,7 @@ our hashref $properties = {
     mouse_clicked => my boolean $TYPED_mouse_clicked = undef,
 };
 
-# [[[ OO METHODS & SUBROUTINES ]]]
+# [[[ SUBROUTINES & OO METHODS ]]]
 
 our void::method $init = sub {
     ( my MathPerl::Fractal::Renderer2D $self, my string $set_name, my integer $x_pixel_count, my integer $y_pixel_count, my integer $iterations_max ) = @_;

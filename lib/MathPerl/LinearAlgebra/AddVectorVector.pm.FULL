@@ -26,7 +26,7 @@ use MathPerl::Arithmetic::ApproximatelyEqual;
 # [[[ OO PROPERTIES ]]]
 our hashref $properties = {};
 
-# [[[ OO METHODS & SUBROUTINES ]]]
+# [[[ SUBROUTINES & OO METHODS ]]]
 
 =NEED_ENABLE
 

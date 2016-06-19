@@ -19,7 +19,7 @@ our hashref $properties = {
     value      => my number $TYPED_value      = undef,
 };
 
-# [[[ OO METHODS & SUBROUTINES ]]]
+# [[[ SUBROUTINES & OO METHODS ]]]
 
 our MathPerl::DataStructure::ColorRGB $hsv_to_rgb = sub {
     ( my MathPerl::DataStructure::ColorHSV $hsv) = @_;

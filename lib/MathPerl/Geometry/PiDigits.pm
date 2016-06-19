@@ -1,14 +1,13 @@
 # [[[ HEADER ]]]
 use RPerl;
-
 package MathPerl::Geometry::PiDigits;
 use strict;
 use warnings;
-our $VERSION = 0.002_000;
+our $VERSION = 0.002_100;
 
 # [[[ OO INHERITANCE ]]]
-use parent qw(RPerl::CompileUnit::Module::Class);
-use RPerl::CompileUnit::Module::Class;
+use parent qw(MathPerl::Algorithm);
+use MathPerl::Algorithm;
 
 # [[[ CRITICS ]]]
 ## no critic qw(ProhibitUselessNoCritic ProhibitMagicNumbers RequireCheckedSyscalls)  # USER DEFAULT 1: allow numeric values & print operator
@@ -21,7 +20,7 @@ use rperlgmp;
 # [[[ OO PROPERTIES ]]]
 our hashref $properties = {};
 
-# [[[ OO METHODS & SUBROUTINES ]]]
+# [[[ SUBROUTINES & OO METHODS ]]]
 
 our unsigned_integer $extract_digit = sub {
     ( my unsigned_integer $nth, my gmp_integer $tmp1, my gmp_integer $tmp2, my gmp_integer $acc, my gmp_integer $den, my gmp_integer $num ) = @_;

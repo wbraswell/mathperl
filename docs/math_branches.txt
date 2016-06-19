@@ -3,7 +3,7 @@ Number Theory
 
 Scalar Algebra (AKA Elementary Algebra or Algebra)
 Linear Algebra
-Vector Algebra (Algebraic Operations of Vector Calculus, contrasted with Geometric Algebra; overlap with Linear Algebra)
+Vector Algebra (Algebraic Operations of Vector Calculus, dot & cross products, contrasted with Geometric Algebra; overlap with Linear Algebra)
 Geometric Algebra
 Multilinear Algebra
 Abstract Algebra

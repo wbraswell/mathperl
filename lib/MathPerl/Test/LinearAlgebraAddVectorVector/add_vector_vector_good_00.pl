@@ -36,13 +36,12 @@ print 'have MathPerl__DataStructure__Vector__MODE_ID() = ' . MathPerl__DataStruc
 # START HERE: shorthand class, C++ generate for die() & croak(), tests for other vector additions, CPPOPS_CPTYPES generate & execute tests, vector-scalar-mult & tests, cross product & tests, dot product & tests
 
 # DEV NOTE: prefer shorthand classes in user code, Vector instead of MathPerl::DataStructure::Vector
-# NEED FIX: enable shorthand
-my MathPerl::DataStructure::Vector $input_vector_0 = MathPerl::DataStructure::Vector->new();
-my MathPerl::DataStructure::Vector $input_vector_1 = MathPerl::DataStructure::Vector->new();
-my MathPerl::DataStructure::Vector $retval_vector;
-#my Vector $input_vector_0 = Vector->new();
-#my Vector $input_vector_1 = Vector->new();
-#my Vector $retval_vector;
+#my MathPerl::DataStructure::Vector $input_vector_0 = MathPerl::DataStructure::Vector->new();
+#my MathPerl::DataStructure::Vector $input_vector_1 = MathPerl::DataStructure::Vector->new();
+#my MathPerl::DataStructure::Vector $retval_vector;
+my Vector $input_vector_0 = Vector->new();
+my Vector $input_vector_1 = Vector->new();
+my Vector $retval_vector;
 
 # [[[ object AKA not raw ]]]
 

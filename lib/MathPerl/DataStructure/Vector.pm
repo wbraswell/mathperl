@@ -18,7 +18,7 @@ use MathPerl::DataStructure;
 # [[[ OO PROPERTIES ]]]
 our hashref $properties = { head => my number_arrayref $TYPED_head = [] };
 
-# [[[ OO METHODS & SUBROUTINES ]]]
+# [[[ SUBROUTINES & OO METHODS ]]]
 
 our MathPerl::DataStructure::Vector $test_constructor = sub {
     ( my integer $i ) = @_;
@@ -47,7 +47,7 @@ our string $Vector_to_string = sub {
 1;    # end of class
 
 
-# [[[ SHORTHAND CLASSES ]]]
+# [[[ ADDITIONAL CLASSES ]]]
 
 # [[[ HEADER ]]]
 use RPerl;

@@ -20,7 +20,7 @@ use MathPerl::Arithmetic::ApproximatelyEqual;
 # [[[ OO PROPERTIES ]]]
 our hashref $properties = {};
 
-# [[[ OO METHODS & SUBROUTINES ]]]
+# [[[ SUBROUTINES & OO METHODS ]]]
 
 our MathPerl::DataStructure::Vector $add_vector_vector = sub {
     (   my MathPerl::DataStructure::Vector $input_0,

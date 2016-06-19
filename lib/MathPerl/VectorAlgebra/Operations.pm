@@ -1,2 +1,0 @@
-dot product
-cross product

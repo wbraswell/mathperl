@@ -3,7 +3,7 @@ use RPerl;
 package MathPerl::VectorAlgebra::CrossProduct;
 use strict;
 use warnings;
-our $VERSION = 0.001_000;
+our $VERSION = 0.002_000;
 
 # [[[ OO INHERITANCE ]]]
 use parent qw(MathPerl::Operation);
@@ -48,7 +48,27 @@ our Vector3D $cross_product_vector = sub {
         $retval_head->[2] = ($u_head->[0] * $v_head->[1]) - ($u_head->[1] * $v_head->[0]);
     }
     elsif ($dimensions == 7) {
-        # NEED CONTENT
+        $retval_head->[0] = (($u_head->[1] * $v_head->[3]) - ($u_head->[3] * $v_head->[1])) + 
+                            (($u_head->[2] * $v_head->[6]) - ($u_head->[6] * $v_head->[2])) +
+                            (($u_head->[4] * $v_head->[5]) - ($u_head->[5] * $v_head->[4]));
+        $retval_head->[1] = (($u_head->[2] * $v_head->[4]) - ($u_head->[4] * $v_head->[2])) + 
+                            (($u_head->[3] * $v_head->[0]) - ($u_head->[0] * $v_head->[3])) +
+                            (($u_head->[5] * $v_head->[6]) - ($u_head->[6] * $v_head->[5]));
+        $retval_head->[2] = (($u_head->[3] * $v_head->[5]) - ($u_head->[5] * $v_head->[3])) + 
+                            (($u_head->[4] * $v_head->[1]) - ($u_head->[1] * $v_head->[4])) +
+                            (($u_head->[6] * $v_head->[0]) - ($u_head->[0] * $v_head->[6]));
+        $retval_head->[3] = (($u_head->[4] * $v_head->[6]) - ($u_head->[6] * $v_head->[4])) + 
+                            (($u_head->[5] * $v_head->[2]) - ($u_head->[2] * $v_head->[5])) +
+                            (($u_head->[0] * $v_head->[1]) - ($u_head->[1] * $v_head->[0]));
+        $retval_head->[4] = (($u_head->[5] * $v_head->[0]) - ($u_head->[0] * $v_head->[5])) + 
+                            (($u_head->[6] * $v_head->[3]) - ($u_head->[3] * $v_head->[6])) +
+                            (($u_head->[1] * $v_head->[2]) - ($u_head->[2] * $v_head->[1]));
+        $retval_head->[5] = (($u_head->[6] * $v_head->[1]) - ($u_head->[1] * $v_head->[6])) + 
+                            (($u_head->[0] * $v_head->[4]) - ($u_head->[4] * $v_head->[0])) +
+                            (($u_head->[2] * $v_head->[3]) - ($u_head->[3] * $v_head->[2]));
+        $retval_head->[6] = (($u_head->[0] * $v_head->[2]) - ($u_head->[2] * $v_head->[0])) + 
+                            (($u_head->[1] * $v_head->[5]) - ($u_head->[5] * $v_head->[1])) +
+                            (($u_head->[3] * $v_head->[4]) - ($u_head->[4] * $v_head->[3]));
     }
     else {
         die 'NEED ERROR MESSAGE';

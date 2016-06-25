@@ -3,7 +3,7 @@ use RPerl;
 package MathPerl::VectorAlgebra::CrossProduct;
 use strict;
 use warnings;
-our $VERSION = 0.003_000;
+our $VERSION = 0.004_000;
 
 # [[[ OO INHERITANCE ]]]
 use parent qw(MathPerl::Operation);
@@ -26,7 +26,8 @@ our Vector3D $cross_product_vector3d = sub {
     ( my Vector3D $u, my Vector3D $v ) = @_;
     my Vector3D $retval = Vector3D->new();
 
-    # NEED ADD ERROR CHECKING, if elements are all defined
+    # DEV NOTE: there is no concept of defined vs undefined values in C++, 
+    # can not add error checking to ensure all elements are defined, we assume they all are defined
 
     # OO properties direct access mechanism, does NOT work if dependency files are compiled but this file is not
     $retval->{x} = ($u->{y} * $v->{z}) - ($u->{z} * $v->{y});
@@ -56,7 +57,7 @@ our Vector3D $cross_product_vector = sub {
 #    my integer $v_dimensions = scalar $v_head;
 
     if ($u_dimensions != $v_dimensions) {
-        croak 'ERROR EMPVACPxx: Dimension mis-match, input vector $u contains ' . $u_dimensions . 
+        croak 'ERROR EMPVACP00: Dimensions mis-match, input vector $u contains ' . $u_dimensions . 
             ' elements and input vector $v contains ' . $v_dimensions . ' elements, croaking';
     }
 
@@ -93,7 +94,7 @@ our Vector3D $cross_product_vector = sub {
                             (($u_head->[3] * $v_head->[4]) - ($u_head->[4] * $v_head->[3]));
     }
     else {
-        die 'NEED ERROR MESSAGE';
+        croak 'ERROR EMPVACP01: Dimensions unsupported, input vectors contain ' . $u_dimensions . ' elements, only 3 and 7 supported, croaking';
     }
     return $retval;
 };

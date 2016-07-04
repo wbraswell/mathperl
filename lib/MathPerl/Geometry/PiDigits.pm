@@ -74,7 +74,7 @@ our void $display_pi_digits = sub {
 
         print $d;
         $i = $i + 1;
-        if ( ( $i % 10 ) == 0 ) { print "\t:" . integer_to_string($i) . "\n"; }
+        if ( ( $i % 10 ) == 0 ) { print "\t:", integer_to_string($i), "\n"; }
         eliminate_digit( $d, $acc, $den, $num );
     }
 };

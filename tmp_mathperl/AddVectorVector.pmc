@@ -10,14 +10,17 @@ our $VERSION = 0.001_000;
 
 # [[[ INCLUDES ]]]
 use RPerl::Inline;
+use MathPerl::Config;
 require MathPerl::DataStructure::Vector;  # DEV NOTE: this line allows Inline to enable all of Vector C++ functionality w/out a separate Inline build process, GREAT!
 require MathPerl::Arithmetic::ApproximatelyEqual;
 
 # [[[ SUBROUTINES ]]]
 
 # <<< OO PROPERTIES, SUBROUTINES, SHIMS >>>
-sub add_vector_vector     { return main::MathPerl__LinearAlgebra__AddVectorVector__add_vector_vector(@_, 'MathPerl::DataStructure::Vector'); }
-sub add_vector_vector_raw { return main::MathPerl__LinearAlgebra__AddVectorVector__add_vector_vector_raw(@_); }
+undef &MathPerl::LinearAlgebra::AddVectorVector::add_vector_vector;
+*MathPerl::LinearAlgebra::AddVectorVector::add_vector_vector = sub { return main::MathPerl__LinearAlgebra__AddVectorVector__add_vector_vector(@_, 'MathPerl::DataStructure::Vector'); };
+undef &MathPerl::LinearAlgebra::AddVectorVector::add_vector_vector_raw;
+*MathPerl::LinearAlgebra::AddVectorVector::add_vector_vector_raw = sub { return main::MathPerl__LinearAlgebra__AddVectorVector__add_vector_vector_raw(@_); };
 
 # <<< C++ LOADER >>>
 #our void::method $cpp_load = sub {
@@ -44,9 +47,9 @@ sub cpp_load {
         my $eval_string = <<"EOF";
 package main;
 use RPerl::Inline;
-BEGIN { RPerl::diag("[[[ BEGIN 'use Inline' STAGE for 'lib/MathPerl/LinearAlgebra/AddVectorVector.cpp' ]]]\n" x 1); }
-use Inline (CPP => 'lib/MathPerl/LinearAlgebra/AddVectorVector.cpp', \%RPerl::Inline::ARGS);
-RPerl::diag("[[[ END 'use Inline' STAGE for 'lib/MathPerl/LinearAlgebra/AddVectorVector.cpp' ]]]\n" x 1);
+BEGIN { RPerl::diag("[[[ BEGIN 'use Inline' STAGE for 'MathPerl/LinearAlgebra/AddVectorVector.cpp' ]]]\n" x 1); }
+use Inline (CPP => '$main::INCLUDE_PATH' . '/MathPerl/LinearAlgebra/AddVectorVector.cpp', \%RPerl::Inline::ARGS);
+RPerl::diag("[[[ END 'use Inline' STAGE for 'MathPerl/LinearAlgebra/AddVectorVector.cpp' ]]]\n" x 1);
 1;
 EOF
 
@@ -73,6 +76,8 @@ use warnings;
 1;    # end of package
 
 
+# [[[ EXPORT SUBROUTINES TO main:: NAMESPACE ]]]
+
 # [[[ HEADER ]]]
 package main;
 use strict;
@@ -83,7 +88,9 @@ our $VERSION = 0.001_000;
 # [[[ SUBROUTINES ]]]
 
 # <<< OO PROPERTIES, SUBROUTINES, SHIMS >>>
-sub add_vector_vector     { return main::MathPerl__LinearAlgebra__AddVectorVector__add_vector_vector(@_, 'MathPerl::DataStructure::Vector'); }
-sub add_vector_vector_raw { return main::MathPerl__LinearAlgebra__AddVectorVector__add_vector_vector_raw(@_); }
+undef &main::add_vector_vector;
+*main::add_vector_vector = sub { return main::MathPerl__LinearAlgebra__AddVectorVector__add_vector_vector(@_, 'MathPerl::DataStructure::Vector'); };
+undef &main::add_vector_vector_raw;
+*main::add_vector_vector_raw = sub { return main::MathPerl__LinearAlgebra__AddVectorVector__add_vector_vector_raw(@_); };
 
 1;    # end of package

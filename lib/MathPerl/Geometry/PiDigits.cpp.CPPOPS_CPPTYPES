@@ -66,10 +66,10 @@ void MathPerl__Geometry__PiDigits__display_pi_digits(integer n) {
         if ( d != extract_digit(4, tmp1, tmp2, acc, den, num) ) {
             continue;
         }
-        cout << d;
+        print d;
         i = i + 1;
         if ( (i % 10) == 0 ) {
-            cout << (const string) "\t:" + integer_to_string(i) + (const string) "\n";
+            print "\t:" << integer_to_string(i) << endl;
         }
         eliminate_digit(d, acc, den, num);
         MAIN_LOOP_NEXT: 1;

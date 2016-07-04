@@ -10,14 +10,19 @@ our $VERSION = 0.001_000;
 
 # [[[ INCLUDES ]]]
 use RPerl::Inline;
+use MathPerl::Config;
 
 # [[[ SUBROUTINES ]]]
 
 # <<< OO PROPERTIES, SUBROUTINES, SHIMS >>>
-sub extract_digit     { return main::MathPerl__Geometry__PiDigits__extract_digit(@_); }
-sub eliminate_digit   { return main::MathPerl__Geometry__PiDigits__eliminate_digit(@_); }
-sub next_term         { return main::MathPerl__Geometry__PiDigits__next_term(@_); }
-sub display_pi_digits { return main::MathPerl__Geometry__PiDigits__display_pi_digits(@_); }
+undef &MathPerl::Geometry::PiDigits::extract_digit;
+*MathPerl::Geometry::PiDigits::extract_digit = sub { return main::MathPerl__Geometry__PiDigits__extract_digit(@_); };
+undef &MathPerl::Geometry::PiDigits::eliminate_digit;
+*MathPerl::Geometry::PiDigits::eliminate_digit = sub { return main::MathPerl__Geometry__PiDigits__eliminate_digit(@_); };
+undef &MathPerl::Geometry::PiDigits::next_term;
+*MathPerl::Geometry::PiDigits::next_term = sub { return main::MathPerl__Geometry__PiDigits__next_term(@_); };
+undef &MathPerl::Geometry::PiDigits::display_pi_digits;
+*MathPerl::Geometry::PiDigits::display_pi_digits = sub { return main::MathPerl__Geometry__PiDigits__display_pi_digits(@_); };
 
 # <<< C++ LOADER >>>
 #our void::method $cpp_load = sub {
@@ -44,15 +49,16 @@ sub cpp_load {
         my $eval_string = <<"EOF";
 package main;
 use RPerl::Inline;
-BEGIN { RPerl::diag("[[[ BEGIN 'use Inline' STAGE for 'lib/MathPerl/Geometry/PiDigits.cpp' ]]]\n" x 1); }
-use Inline (CPP => 'lib/MathPerl/Geometry/PiDigits.cpp', \%RPerl::Inline::ARGS);
-RPerl::diag("[[[ END 'use Inline' STAGE for 'lib/MathPerl/Geometry/PiDigits.cpp' ]]]\n" x 1);
+BEGIN { RPerl::diag("[[[ BEGIN 'use Inline' STAGE for 'MathPerl/Geometry/PiDigits.cpp' ]]]\n" x 1); }
+use Inline (CPP => '$main::INCLUDE_PATH' . '/MathPerl/Geometry/PiDigits.cpp', \%RPerl::Inline::ARGS);
+RPerl::diag("[[[ END 'use Inline' STAGE for 'MathPerl/Geometry/PiDigits.cpp' ]]]\n" x 1);
 1;
 EOF
 
-        $RPerl::Inline::ARGS{ccflagsex}    = $RPerl::Inline::CCFLAGSEX . $RPerl::TYPES_CCFLAG;
-        $RPerl::Inline::ARGS{cppflags}     = $RPerl::TYPES_CCFLAG;
-        $RPerl::Inline::ARGS{libs}         = '-lgmpxx -lgmp';                                                                          # enable GMP support
+        $RPerl::Inline::ARGS{ccflagsex}
+            = $RPerl::Inline::CCFLAGSEX . $RPerl::TYPES_CCFLAG . rperltypes::type_integer_native_ccflag() . rperltypes::type_number_native_ccflag();
+        $RPerl::Inline::ARGS{cppflags} = $RPerl::TYPES_CCFLAG . rperltypes::type_integer_native_ccflag() . rperltypes::type_number_native_ccflag();
+        $RPerl::Inline::ARGS{libs} = '-lgmpxx -lgmp';                                                                                  # enable GMP support
         $RPerl::Inline::ARGS{auto_include} = [ @{ $RPerl::Inline::ARGS{auto_include} }, '#include <gmpxx.h>', '#include <gmp.h>' ];    # enable GMP support
 
 #RPerl::diag('in MathPerl::Geometry::PiDigits::cpp_load(), CPP not yet loaded, about to call eval() on $eval_string =' . "\n" . '<<< BEGIN EVAL STRING>>>' . "\n" . $eval_string . '<<< END EVAL STRING >>>' . "\n");

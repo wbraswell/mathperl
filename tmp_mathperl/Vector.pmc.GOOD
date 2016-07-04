@@ -10,14 +10,15 @@ our $VERSION = 0.001_000;
 
 # [[[ INCLUDES ]]]
 use RPerl::Inline;
+use MathPerl::Config;
 
 # [[[ SUBROUTINES ]]]
 
 # <<< OO PROPERTIES, SUBROUTINES, SHIMS >>>
-sub       Vector_to_string { return main::MathPerl__DataStructure__Vector__Vector_to_string(@_); }
-sub main::Vector_to_string { return main::MathPerl__DataStructure__Vector__Vector_to_string(@_); }
-sub       test_constructor { return main::MathPerl__DataStructure__Vector__test_constructor(@_, 'MathPerl::DataStructure::Vector'); }
-sub main::test_constructor { return main::MathPerl__DataStructure__Vector__test_constructor(@_, 'MathPerl::DataStructure::Vector'); }
+undef &MathPerl::DataStructure::Vector::Vector_to_string;
+*MathPerl::DataStructure::Vector::Vector_to_string = sub { return main::MathPerl__DataStructure__Vector__Vector_to_string(@_); };
+undef &MathPerl::DataStructure::Vector::test_constructor;
+*MathPerl::DataStructure::Vector::test_constructor = sub { return main::MathPerl__DataStructure__Vector__test_constructor(@_, 'MathPerl::DataStructure::Vector'); };
 
 # <<< C++ LOADER >>>
 #our void::method $cpp_load = sub {
@@ -44,9 +45,9 @@ sub cpp_load {
         my $eval_string = <<"EOF";
 package main;
 use RPerl::Inline;
-BEGIN { RPerl::diag("[[[ BEGIN 'use Inline' STAGE for '/home/wbraswell/austin_perl_mongers/mathperl/mathperl-latest/lib/MathPerl/DataStructure/Vector.cpp' ]]]\n" x 1); }
-use Inline (CPP => '/home/wbraswell/austin_perl_mongers/mathperl/mathperl-latest/lib/MathPerl/DataStructure/Vector.cpp', \%RPerl::Inline::ARGS);
-RPerl::diag("[[[ END 'use Inline' STAGE for '/home/wbraswell/austin_perl_mongers/mathperl/mathperl-latest/lib/MathPerl/DataStructure/Vector.cpp' ]]]\n" x 1);
+BEGIN { RPerl::diag("[[[ BEGIN 'use Inline' STAGE for 'MathPerl/DataStructure/Vector.cpp' ]]]\n" x 1); }
+use Inline (CPP => '$main::INCLUDE_PATH' . '/MathPerl/DataStructure/Vector.cpp', \%RPerl::Inline::ARGS);
+RPerl::diag("[[[ END 'use Inline' STAGE for 'MathPerl/DataStructure/Vector.cpp' ]]]\n" x 1);
 1;
 EOF
 
@@ -70,6 +71,25 @@ INIT {
 }
 use warnings;
 
+1;    # end of package
+
+
+# [[[ EXPORT SUBROUTINES TO main:: NAMESPACE ]]]
+
+# [[[ HEADER ]]]
+package main;
+use strict;
+use warnings;
+use RPerl::AfterSubclass;
+our $VERSION = 0.001_000;
+
+# [[[ SUBROUTINES ]]]
+
+# <<< OO PROPERTIES, SUBROUTINES, SHIMS >>>
+undef &main::Vector_to_string;
+*main::Vector_to_string = sub { return main::MathPerl__DataStructure__Vector__Vector_to_string(@_); };
+undef &main::test_constructor;
+*main::test_constructor = sub { return main::MathPerl__DataStructure__Vector__test_constructor(@_, 'MathPerl::DataStructure::Vector'); };
 1;    # end of package
 
 

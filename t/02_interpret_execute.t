@@ -8,7 +8,7 @@ BEGIN { $ENV{RPERL_WARNINGS} = 0; }
 use strict;
 use warnings;
 use RPerl::AfterSubclass;
-our $VERSION = 0.001_000;
+our $VERSION = 0.002_000;
 
 # [[[ CRITICS ]]]
 ## no critic qw(ProhibitUselessNoCritic ProhibitMagicNumbers RequireCheckedSyscalls)  # USER DEFAULT 1: allow numeric values & print operator
@@ -74,6 +74,13 @@ find(
     },
     $MathPerl::INCLUDE_PATH . '/MathPerl/Test'
 );
+
+# trim unnecessary (and possibly problematic) absolute paths from input file names
+# must be done outside find() to properly utilize getcwd()
+foreach my string $test_file_key (sort keys %{$test_files}) {
+    $test_files->{RPerl::Compiler::post_processor__absolute_path_delete($test_file_key)} = $test_files->{$test_file_key};
+    delete $test_files->{$test_file_key};
+}
 
 #RPerl::diag( 'in 03_interpret_execute.t, have $test_files = ' . "\n" . Dumper($test_files) . "\n" );
 

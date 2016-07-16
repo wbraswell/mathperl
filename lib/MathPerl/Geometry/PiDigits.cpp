@@ -1,0 +1,92 @@
+// [[[ HEADER ]]]
+using std::cout;  using std::cerr;  using std::endl;
+
+#ifndef __CPP__INCLUDED__MathPerl__Geometry__PiDigits_cpp
+#define __CPP__INCLUDED__MathPerl__Geometry__PiDigits_cpp 0.002_100
+
+// [[[ INCLUDES ]]]
+#include "MathPerl/Geometry/PiDigits.h"
+
+# ifdef __PERL__TYPES
+
+Purposefully_die_from_a_compile-time_error,_due_to____PERL__TYPES_being_defined.__We_need_to_define_only___CPP__TYPES_in_this_file!
+
+# elif defined __CPP__TYPES
+
+// [[[<<< BEGIN CPP TYPES >>>]]]
+// [[[<<< BEGIN CPP TYPES >>>]]]
+// [[[<<< BEGIN CPP TYPES >>>]]]
+
+// [[[ SUBROUTINES & OO METHODS ]]]
+
+unsigned_integer MathPerl__Geometry__PiDigits__extract_digit(unsigned_integer nth, gmp_integer tmp1, gmp_integer tmp2, gmp_integer acc, gmp_integer den, gmp_integer num) {
+    gmp_mul_unsigned_integer(tmp1, num, nth);
+    gmp_add(tmp2, tmp1, acc);
+    gmp_div_truncate_quotient(tmp1, tmp2, den);
+    return gmp_get_unsigned_integer(tmp1);
+}
+
+void MathPerl__Geometry__PiDigits__eliminate_digit(unsigned_integer d, gmp_integer acc, gmp_integer den, gmp_integer num) {
+    gmp_sub_mul_unsigned_integer(acc, den, d);
+    gmp_mul_unsigned_integer(acc, acc, 10);
+    gmp_mul_unsigned_integer(num, num, 10);
+}
+
+void MathPerl__Geometry__PiDigits__next_term(unsigned_integer k, gmp_integer acc, gmp_integer den, gmp_integer num) {
+    unsigned_integer k2 = k * integer_to_unsigned_integer(2) + integer_to_unsigned_integer(1);
+    gmp_add_mul_unsigned_integer(acc, num, integer_to_unsigned_integer(2));
+    gmp_mul_unsigned_integer(acc, acc, k2);
+    gmp_mul_unsigned_integer(den, den, k2);
+    gmp_mul_unsigned_integer(num, num, k);
+}
+
+void MathPerl__Geometry__PiDigits__display_pi_digits(integer n) {
+    unsigned_integer i;
+    gmp_integer tmp1;
+    gmp_integer tmp2;
+    gmp_integer acc;
+    gmp_integer den;
+    gmp_integer num;
+    unsigned_integer d;
+    unsigned_integer k;
+    gmp_init(tmp1);
+    gmp_init(tmp2);
+    gmp_init_set_unsigned_integer(acc, 0);
+    gmp_init_set_unsigned_integer(den, 1);
+    gmp_init_set_unsigned_integer(num, 1);
+    k = 0;
+    for ( i = 0; i < n; i = i ) {
+        MAIN_LOOP_REDO: 1;
+        k = k + 1;
+        next_term(k, acc, den, num);
+        if ( gmp_cmp(num, acc) > 0 ) {
+            continue;
+        }
+        d = extract_digit(3, tmp1, tmp2, acc, den, num);
+        if ( d != extract_digit(4, tmp1, tmp2, acc, den, num) ) {
+            continue;
+        }
+        print d;
+        i = i + 1;
+        if ( (i % 10) == 0 ) {
+            print "\t:" << integer_to_string(i) << endl;
+        }
+        eliminate_digit(d, acc, den, num);
+        MAIN_LOOP_NEXT: 1;
+    }
+    MAIN_LOOP_LAST: 1;
+}
+
+// [[[<<< END CPP TYPES >>>]]]
+// [[[<<< END CPP TYPES >>>]]]
+// [[[<<< END CPP TYPES >>>]]]
+
+# else
+
+Purposefully_die_from_a_compile-time_error,_due_to_neither___PERL__TYPES_nor___CPP__TYPES_being_defined.__We_need_to_define_only___CPP__TYPES_in_this_file!
+
+# endif
+
+#endif
+
+// end of class

@@ -1,4 +1,4 @@
-#!/usr/bin/env perl
+#!/usr/bin/perl
 
 # [[[ PREPROCESSOR ]]]
 # <<< EXECUTE_SUCCESS: '[0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, ],' >>>
@@ -32,9 +32,9 @@ my integer $x_pixel_count = 16;
 my integer $y_pixel_count = 12;
 my integer $iterations_max = 300;
 
-my integer_arrayref_arrayref $set;
-$set = julia_escape_time(
-    -0.7, 0.270_15, 
+my integer_arrayref_arrayref $julia_set;
+$julia_set = julia_escape_time(
+    -0.7, 0.270_15,
     $x_pixel_count, $y_pixel_count, $iterations_max,
     MathPerl::Fractal::Julia::X_SCALE_MIN(),
     MathPerl::Fractal::Julia::X_SCALE_MAX(),
@@ -43,7 +43,7 @@ $set = julia_escape_time(
 );
 
 print '[' . "\n";
-foreach my integer_arrayref $row ( @{$set} ) {
+foreach my integer_arrayref $row ( @{$julia_set} ) {
     print '    [';
     foreach my integer $pixel ( @{$row} ) {
         print $pixel . ', ';

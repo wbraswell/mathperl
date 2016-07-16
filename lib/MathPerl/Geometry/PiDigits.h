@@ -1,0 +1,69 @@
+// [[[ HEADER ]]]
+using std::cout;  using std::cerr;  using std::endl;
+
+#ifndef __CPP__INCLUDED__MathPerl__Geometry__PiDigits_h
+#define __CPP__INCLUDED__MathPerl__Geometry__PiDigits_h 0.002_100
+
+// [[[ INCLUDES & OO INHERITANCE INCLUDES ]]]
+#include <RPerl.cpp>  // -> RPerl.h -> (rperltypes_mode.h; rperltypes.h; HelperFunctions.cpp)
+#include <rperlgmp.h>
+#include "MathPerl/Algorithm.cpp"
+
+# ifdef __PERL__TYPES
+
+Purposefully_die_from_a_compile-time_error,_due_to____PERL__TYPES_being_defined.__We_need_to_define_only___CPP__TYPES_in_this_file!
+
+# elif defined __CPP__TYPES
+
+// [[[<<< BEGIN CPP TYPES >>>]]]
+// [[[<<< BEGIN CPP TYPES >>>]]]
+// [[[<<< BEGIN CPP TYPES >>>]]]
+
+// [[[ OO INHERITANCE ]]]
+class MathPerl__Geometry__PiDigits : public MathPerl__Algorithm {
+public:
+    // [[[ OO METHODS ]]]
+
+    // <<< CONSTRUCTOR & DESTRUCTOR >>>
+    MathPerl__Geometry__PiDigits() {}
+    ~MathPerl__Geometry__PiDigits() {}
+
+    // <<< CLASS NAME REPORTER >>>
+    virtual string myclassname() { return (const string) "MathPerl::Geometry::PiDigits"; }
+};  // end of class
+
+// [[[ OO SUBCLASSES ]]]
+#define MathPerl__Geometry__PiDigits_rawptr MathPerl__Geometry__PiDigits*
+typedef std::unique_ptr<MathPerl__Geometry__PiDigits> MathPerl__Geometry__PiDigits_ptr;
+typedef std::vector<MathPerl__Geometry__PiDigits_ptr> MathPerl__Geometry__PiDigits_arrayref;
+typedef std::unordered_map<string, MathPerl__Geometry__PiDigits_ptr> MathPerl__Geometry__PiDigits_hashref;
+typedef std::unordered_map<string, MathPerl__Geometry__PiDigits_ptr>::iterator MathPerl__Geometry__PiDigits_hashref_iterator;
+
+// [[[ SUBROUTINES ]]]
+unsigned_integer MathPerl__Geometry__PiDigits__extract_digit(unsigned_integer nth, gmp_integer tmp1, gmp_integer tmp2, gmp_integer acc, gmp_integer den, gmp_integer num);
+void MathPerl__Geometry__PiDigits__eliminate_digit(unsigned_integer d, gmp_integer acc, gmp_integer den, gmp_integer num);
+void MathPerl__Geometry__PiDigits__next_term(unsigned_integer k, gmp_integer acc, gmp_integer den, gmp_integer num);
+void MathPerl__Geometry__PiDigits__display_pi_digits(integer n);
+
+// <<< SHIM MACROS >>>
+#define extract_digit(nth, tmp1, tmp2, acc, den, num) MathPerl__Geometry__PiDigits__extract_digit(nth, tmp1, tmp2, acc, den, num)
+#define eliminate_digit(d, acc, den, num) MathPerl__Geometry__PiDigits__eliminate_digit(d, acc, den, num)
+#define next_term(k, acc, den, num) MathPerl__Geometry__PiDigits__next_term(k, acc, den, num)
+#define display_pi_digits(n) MathPerl__Geometry__PiDigits__display_pi_digits(n)
+
+// <<< OPERATIONS & DATA TYPES REPORTER >>>
+integer MathPerl__Geometry__PiDigits__MODE_ID() { return 2; }  // CPPOPS_CPPTYPES is 2
+
+// [[[<<< END CPP TYPES >>>]]]
+// [[[<<< END CPP TYPES >>>]]]
+// [[[<<< END CPP TYPES >>>]]]
+
+# else
+
+Purposefully_die_from_a_compile-time_error,_due_to_neither___PERL__TYPES_nor___CPP__TYPES_being_defined.__We_need_to_define_only___CPP__TYPES_in_this_file!
+
+# endif
+
+#endif
+
+// end of class

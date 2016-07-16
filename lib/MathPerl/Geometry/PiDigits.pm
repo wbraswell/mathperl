@@ -1,5 +1,6 @@
 # [[[ HEADER ]]]
 use RPerl;
+
 package MathPerl::Geometry::PiDigits;
 use strict;
 use warnings;
@@ -50,9 +51,9 @@ our void $display_pi_digits = sub {
     ( my integer $n ) = @_;
     my gmp_integer $tmp1 = gmp_integer->new();
     my gmp_integer $tmp2 = gmp_integer->new();
-    my gmp_integer $acc = gmp_integer->new();
-    my gmp_integer $den = gmp_integer->new();
-    my gmp_integer $num = gmp_integer->new();
+    my gmp_integer $acc  = gmp_integer->new();
+    my gmp_integer $den  = gmp_integer->new();
+    my gmp_integer $num  = gmp_integer->new();
     my unsigned_integer $d;
     my unsigned_integer $k;
 
@@ -63,18 +64,24 @@ our void $display_pi_digits = sub {
     gmp_init_set_unsigned_integer( $num, 1 );
 
     $k = 0;
-    MAIN_LOOP:
+MAIN_LOOP:
     for ( my unsigned_integer $i = 0; $i < $n; $i = $i ) {
         $k = $k + 1;
         next_term( $k, $acc, $den, $num );
-        if ( gmp_cmp( $num, $acc ) > 0 ) { next; }
+        if ( gmp_cmp( $num, $acc ) > 0 ) {
+            next;
+        }
 
         $d = extract_digit( 3, $tmp1, $tmp2, $acc, $den, $num );
-        if ( $d != extract_digit( 4, $tmp1, $tmp2, $acc, $den, $num ) ) { next; }
+        if ( $d != extract_digit( 4, $tmp1, $tmp2, $acc, $den, $num ) ) {
+            next;
+        }
 
         print $d;
         $i = $i + 1;
-        if ( ( $i % 10 ) == 0 ) { print "\t:", integer_to_string($i), "\n"; }
+        if ( ( $i % 10 ) == 0 ) {
+            print "\t:", integer_to_string($i), "\n";
+        }
         eliminate_digit( $d, $acc, $den, $num );
     }
 };

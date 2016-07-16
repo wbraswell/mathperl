@@ -1,4 +1,4 @@
-#!/usr/bin/env perl
+#!/usr/bin/perl
 
 # [[[ PREPROCESSOR ]]]
 # <<< EXECUTE_SUCCESS: '[1, 1, 1, 1, 2, 3, 3, 3, 3, 4, 5, 9, 4, 3, 2, 2, ],' >>>
@@ -32,17 +32,17 @@ my integer $x_pixel_count = 16;
 my integer $y_pixel_count = 12;
 my integer $iterations_max = 300;
 
-my integer_arrayref_arrayref $set;
+my integer_arrayref_arrayref $mandelbrot_set;
 my number $x_scaling_factor = ( MathPerl::Fractal::Mandelbrot::X_SCALE_MAX() - MathPerl::Fractal::Mandelbrot::X_SCALE_MIN() ) / $x_pixel_count;
 my number $y_scaling_factor = ( MathPerl::Fractal::Mandelbrot::Y_SCALE_MAX() - MathPerl::Fractal::Mandelbrot::Y_SCALE_MIN() ) / $y_pixel_count;
-$set = mandelbrot_escape_time(
+$mandelbrot_set = mandelbrot_escape_time(
     $x_scaling_factor, $y_scaling_factor, $x_pixel_count, $y_pixel_count, $iterations_max,
     MathPerl::Fractal::Mandelbrot::X_SCALE_MIN(), MathPerl::Fractal::Mandelbrot::X_SCALE_MAX(),
     MathPerl::Fractal::Mandelbrot::Y_SCALE_MIN(), MathPerl::Fractal::Mandelbrot::Y_SCALE_MAX(), 0
 );
 
 print '[' . "\n";
-foreach my integer_arrayref $row ( @{$set} ) {
+foreach my integer_arrayref $row ( @{$mandelbrot_set} ) {
     print '    [';
     foreach my integer $pixel ( @{$row} ) {
         print $pixel . ', ';

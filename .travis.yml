@@ -1,5 +1,5 @@
 language: perl
-# v0.002_100
+# v0.003_000
 perl:
 # NEED ANSWER, CORRELATION #rp00: is RPerl truly incompatible with Perl v5.8 and earlier?
 # Perl v5.8 causes $CPP_LINKED global symbol errors, currently disabled
@@ -34,6 +34,19 @@ install:
 - sudo apt-get install -qq g++-4.8
 - sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-4.8 90
 - sudo apt-get install libgmp-dev
+# begin Pluto PolyCC
+- sudo apt-get install texinfo
+- wget https://github.com/wbraswell/pluto-mirror/raw/master/backup/pluto-0.11.4.tar.gz
+- tar -xzvf pluto-0.11.4.tar.gz
+- cd pluto-0.11.4/
+- ./configure
+- make
+#- make test  # skip Pluto PolyCC tests, takes a long time, keep Pluto PolyCC testing in RPerl repo
+- sudo make install
+- cd ..
+# end Pluto PolyCC
+- sudo apt-get install curl
+- sudo apt-get install astyle
 
 before_script:
 # MODIFY FOLLOWING LINE TO ENABLE TEST_VERBOSE STDOUT DURING `make test`
@@ -48,7 +61,7 @@ before_script:
     - tar -xzvf rperl-master.tar.gz
     - cd rperl-master
     - cpanm --installdeps --notest .
-#    - make test  # skip RPerl tests, will fail w/out full RPerl prerequisites installed; will take too long either way, keep RPerl testing in RPerl repo
+#    - make test  # skip RPerl tests, takes a long time, keep RPerl testing in RPerl repo
     - make install
     - cd ..
     

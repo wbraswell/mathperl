@@ -1,5 +1,5 @@
 language: perl
-# v0.004_000
+# v0.005_000
 perl:
 # NEED ANSWER, CORRELATION #rp00: is RPerl truly incompatible with Perl v5.8 and earlier?
 # Perl v5.8 causes $CPP_LINKED global symbol errors, currently disabled
@@ -35,7 +35,7 @@ install:
 - sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-4.8 90
 - sudo apt-get install libgmp-dev
 
-# TMP DISABLE
+# NEED RE-ENABLE: when parallel tests are created
 # begin Pluto PolyCC
 #- sudo apt-get install texinfo
 #- wget https://github.com/wbraswell/pluto-mirror/raw/master/backup/pluto-0.11.4.tar.gz
@@ -59,12 +59,14 @@ before_script:
 # UNCOMMENT FOLLOWING LINE FOR DEV VERSIONS OF MODULES, which travis can't get from Makefile.PL
 #  - cpanm -n INGY/Inline-C-0.62_03.tar.gz
 
-# UNCOMMENT FOLLOWING LINES FOR DEV VERSIONS OF RPERL
+# UNCOMMENT FOLLOWING LINES FOR DEV VERSIONS OF RPERL FROM GITHUB
     - export PWD_SAVED=$PWD
+    - echo Before RPerl dev install, saved current directory $PWD_SAVED
     - cd /tmp
     - wget https://github.com/wbraswell/rperl/archive/master.tar.gz -O rperl-master.tar.gz
     - tar -xzvf rperl-master.tar.gz
     - cd rperl-master
+    - perl Makefile.PL
     - cpanm --installdeps --notest .
 #    - make test  # skip RPerl tests, takes a long time, keep RPerl testing in RPerl repo
     - make install
@@ -72,6 +74,7 @@ before_script:
     - unset PWD_SAVED
     
 # DEV NOTE, CORRELATION #rp11: following line was not necessary until before_install & install sections added
+# install any additional CPAN requirements which are not already installed
     - cpanm --quiet --installdeps --notest .
 
 # replace default build command "perl Makefile.PL && make test"

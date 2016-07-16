@@ -10,7 +10,7 @@ BEGIN { $ENV{RPERL_WARNINGS} = 0; }
 use strict;
 use warnings;
 use RPerl::AfterSubclass;
-our $VERSION = 0.012_000;
+our $VERSION = 0.013_000;
 
 # [[[ CRITICS ]]]
 ## no critic qw(ProhibitUselessNoCritic ProhibitMagicNumbers RequireCheckedSyscalls)  # USER DEFAULT 1: allow numeric values & print operator
@@ -191,7 +191,7 @@ for my $mode_id ( 2 , 0 ) {    # CPPOPS_CPPTYPES, PERLOPS_PERLTYPES; DEV NOTE: r
     TEST_FILE_LOOP: foreach my $test_file ( sort keys %{$test_files} ) {
         $reference_file_name_group = {};
 #        RPerl::diag( 'in 13_generate.t, top of secondary runloop, have $test_file = ' . $test_file . "\n" );
-        $number_of_test_files = scalar keys %{$test_files};
+#        $number_of_test_files = scalar keys %{$test_files};
 #        RPerl::diag( 'in 13_generate.t, top of secondary runloop, have $number_of_test_files = ' . $number_of_test_files . "\n" );
 
         $modes = {

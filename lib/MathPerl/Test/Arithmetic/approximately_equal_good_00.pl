@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 
-# DEV NOTE: disable tests which may return different results based on floating-point accuracy of operating system, Perl, C compiler, etc.
+# NEED UPGRADE: re-enable tests which may return different results based on floating-point accuracy of operating system, Perl, C compiler, etc.
 
 # [[[ PREPROCESSOR ]]]
 # <<< EXECUTE_SUCCESS: '1' >>>

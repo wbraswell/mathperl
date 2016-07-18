@@ -41,12 +41,13 @@ package main;
 use RPerl::Inline;
 BEGIN { RPerl::diag("[[[ BEGIN 'use Inline' STAGE for 'MathPerl/Operation.cpp' ]]]\n" x 1); }
 use Inline (CPP => '$main::INCLUDE_PATH' . '/MathPerl/Operation.cpp', \%RPerl::Inline::ARGS);
-RPerl::diag("[[[ END 'use Inline' STAGE for 'MathPerl/Operation.cpp' ]]]\n" x 1);
+RPerl::diag("[[[ END   'use Inline' STAGE for 'MathPerl/Operation.cpp' ]]]\n" x 1);
 1;
 EOF
 
-        $RPerl::Inline::ARGS{ccflagsex} = $RPerl::Inline::CCFLAGSEX . $RPerl::TYPES_CCFLAG;
-        $RPerl::Inline::ARGS{cppflags}  = $RPerl::TYPES_CCFLAG;
+        $RPerl::Inline::ARGS{ccflagsex}
+            = $RPerl::Inline::CCFLAGSEX . $RPerl::TYPES_CCFLAG . rperltypes::type_integer_native_ccflag() . rperltypes::type_number_native_ccflag();
+        $RPerl::Inline::ARGS{cppflags} = $RPerl::TYPES_CCFLAG . rperltypes::type_integer_native_ccflag() . rperltypes::type_number_native_ccflag();
 
 #RPerl::diag('in MathPerl::Operation::cpp_load(), CPP not yet loaded, about to call eval() on $eval_string =' . "\n" . '<<< BEGIN EVAL STRING>>>' . "\n" . $eval_string . '<<< END EVAL STRING >>>' . "\n");
 

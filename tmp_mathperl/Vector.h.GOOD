@@ -5,7 +5,7 @@ using std::cout;  using std::cerr;  using std::endl;
 #define __CPP__INCLUDED__MathPerl__DataStructure__Vector_h 0.001_000
 
 // [[[ INCLUDES & OO INHERITANCE INCLUDES ]]]
-#include <RPerl.cpp>  // -> RPerl.h -> (rperltypes_mode.h; rperltypes.h; HelperFunctions.cpp)
+#include <RPerl.cpp>  // -> RPerl.h -> (rperltypes_mode.h; rperloperations.h; rperltypes.h; HelperFunctions.cpp)
 #include "MathPerl/DataStructure.cpp"
 
 # ifdef __PERL__TYPES
@@ -83,7 +83,7 @@ using std::cout;  using std::cerr;  using std::endl;
 #define __CPP__INCLUDED__Vector_h 0.001_000
 
 // [[[ INCLUDES & OO INHERITANCE INCLUDES ]]]
-#include <RPerl.cpp>  // -> RPerl.h -> (rperltypes_mode.h; rperltypes.h; HelperFunctions.cpp)
+#include <RPerl.cpp>  // -> RPerl.h -> (rperltypes_mode.h; rperloperations.h; rperltypes.h; HelperFunctions.cpp)
 
 # ifdef __PERL__TYPES
 

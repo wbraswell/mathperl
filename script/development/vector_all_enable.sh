@@ -11,6 +11,6 @@ mv ./lib/MathPerl/DataStructure/Vector.pmc.DISABLED ./lib/MathPerl/DataStructure
 mv ./lib/MathPerl/DataStructure/Vector.cpp.DISABLED ./lib/MathPerl/DataStructure/Vector.cpp 
 mv ./lib/MathPerl/DataStructure/Vector.h.DISABLED ./lib/MathPerl/DataStructure/Vector.h 
 
-mv ./lib/MathPerl/DataStructure.pmc.DISABLED ./lib/MathPerl/DataStructure.pmc 
 
-mv ./lib/MathPerl/Operation.pmc.DISABLED ./lib/MathPerl/Operation.pmc 
+mv ./lib/MathPerl/DataStructure.pmc.DISABLED ./lib/MathPerl/DataStructure.pmc
+mv ./lib/MathPerl/Operation.pmc.DISABLED ./lib/MathPerl/Operation.pmc

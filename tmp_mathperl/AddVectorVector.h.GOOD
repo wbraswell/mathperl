@@ -5,7 +5,7 @@ using std::cout;  using std::cerr;  using std::endl;
 #define __CPP__INCLUDED__MathPerl__LinearAlgebra__AddVectorVector_h 0.002_000
 
 // [[[ INCLUDES & OO INHERITANCE INCLUDES ]]]
-#include <RPerl.cpp>  // -> RPerl.h -> (rperltypes_mode.h; rperltypes.h; HelperFunctions.cpp)
+#include <RPerl.cpp>  // -> RPerl.h -> (rperltypes_mode.h; rperloperations.h; rperltypes.h; HelperFunctions.cpp)
 #include "MathPerl/Operation.cpp"
 #include "MathPerl/DataStructure/Vector.cpp"
 //#include "MathPerl/DataStructure/VectorBound.cpp"

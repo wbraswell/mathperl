@@ -1,13 +1,14 @@
 #!/usr/bin/perl
 
 # [[[ PREPROCESSOR ]]]
-# <<< EXECUTE_ERROR: 'foobar' >>>
+# <<< EXECUTE_ERROR: 'ERROR EMPLAADVV00' >>>
+# <<< EXECUTE_ERROR: 'Dimensionality mismatch, input Vector 0 raw number_arrayref contains 5 elements and input Vector 1 raw number_arrayref contains 4 elements, dying' >>>
 
 # [[[ HEADER ]]]
 use RPerl;
 use strict;
 use warnings;
-our $VERSION = 0.002_000;
+our $VERSION = 0.003_000;
 
 # [[[ CRITICS ]]]
 ## no critic qw(ProhibitUselessNoCritic ProhibitMagicNumbers RequireCheckedSyscalls) # USER DEFAULT 1: allow numeric values & print operator

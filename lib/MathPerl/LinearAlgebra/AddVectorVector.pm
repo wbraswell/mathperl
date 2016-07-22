@@ -39,12 +39,20 @@ our number_arrayref $add_vector_vector_raw = sub {
     my integer $input_0_dimensionality = scalar @{$input_0};
     my integer $input_1_dimensionality = scalar @{$input_1};
 
-    if ($input_0_dimensionality != $input_0_dimensionality) {
-        die 'ERROR EMPLAADVV00: Dimensionality mismatch, input Vector 0 raw number_arrayref contains ' . $input_0_dimensionality .
-            ' elements and input Vector 1 raw number_arrayref contains ' . $input_1_dimensionality . ' elements, dying' . "\n";
+#    print 'in AddVectorVector.pm MathPerl__LinearAlgebra__AddVectorVector__add_vector_vector_raw(), have input_0_dimensionality = ', $input_0_dimensionality, "\n";
+#    print 'in AddVectorVector.pm MathPerl__LinearAlgebra__AddVectorVector__add_vector_vector_raw(), have input_1_dimensionality = ', $input_1_dimensionality, "\n";
+
+    if ($input_0_dimensionality != $input_1_dimensionality) {
+        die 'ERROR EMPLAADVV00: Dimensionality mismatch, input Vector 0 raw number_arrayref contains ', $input_0_dimensionality,
+            ' elements and input Vector 1 raw number_arrayref contains ', $input_1_dimensionality, ' elements, dying', "\n";
     }
 
+# START HERE: do not generate C++ empty array in variable declaration below
+# START HERE: do not generate C++ empty array in variable declaration below
+# START HERE: do not generate C++ empty array in variable declaration below
+
     my number_arrayref $return_value = [];
+    $return_value->[$input_0_dimensionality - 1] = undef;  # arrayref resize
 
     for my integer $i (0 .. ($input_0_dimensionality - 1)) {
         $return_value->[$i] = $input_0->[$i] + $input_1->[$i];

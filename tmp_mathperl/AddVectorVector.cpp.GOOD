@@ -29,14 +29,11 @@ number_arrayref MathPerl__LinearAlgebra__AddVectorVector__add_vector_vector_raw(
     integer i;
     integer input_0_dimensionality = input_0.size();
     integer input_1_dimensionality = input_1.size();
-
     if ( input_0_dimensionality != input_1_dimensionality ) {
         Die( "ERROR EMPLAADVV00: Dimensionality mismatch, input Vector 0 raw number_arrayref contains ", input_0_dimensionality, " elements and input Vector 1 raw number_arrayref contains ", input_1_dimensionality, " elements, dying", "\n" );
     }
-
     number_arrayref return_value;
     return_value.resize(input_0_dimensionality);
-
     for ( i = 0; i < input_0_dimensionality; i++ ) {
         return_value[i] = input_0[i] + input_1[i];
     }

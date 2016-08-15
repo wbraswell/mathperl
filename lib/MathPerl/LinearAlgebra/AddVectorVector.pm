@@ -47,10 +47,6 @@ our number_arrayref $add_vector_vector_raw = sub {
             ' elements and input Vector 1 raw number_arrayref contains ', $input_1_dimensionality, ' elements, dying', "\n";
     }
 
-# START HERE: do not generate C++ empty array in variable declaration below
-# START HERE: do not generate C++ empty array in variable declaration below
-# START HERE: do not generate C++ empty array in variable declaration below
-
     my number_arrayref $return_value = [];
     $return_value->[$input_0_dimensionality - 1] = undef;  # arrayref resize
 

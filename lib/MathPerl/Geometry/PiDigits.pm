@@ -24,7 +24,7 @@ our hashref $properties = {};
 # [[[ SUBROUTINES & OO METHODS ]]]
 
 our unsigned_integer $extract_digit = sub {
-    ( my unsigned_integer $nth, my gmp_integer $tmp1, my gmp_integer $tmp2, my gmp_integer $acc, my gmp_integer $den, my gmp_integer $num ) = @_;
+    ( my unsigned_integer $nth, my gmp_integer $tmp1, my gmp_integer $tmp2, my gmp_integer $acc, my gmp_integer $den, my gmp_integer $num ) = @ARG;
     gmp_mul_unsigned_integer( $tmp1, $num, $nth );
     gmp_add( $tmp2, $tmp1, $acc );
     gmp_div_truncate_quotient( $tmp1, $tmp2, $den );
@@ -32,14 +32,14 @@ our unsigned_integer $extract_digit = sub {
 };
 
 our void $eliminate_digit = sub {
-    ( my unsigned_integer $d, my gmp_integer $acc, my gmp_integer $den, my gmp_integer $num ) = @_;
+    ( my unsigned_integer $d, my gmp_integer $acc, my gmp_integer $den, my gmp_integer $num ) = @ARG;
     gmp_sub_mul_unsigned_integer( $acc, $den, $d );
     gmp_mul_unsigned_integer( $acc, $acc, 10 );
     gmp_mul_unsigned_integer( $num, $num, 10 );
 };
 
 our void $next_term = sub {
-    ( my unsigned_integer $k, my gmp_integer $acc, my gmp_integer $den, my gmp_integer $num ) = @_;
+    ( my unsigned_integer $k, my gmp_integer $acc, my gmp_integer $den, my gmp_integer $num ) = @ARG;
     my unsigned_integer $k2 = $k * integer_to_unsigned_integer(2) + integer_to_unsigned_integer(1);
     gmp_add_mul_unsigned_integer( $acc, $num, integer_to_unsigned_integer(2) );
     gmp_mul_unsigned_integer( $acc, $acc, $k2 );
@@ -48,7 +48,7 @@ our void $next_term = sub {
 };
 
 our void $display_pi_digits = sub {
-    ( my integer $n ) = @_;
+    ( my integer $n ) = @ARG;
     my gmp_integer $tmp1 = gmp_integer->new();
     my gmp_integer $tmp2 = gmp_integer->new();
     my gmp_integer $acc  = gmp_integer->new();

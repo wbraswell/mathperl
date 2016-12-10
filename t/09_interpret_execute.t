@@ -296,7 +296,7 @@ foreach my $test_file ( sort keys %{$test_files} ) {
 }
 
 sub success_match {
-    (my string $test_file, my string_arrayref $test_file_successes, my string $stdout_generated_lines) = @_;
+    (my string $test_file, my string_arrayref $test_file_successes, my string $stdout_generated_lines) = @ARG;
 #    $RPerl::DEBUG   = 0;
 #    $RPerl::VERBOSE = 0;
 

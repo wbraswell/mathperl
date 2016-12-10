@@ -39,7 +39,7 @@ our integer_arrayref_arrayref::method $escape_time = sub {
         my number $y_min,
         my number $y_max,
         my boolean $color_invert
-    ) = @_;
+    ) = @ARG;
     return julia_escape_time( $real_c, $imaginary_c, $x_pixel_count, $y_pixel_count, $iterations_max, $x_min, $x_max, $y_min, $y_max, $color_invert );
 };
 
@@ -56,7 +56,7 @@ our integer_arrayref_arrayref $julia_escape_time = sub {
         my number $y_min,
         my number $y_max,
         my boolean $color_invert
-    ) = @_;
+    ) = @ARG;
 
 #    print 'GENERATE JULIA' . "\n";
 

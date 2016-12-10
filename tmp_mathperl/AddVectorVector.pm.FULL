@@ -33,7 +33,7 @@ our hashref $properties = {};
 our MathPerl::DataStructure::Vector3DBound $add_vector_3d_bound_vector_3d_bound = sub {
     (   my MathPerl::DataStructure::Vector3DBound $input_0,
         my MathPerl::DataStructure::Vector3DBound $input_1
-    ) = @_;
+    ) = @ARG;
 
     if (not approximately_equal($input_0->{tail_x}, $input_1->{tail_x})) {
         die 'ERROR EMPLAADVV03: Tail value mismatch, input vector 0 tail element x contains value ' . $input_0->{tail_x} .
@@ -68,7 +68,7 @@ our MathPerl::DataStructure::Vector3DBound $add_vector_3d_bound_vector_3d_bound 
 our MathPerl::DataStructure::Vector3D $add_vector3d_vector3d = sub {
     (   my MathPerl::DataStructure::Vector3D $input_0,
         my MathPerl::DataStructure::Vector3D $input_1
-    ) = @_;
+    ) = @ARG;
 
     my MathPerl::DataStructure::Vector3D $return_value = MathPerl::DataStructure::Vector3D->new();
 
@@ -82,7 +82,7 @@ our MathPerl::DataStructure::Vector3D $add_vector3d_vector3d = sub {
 our MathPerl::DataStructure::VectorBound $add_vector_bound_vector_bound = sub {
     (   my MathPerl::DataStructure::VectorBound $input_0,
         my MathPerl::DataStructure::VectorBound $input_1
-    ) = @_;
+    ) = @ARG;
 
     my integer $input_0_tail_dimensionality = scalar @{$input_0->{tail}};
     my integer $input_1_tail_dimensionality = scalar @{$input_1->{tail}};
@@ -111,7 +111,7 @@ our MathPerl::DataStructure::VectorBound $add_vector_bound_vector_bound = sub {
 our MathPerl::DataStructure::Vector $add_vector_vector = sub {
     (   my MathPerl::DataStructure::Vector $input_0,
         my MathPerl::DataStructure::Vector $input_1
-    ) = @_;
+    ) = @ARG;
     my MathPerl::DataStructure::Vector $return_value = MathPerl::DataStructure::Vector->new();
     $return_value->{head} = add_vector_vector_raw($input_0->{head}, $input_1->{head});
     return $return_value;
@@ -120,7 +120,7 @@ our MathPerl::DataStructure::Vector $add_vector_vector = sub {
 our number_arrayref $add_vector_vector_raw = sub {
     (   my number_arrayref $input_0,
         my number_arrayref $input_1
-    ) = @_;
+    ) = @ARG;
 
     my integer $input_0_dimensionality = scalar @{$input_0};
     my integer $input_1_dimensionality = scalar @{$input_1};

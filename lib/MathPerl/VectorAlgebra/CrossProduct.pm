@@ -23,7 +23,7 @@ our hashref $properties = {};
 # [[[ SUBROUTINES & OO METHODS ]]]
 
 our Vector3D $cross_product_vector3d = sub {
-    ( my Vector3D $u, my Vector3D $v ) = @_;
+    ( my Vector3D $u, my Vector3D $v ) = @ARG;
     my Vector3D $retval = Vector3D->new();
 
     # DEV NOTE: there is no concept of defined vs undefined values in C++, 
@@ -42,7 +42,7 @@ our Vector3D $cross_product_vector3d = sub {
 };
 
 our Vector3D $cross_product_vector = sub {
-    ( my Vector $u, my Vector $v ) = @_;
+    ( my Vector $u, my Vector $v ) = @ARG;
 
     # OO properties direct access mechanism
     my number_arrayref $u_head = $u->{head};

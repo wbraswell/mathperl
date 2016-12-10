@@ -21,7 +21,7 @@ our hashref $properties = { head => my number_arrayref $TYPED_head = [] };
 # [[[ SUBROUTINES & OO METHODS ]]]
 
 our MathPerl::DataStructure::Vector $test_constructor = sub {
-    ( my integer $i ) = @_;
+    ( my integer $i ) = @ARG;
     my MathPerl::DataStructure::Vector $retval = MathPerl::DataStructure::Vector->new();
     $retval->{head}->[$i - 1] = undef;  # arrayref resize
 
@@ -35,12 +35,12 @@ our MathPerl::DataStructure::Vector $test_constructor = sub {
 # [[[ STRINGIFY ]]]
 
 our string::method $To_string = sub {
-    ( my MathPerl::DataStructure::Vector $self ) = @_;
+    ( my MathPerl::DataStructure::Vector $self ) = @ARG;
     return ::number_arrayref_to_string($self->{head});
 };
 
 our string $Vector_to_string = sub {
-    ( my MathPerl::DataStructure::Vector $input_vector ) = @_;
+    ( my MathPerl::DataStructure::Vector $input_vector ) = @ARG;
     return ::number_arrayref_to_string($input_vector->{head});
 };
 

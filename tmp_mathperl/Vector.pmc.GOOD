@@ -16,9 +16,9 @@ use MathPerl::Config;
 
 # <<< OO PROPERTIES, SUBROUTINES, SHIMS >>>
 undef &MathPerl::DataStructure::Vector::Vector_to_string;
-*MathPerl::DataStructure::Vector::Vector_to_string = sub { return main::MathPerl__DataStructure__Vector__Vector_to_string(@_); };
+*MathPerl::DataStructure::Vector::Vector_to_string = sub { return main::MathPerl__DataStructure__Vector__Vector_to_string(@ARG); };
 undef &MathPerl::DataStructure::Vector::test_constructor;
-*MathPerl::DataStructure::Vector::test_constructor = sub { return main::MathPerl__DataStructure__Vector__test_constructor(@_, 'MathPerl::DataStructure::Vector'); };
+*MathPerl::DataStructure::Vector::test_constructor = sub { return main::MathPerl__DataStructure__Vector__test_constructor(@ARG, 'MathPerl::DataStructure::Vector'); };
 
 # <<< C++ LOADER >>>
 #our void::method $cpp_load = sub {
@@ -87,9 +87,9 @@ our $VERSION = 0.001_000;
 
 # <<< OO PROPERTIES, SUBROUTINES, SHIMS >>>
 undef &main::Vector_to_string;
-*main::Vector_to_string = sub { return main::MathPerl__DataStructure__Vector__Vector_to_string(@_); };
+*main::Vector_to_string = sub { return main::MathPerl__DataStructure__Vector__Vector_to_string(@ARG); };
 undef &main::test_constructor;
-*main::test_constructor = sub { return main::MathPerl__DataStructure__Vector__test_constructor(@_, 'MathPerl::DataStructure::Vector'); };
+*main::test_constructor = sub { return main::MathPerl__DataStructure__Vector__test_constructor(@ARG, 'MathPerl::DataStructure::Vector'); };
 1;    # end of package
 
 

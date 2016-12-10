@@ -21,7 +21,7 @@ our hashref $properties = {};
 our boolean $approximately_equal = sub {
     (   my number $input_0,
         my number $input_1
-    ) = @_;
+    ) = @ARG;
 
     if ((abs ($input_0 - $input_1)) <= RPerl::EPSILON()) { return 1; }
     else { return 0; }

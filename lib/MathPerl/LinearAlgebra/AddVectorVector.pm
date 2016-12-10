@@ -25,7 +25,7 @@ our hashref $properties = {};
 our MathPerl::DataStructure::Vector $add_vector_vector = sub {
     (   my MathPerl::DataStructure::Vector $input_0,
         my MathPerl::DataStructure::Vector $input_1
-    ) = @_;
+    ) = @ARG;
     my MathPerl::DataStructure::Vector $return_value = MathPerl::DataStructure::Vector->new();
     $return_value->{head} = add_vector_vector_raw($input_0->{head}, $input_1->{head});
     return $return_value;
@@ -34,7 +34,7 @@ our MathPerl::DataStructure::Vector $add_vector_vector = sub {
 our number_arrayref $add_vector_vector_raw = sub {
     (   my number_arrayref $input_0,
         my number_arrayref $input_1
-    ) = @_;
+    ) = @ARG;
 
     my integer $input_0_dimensionality = scalar @{$input_0};
     my integer $input_1_dimensionality = scalar @{$input_1};

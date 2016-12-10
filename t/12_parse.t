@@ -106,7 +106,7 @@ for my $test_file ( sort keys %{$test_files} ) {
     $test_file = RPerl::Compiler::post_processor__absolute_path_delete( $test_file );
 
     #    RPerl::diag( 'in 12_parse.t, have $test_file = ' . $test_file . "\n" );
-    ( my string $rperl_input_file_name, my string_hashref $cpp_output_file_name_group, my string_hashref $cpp_source_group, my string_hashref $modes ) = @_;
+    ( my string $rperl_input_file_name, my string_hashref $cpp_output_file_name_group, my string_hashref $cpp_source_group, my string_hashref $modes ) = @ARG;
 
     # NEED UPGRADE: enable file dependencies as in script/rperl depends_parse_generate_save_subcompile_execute()
     my $eval_return_value = eval {

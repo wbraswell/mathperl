@@ -22,19 +22,19 @@ our hashref $properties = {
 # [[[ SUBROUTINES & OO METHODS ]]]
 
 our MathPerl::DataStructure::ColorHSV $rgb_to_hsv = sub {
-    ( my MathPerl::DataStructure::ColorRGB $rgb) = @_;
+    ( my MathPerl::DataStructure::ColorRGB $rgb) = @ARG;
     return $rgb->to_hsv();
 };
 
 # OO interface wrapper
 our MathPerl::DataStructure::ColorHSV::method $to_hsv = sub {
-    ( my MathPerl::DataStructure::ColorRGB $self) = @_;
+    ( my MathPerl::DataStructure::ColorRGB $self) = @ARG;
     return rgb_raw_to_hsv( [ $self->{red}, $self->{green}, $self->{blue} ] );
 };
 
 # procedural interface wrapper
 our MathPerl::DataStructure::ColorHSV $rgb_raw_to_hsv = sub {
-    ( my number_arrayref $rgb_raw) = @_;
+    ( my number_arrayref $rgb_raw) = @ARG;
     my MathPerl::DataStructure::ColorHSV $retval = MathPerl::DataStructure::ColorHSV->new();
     my number_arrayref $retval_raw  = rgb_raw_to_hsv_raw($rgb_raw);
     $retval->{hue}   = $retval_raw->[0];
@@ -44,7 +44,7 @@ our MathPerl::DataStructure::ColorHSV $rgb_raw_to_hsv = sub {
 };
 
 our number_arrayref $rgb_raw_to_hsv_raw = sub {
-    ( my number_arrayref $rgb_raw) = @_;
+    ( my number_arrayref $rgb_raw) = @ARG;
     my number_arrayref $retval;
 
 # START HERE: complete algorithm

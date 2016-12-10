@@ -39,7 +39,7 @@ our integer_arrayref_arrayref::method $escape_time = sub {
         my number $y_min,
         my number $y_max,
         my boolean $color_invert
-    ) = @_;
+    ) = @ARG;
     return mandelbrot_escape_time( $x_scaling_factor, $y_scaling_factor, $x_pixel_count, $y_pixel_count, $iterations_max, $x_min, $x_max, $y_min, $y_max,
         $color_invert );
 };
@@ -56,7 +56,7 @@ our integer_arrayref_arrayref $mandelbrot_escape_time = sub {
         my number $y_min,
         my number $y_max,
         my boolean $color_invert
-    ) = @_;
+    ) = @ARG;
 
     #    print 'GENERATE MANDELBROT' . "\n";
 

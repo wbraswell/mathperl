@@ -26,7 +26,7 @@ our hashref $properties = {};
 # [[[ EUCLIDEAN INNER PRODUCTS ]]]
 
 our number $inner_product__vector_vector_euclidean = sub {
-    ( my number_arrayref $input_vector_1, my number_arrayref $input_vector_2 ) = @_;
+    ( my number_arrayref $input_vector_1, my number_arrayref $input_vector_2 ) = @ARG;
 
     # bound checking
     if ( ( scalar @{$input_vector_1} ) != 4 ) {
@@ -49,7 +49,7 @@ our number $inner_product__vector_vector_euclidean = sub {
 };
 
 our number_arrayref $inner_product__vector_bivector_euclidean = sub {
-    ( my number_arrayref $input_vector, my number_arrayref $input_bivector) = @_;
+    ( my number_arrayref $input_vector, my number_arrayref $input_bivector) = @ARG;
 
     # bound checking
     if ( ( scalar @{$input_vector} ) != 4 ) {
@@ -81,7 +81,7 @@ our number_arrayref $inner_product__vector_bivector_euclidean = sub {
 };
 
 our number_arrayref $inner_product__bivector_vector_euclidean = sub {
-    ( my number_arrayref $input_bivector, my number_arrayref $input_vector) = @_;
+    ( my number_arrayref $input_bivector, my number_arrayref $input_vector) = @ARG;
 
     # bound checking
     if ( ( scalar @{$input_bivector} ) != 4 ) {
@@ -106,7 +106,7 @@ our number_arrayref $inner_product__bivector_vector_euclidean = sub {
 };
 
 our number $inner_product__bivector_bivector_euclidean = sub {
-    ( my number_arrayref $input_bivector_1, my number_arrayref $input_bivector_2 ) = @_;
+    ( my number_arrayref $input_bivector_1, my number_arrayref $input_bivector_2 ) = @ARG;
 
     # bound checking
     if ( ( scalar @{$input_bivector_1} ) != 4 ) {
@@ -135,7 +135,7 @@ our number $inner_product__bivector_bivector_euclidean = sub {
 # [[[ EUCLIDEAN OUTER PRODUCTS ]]]
 
 our number_arrayref $outer_product__vector_vector_euclidean = sub {
-    ( my number_arrayref $input_vector_1, my number_arrayref $input_vector_2) = @_;
+    ( my number_arrayref $input_vector_1, my number_arrayref $input_vector_2) = @ARG;
 
     # bound checking
     if ( ( scalar @{$input_vector_1} ) != 4 ) {
@@ -167,7 +167,7 @@ our number_arrayref $outer_product__vector_vector_euclidean = sub {
 };
 
 our number $outer_product__vector_bivector_euclidean = sub {
-    ( my number_arrayref $input_vector, my number_arrayref $input_bivector) = @_;
+    ( my number_arrayref $input_vector, my number_arrayref $input_bivector) = @ARG;
 
     # bound checking
     if ( ( scalar @{$input_vector} ) != 4 ) {
@@ -192,7 +192,7 @@ our number $outer_product__vector_bivector_euclidean = sub {
 };
 
 our number $outer_product__bivector_vector_euclidean = sub {
-    ( my number_arrayref $input_bivector, my number_arrayref $input_vector) = @_;
+    ( my number_arrayref $input_bivector, my number_arrayref $input_vector) = @ARG;
 
     # bound checking
     if ( ( scalar @{$input_bivector} ) != 4 ) {
@@ -217,7 +217,7 @@ our number $outer_product__bivector_vector_euclidean = sub {
 };
 
 our number_arrayref $outer_product__bivector_bivector_euclidean = sub {
-    ( my number_arrayref $input_bivector_1, my number_arrayref $input_bivector_2) = @_;
+    ( my number_arrayref $input_bivector_1, my number_arrayref $input_bivector_2) = @ARG;
 
     # bound checking
     if ( ( scalar @{$input_bivector_1} ) != 4 ) {
@@ -246,7 +246,7 @@ our number_arrayref $outer_product__bivector_bivector_euclidean = sub {
 # [[[ MINKOWSKI INNER PRODUCTS ]]]
 
 our number $inner_product__vector_vector_minkowski = sub {
-    ( my number_arrayref $input_vector_1, my number_arrayref $input_vector_2 ) = @_;
+    ( my number_arrayref $input_vector_1, my number_arrayref $input_vector_2 ) = @ARG;
 
     # bound checking
     if ( ( scalar @{$input_vector_1} ) != 4 ) {
@@ -270,7 +270,7 @@ our number $inner_product__vector_vector_minkowski = sub {
 };
 
 our number_arrayref $inner_product__vector_bivector_minkowski = sub {
-    ( my number_arrayref $input_vector, my number_arrayref $input_bivector) = @_;
+    ( my number_arrayref $input_vector, my number_arrayref $input_bivector) = @ARG;
 
     # bound checking
     if ( ( scalar @{$input_vector} ) != 4 ) {
@@ -296,7 +296,7 @@ our number_arrayref $inner_product__vector_bivector_minkowski = sub {
 };
 
 our number_arrayref $inner_product__bivector_vector_minkowski = sub {
-    ( my number_arrayref $input_bivector, my number_arrayref $input_vector) = @_;
+    ( my number_arrayref $input_bivector, my number_arrayref $input_vector) = @ARG;
 
     # bound checking
     if ( ( scalar @{$input_bivector} ) != 6 ) {
@@ -322,7 +322,7 @@ our number_arrayref $inner_product__bivector_vector_minkowski = sub {
 };
 
 our number $inner_product__bivector_bivector_minkowski = sub {
-    ( my number_arrayref $input_bivector_1, my number_arrayref $input_bivector_2 ) = @_;
+    ( my number_arrayref $input_bivector_1, my number_arrayref $input_bivector_2 ) = @ARG;
 
     # bound checking
     if ( ( scalar @{$input_bivector_1} ) != 6 ) {
@@ -350,7 +350,7 @@ our number $inner_product__bivector_bivector_minkowski = sub {
 # [[[ MINKOWSKI MIDDLE PRODUCT ]]]
 
 our number_arrayref $middle_product__bivector_bivector_minkowski = sub {
-    ( my number_arrayref $input_bivector_1, my number_arrayref $input_bivector_2) = @_;
+    ( my number_arrayref $input_bivector_1, my number_arrayref $input_bivector_2) = @ARG;
 
     # bound checking
     if ( ( scalar @{$input_bivector_1} ) != 6 ) {
@@ -382,7 +382,7 @@ our number_arrayref $middle_product__bivector_bivector_minkowski = sub {
 # [[[ MINKOWSKI OUTER PRODUCTS ]]]
 
 our number_arrayref $outer_product__vector_vector_minkowski = sub {
-    ( my number_arrayref $input_vector_1, my number_arrayref $input_vector_2) = @_;
+    ( my number_arrayref $input_vector_1, my number_arrayref $input_vector_2) = @ARG;
 
     # bound checking
     if ( ( scalar @{$input_vector_1} ) != 4 ) {
@@ -410,7 +410,7 @@ our number_arrayref $outer_product__vector_vector_minkowski = sub {
 };
 
 our number_arrayref $outer_product__vector_bivector_minkowski = sub {
-    ( my number_arrayref $input_vector, my number_arrayref $input_bivector) = @_;
+    ( my number_arrayref $input_vector, my number_arrayref $input_bivector) = @ARG;
 
     # bound checking
     if ( ( scalar @{$input_vector} ) != 4 ) {
@@ -436,7 +436,7 @@ our number_arrayref $outer_product__vector_bivector_minkowski = sub {
 };
 
 our number $outer_product__bivector_vector_minkowski = sub {
-    ( my number_arrayref $input_bivector, my number_arrayref $input_vector) = @_;
+    ( my number_arrayref $input_bivector, my number_arrayref $input_vector) = @ARG;
 
     # bound checking
     if ( ( scalar @{$input_bivector} ) != 6 ) {
@@ -462,7 +462,7 @@ our number $outer_product__bivector_vector_minkowski = sub {
 };
 
 our number_arrayref $outer_product__bivector_bivector_minkowski = sub {
-    ( my number_arrayref $input_bivector_1, my number_arrayref $input_bivector_2) = @_;
+    ( my number_arrayref $input_bivector_1, my number_arrayref $input_bivector_2) = @ARG;
 
     # bound checking
     if ( ( scalar @{$input_bivector_1} ) != 6 ) {

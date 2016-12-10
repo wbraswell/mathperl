@@ -16,7 +16,7 @@ use MathPerl::Config;
 
 # <<< OO PROPERTIES, SUBROUTINES, SHIMS >>>
 undef &MathPerl::Arithmetic::ApproximatelyEqual::approximately_equal;
-*MathPerl::Arithmetic::ApproximatelyEqual::approximately_equal = sub { return main::MathPerl__Arithmetic__ApproximatelyEqual__approximately_equal(@_); };
+*MathPerl::Arithmetic::ApproximatelyEqual::approximately_equal = sub { return main::MathPerl__Arithmetic__ApproximatelyEqual__approximately_equal(@ARG); };
 
 # <<< C++ LOADER >>>
 #our void::method $cpp_load = sub {
@@ -86,5 +86,5 @@ our $VERSION = 0.001_000;
 
 # <<< OO PROPERTIES, SUBROUTINES, SHIMS >>>
 undef &main::approximately_equal;
-*main::approximately_equal = sub { return main::MathPerl__Arithmetic__ApproximatelyEqual__approximately_equal(@_); };
+*main::approximately_equal = sub { return main::MathPerl__Arithmetic__ApproximatelyEqual__approximately_equal(@ARG); };
 1;    # end of package

@@ -18,9 +18,9 @@ require MathPerl::Arithmetic::ApproximatelyEqual;
 
 # <<< OO PROPERTIES, SUBROUTINES, SHIMS >>>
 undef &MathPerl::LinearAlgebra::AddVectorVector::add_vector_vector;
-*MathPerl::LinearAlgebra::AddVectorVector::add_vector_vector = sub { return main::MathPerl__LinearAlgebra__AddVectorVector__add_vector_vector(@_, 'MathPerl::DataStructure::Vector'); };
+*MathPerl::LinearAlgebra::AddVectorVector::add_vector_vector = sub { return main::MathPerl__LinearAlgebra__AddVectorVector__add_vector_vector(@ARG, 'MathPerl::DataStructure::Vector'); };
 undef &MathPerl::LinearAlgebra::AddVectorVector::add_vector_vector_raw;
-*MathPerl::LinearAlgebra::AddVectorVector::add_vector_vector_raw = sub { return main::MathPerl__LinearAlgebra__AddVectorVector__add_vector_vector_raw(@_); };
+*MathPerl::LinearAlgebra::AddVectorVector::add_vector_vector_raw = sub { return main::MathPerl__LinearAlgebra__AddVectorVector__add_vector_vector_raw(@ARG); };
 
 # <<< C++ LOADER >>>
 #our void::method $cpp_load = sub {
@@ -90,8 +90,8 @@ our $VERSION = 0.001_000;
 
 # <<< OO PROPERTIES, SUBROUTINES, SHIMS >>>
 undef &main::add_vector_vector;
-*main::add_vector_vector = sub { return main::MathPerl__LinearAlgebra__AddVectorVector__add_vector_vector(@_, 'MathPerl::DataStructure::Vector'); };
+*main::add_vector_vector = sub { return main::MathPerl__LinearAlgebra__AddVectorVector__add_vector_vector(@ARG, 'MathPerl::DataStructure::Vector'); };
 undef &main::add_vector_vector_raw;
-*main::add_vector_vector_raw = sub { return main::MathPerl__LinearAlgebra__AddVectorVector__add_vector_vector_raw(@_); };
+*main::add_vector_vector_raw = sub { return main::MathPerl__LinearAlgebra__AddVectorVector__add_vector_vector_raw(@ARG); };
 
 1;    # end of package

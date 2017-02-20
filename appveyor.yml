@@ -1,4 +1,4 @@
-# v0.020_000
+# v0.023_000
 version: 1.0.{build}
 pull_requests:
   do_not_increment_build_number: false
@@ -46,15 +46,15 @@ install:
 
     perl -le "print for @INC"
 
-    echo "RPerl dev install, GitHub latest code, starting..."
+    echo RPerl dev install, GitHub latest code, starting...
 
-    set PWD_SAVED=$PWD
+    set PWD_SAVED=%CD%
 
-    echo "RPerl dev install, saved current directory $PWD_SAVED"
+    echo RPerl dev install, saved current directory %PWD_SAVED%
 
     cd ..
 
-    wget https://github.com/wbraswell/rperl/archive/master.tar.gz -O rperl-master.tar.gz
+    curl -o rperl-master.tar.gz https://codeload.github.com/wbraswell/rperl/tar.gz/master
 
     tar -xzvf rperl-master.tar.gz
 
@@ -64,19 +64,19 @@ install:
 
     cpanm --installdeps --notest .
 
-    echo "Skip RPerl tests, `make test` takes a long time, keep RPerl testing in RPerl repo"
+    echo Skip RPerl tests, `make test` takes a long time, keep RPerl testing in RPerl repo
 
     dmake install
 
-    cd $PWD_SAVED
+    chdir /d %PWD_SAVED%
 
-    unset PWD_SAVED
+    set PWD_SAVED=
 
     echo "RPerl dev install, GitHub latest code, finished!"
 
     perl Makefile.PL
 
-    cpanm --verbose --notest IO::Socket::SSL
+    cpanm --verbose --notest SDL
 
     cpanm --verbose --installdeps .
 

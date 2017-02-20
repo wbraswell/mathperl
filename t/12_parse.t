@@ -9,7 +9,7 @@ BEGIN { $ENV{RPERL_WARNINGS} = 0; }
 use strict;
 use warnings;
 use RPerl::AfterSubclass;
-our $VERSION = 0.008_000;
+our $VERSION = 0.012_000;
 
 # [[[ CRITICS ]]]
 ## no critic qw(ProhibitUselessNoCritic ProhibitMagicNumbers RequireCheckedSyscalls)  # USER DEFAULT 1: allow numeric values & print operator
@@ -26,6 +26,8 @@ use Test::More;
 use Test::Exception;
 use File::Find qw(find);
 use English;  # $EVAL_ERROR not defined after moving RPerl::* into lives_and() tests in BEGIN block below
+use Cwd;
+use File::Spec;
 
 # [[[ CONSTANTS ]]]
 use constant PATH_TESTS => my string $TYPED_PATH_TESTS = $MathPerl::INCLUDE_PATH . '/MathPerl/Test';
@@ -50,11 +52,24 @@ BEGIN {
 #my integer $number_of_tests_run = 4;  # initialize to 4 for use_ok() calls in BEGIN block above
 
 my $test_files = {};    # string_hashref
+
+# save current directory for file checks, because File::Find changes directory;
+# use File::Spec for MS Windows support, etc.
+my $current_working_directory = getcwd;
+(my $volume, my $directories, my $dummy_file) = File::Spec->splitpath( $current_working_directory, 1 );  # no_file = 1
+
 find(
     sub {
         my $file = $File::Find::name;
 
         #        RPerl::diag('in 12_parse.t, have $file = ' . $file . "\n");
+
+        if (defined $ARGV[0]) {
+            # restore saved path, because File::Find changes directories while searching for files
+            my $file_full_path = File::Spec->catpath( $volume, $directories, $file );
+            RPerl::diag('in 09_interpret_execute.t, have $file_full_path = ' . $file_full_path . "\n");
+            $file = $file_full_path;
+        }
 
 #        if ( $file !~ m/.*Header\/program_00_bad_00.*[.]p[lm]$/xms ) { # TEMP DEBUGGING, ONLY FIND CERTAIN FILES
 #        if ( $file !~ m/.*Operator12CompareEqualNotEqual\/\w+[.]p[lm]$/xms ) { # TEMP DEBUGGING, ONLY FIND CERTAIN DIRECTORY
@@ -82,7 +97,7 @@ find(
             return;
         }
     },
-    PATH_TESTS()
+    (defined $ARGV[0]) ? $ARGV[0] : PATH_TESTS()  # accept optional command-line argument
 );
 
 my integer $number_of_test_files = scalar keys %{$test_files};
@@ -161,10 +176,14 @@ for my $test_file ( sort keys %{$test_files} ) {
                 }
             }
             ok( ( ( scalar @{$missing_errors} ) == 0 ), 'Program or module parses with expected error(s):' . (q{ } x 2) . $test_file );
+            if (( scalar @{$missing_errors} ) != 0) {
+                diag((join "\n", @{$missing_errors}) . "\n");
+            }
 #            $number_of_tests_run++;
         }
         else {
             ok( 0, 'Program or module parses without errors:' . (q{ } x 10) . $test_file );
+            diag('Error output captured:' . "\n" . $EVAL_ERROR);
 #            $number_of_tests_run++;
         }
     }

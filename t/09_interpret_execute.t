@@ -9,7 +9,7 @@ BEGIN { $ENV{RPERL_WARNINGS} = 0; }
 use strict;
 use warnings;
 use RPerl::AfterSubclass;
-our $VERSION = 0.005_000;
+our $VERSION = 0.008_000;
 
 # [[[ CRITICS ]]]
 ## no critic qw(ProhibitUselessNoCritic ProhibitMagicNumbers RequireCheckedSyscalls)  # USER DEFAULT 1: allow numeric values & print operator
@@ -25,8 +25,11 @@ use RPerl::Compiler;
 use Test::More;
 use Test::Exception;
 use File::Find qw(find);
-use IPC::Open3;
-use IO::Select;
+#use IPC::Open3;
+#use IO::Select;
+use IPC::Run3 qw(run3);
+use Cwd;
+use File::Spec;
 
 # [[[ CONSTANTS ]]]
 use constant PATH_TESTS => my string $TYPED_PATH_TESTS = $MathPerl::INCLUDE_PATH . '/MathPerl/Test';
@@ -51,21 +54,34 @@ BEGIN {
 #my integer $number_of_tests_run = 4;  # initialize to 4 for use_ok() calls in BEGIN block above
 
 my $test_files = {};    # string_hashref
+
+# save current directory for file checks, because File::Find changes directory;
+# use File::Spec for MS Windows support, etc.
+my $current_working_directory = getcwd;
+(my $volume, my $directories, my $dummy_file) = File::Spec->splitpath( $current_working_directory, 1 );  # no_file = 1
+
 find(
     sub {
         my $file = $File::Find::name;
-
 #        RPerl::diag('in 09_interpret_execute.t, have $file = ' . $file . "\n");
+
+        if (defined $ARGV[0]) {
+            # restore saved path, because File::Find changes directories while searching for files
+            my $file_full_path = File::Spec->catpath( $volume, $directories, $file );
+            RPerl::diag('in 09_interpret_execute.t, have $file_full_path = ' . $file_full_path . "\n");
+            $file = $file_full_path;
+        }
 
         #        if ( $file !~ m/.*OperatorVoid01NamedVoid.*[.]p[ml]$/xms ) { # TEMP DEBUGGING, ONLY FIND OperatorVoid01NamedVoid*/*.pm & *.pl
         if ( $file !~ m/.pl$/xms ) {
             return;
         }
+        elsif ( ( $file =~ m/NotGood/ms ) or ( $file =~ m/not_good/ms ) ) {
+            preprocess_execute_error($test_files, $file);
+        }
 
-        if ( ( $file =~ m/Good/ms ) or ( $file =~ m/good/ms ) ) {
-
-            # NEED FIX: remove use of $_ magic variable
-            open my filehandleref $FILE_HANDLE, '<', $_
+        if ( ( $file =~ m/Good/ms ) or ( $file =~ m/good/ms ) or ( $file =~ m/NotBad/ms ) or ( $file =~ m/not_bad/ms ) ) {
+            open my filehandleref $FILE_HANDLE, '<', $file
                 or croak 'ERROR, Cannot open file ' . $file . ' for reading,' . $OS_ERROR . ', croaking';
             while (<$FILE_HANDLE>) {
                 if (m/^\#\s*\<\<\<\s*EXECUTE_SUCCESS\s*\:\s*['"](.*)['"]\s*\>\>\>/xms) {
@@ -88,23 +104,13 @@ find(
                 or croak 'ERROR, Cannot close file ' . $file . ' after reading,' . $OS_ERROR . ', croaking';
         }
         elsif ( ( $file =~ m/Bad/ms ) or ( $file =~ m/bad/ms ) ) {
-
-            # NEED FIX: remove use of $_ magic variable
-            open my filehandleref $FILE_HANDLE, '<', $_
-                or croak 'ERROR, Cannot open file ' . $file . ' for reading,' . $OS_ERROR . ', croaking';
-            while (<$FILE_HANDLE>) {
-                if (m/^\#\s*\<\<\<\s*EXECUTE_ERROR\s*\:\s*['"](.*)['"]\s*\>\>\>/xms) {
-                    push @{ $test_files->{$file}->{errors} }, $1;
-                }
-            }
-            close $FILE_HANDLE
-                or croak 'ERROR, Cannot close file ' . $file . ' after reading,' . $OS_ERROR . ', croaking';
+            preprocess_execute_error($test_files, $file);
         }
         else {
             return;
         }
     },
-    PATH_TESTS()
+    (defined $ARGV[0]) ? $ARGV[0] : PATH_TESTS()
 );
 
 # trim unnecessary (and possibly problematic) absolute paths from input file names
@@ -135,85 +141,90 @@ if ( $ENV{RPERL_VERBOSE} ) {
 
 my integer $i = 0;
 
+# NEED ANSWER: keep IPC::Run3 code, or revert back to original IPC::Open3 code???
 foreach my $test_file ( sort keys %{$test_files} ) {
-
     $i++;
     if ( $ENV{RPERL_VERBOSE} ) {
         Test::More::diag( 'Test File #' . $i . ' of ' . $number_of_test_files . ': ' . $test_file );
     }
 
-    RPerl::diag( 'in 09_interpret_execute.t, have $test_file = ' . $test_file . "\n" );
-    my $pid;
+#    RPerl::diag( 'in 09_interpret_execute.t, have $test_file = ' . $test_file . "\n" );
+    #my $pid;
+    my $stdout_generated = q{};
+    my $stderr_generated = q{};
     if ( $RPerl::INCLUDE_PATH =~ /blib/ ) {
+        #$pid = open3( 0, \*STDOUT_TEST, \*STDERR_TEST, $test_file_execute_command );    # disable STDIN w/ 0
         my string $test_file_execute_command = $EXECUTABLE_NAME . ' -Mblib=' . $RPerl::INCLUDE_PATH . ' ' . $test_file;
-        RPerl::diag( 'in 09_interpret_execute.t, yes blib INCLUDE_PATH, have $test_file_execute_command = ' . $test_file_execute_command . "\n" );
-        RPerl::diag( 'in 09_interpret_execute.t, yes blib INCLUDE_PATH, about to call open3()...' . "\n" );
-        $pid = open3( 0, \*STDOUT_TEST, \*STDERR_TEST, $test_file_execute_command );    # disable STDIN w/ 0
-        RPerl::diag( 'in 09_interpret_execute.t, yes blib INCLUDE_PATH, returned from open3(), have $pid = ' . $pid . "\n" );
+#        RPerl::diag( 'in 09_interpret_execute.t, yes blib INCLUDE_PATH, have $test_file_execute_command = ' . $test_file_execute_command . "\n" );
+#        RPerl::diag( 'in 09_interpret_execute.t, yes blib INCLUDE_PATH, about to call open3()...' . "\n" );
+    run3( $test_file_execute_command, \undef, \$stdout_generated, \$stderr_generated );
+    #$pid = open3( 0, \*STDOUT_TEST, \*STDERR_TEST, $test_file_execute_command );    # disable STDIN w/ 0
+#        RPerl::diag( 'in 09_interpret_execute.t, yes blib INCLUDE_PATH, returned from open3(), have $pid = ' . $pid . "\n" );
     }
     else {
         my string $test_file_execute_command = $EXECUTABLE_NAME . ' -I' . $RPerl::INCLUDE_PATH . ' ' . $test_file;
-        RPerl::diag( 'in 09_interpret_execute.t, not blib INCLUDE_PATH, have $test_file_execute_command = ' . $test_file_execute_command . "\n" );
-        RPerl::diag( 'in 09_interpret_execute.t, not blib INCLUDE_PATH, about to call open3()...' . "\n" );
-        $pid = open3( 0, \*STDOUT_TEST, \*STDERR_TEST, $test_file_execute_command );    # disable STDIN w/ 0
-        RPerl::diag( 'in 09_interpret_execute.t, not blib INCLUDE_PATH, returned from open3(), have $pid = ' . $pid . "\n" );
+#        RPerl::diag( 'in 09_interpret_execute.t, not blib INCLUDE_PATH, have $test_file_execute_command = ' . $test_file_execute_command . "\n" );
+#        RPerl::diag( 'in 09_interpret_execute.t, not blib INCLUDE_PATH, about to call open3()...' . "\n" );
+#         my $stdout_select;
+#    my $stderr_select;
+#    if ( $OSNAME ne 'MSWin32' ) {
+##        RPerl::diag( 'in 09_interpret_execute.t, no MSWin32, about to call IO::Select->new()...' . "\n" );
+#        $stdout_select = IO::Select->new();
+#        $stderr_select = IO::Select->new();
+##        RPerl::diag( 'in 09_interpret_execute.t, no MSWin32, about to call $stdout_select->add( \*STDOUT_TEST )...' . "\n" );
+#        $stdout_select->add( \*STDOUT_TEST );
+#        $stderr_select->add( \*STDERR_TEST );
+##        RPerl::diag( 'in 09_interpret_execute.t, no MSWin32, returned from $stdout_select->add( \*STDOUT_TEST )' . "\n" );
+#    }
+#
+#    my $stdout_generated = q{};
+#    my $stderr_generated = q{};
+#
+    run3( $test_file_execute_command, \undef, \$stdout_generated, \$stderr_generated );
+    #$pid = open3( 0, \*STDOUT_TEST, \*STDERR_TEST, $test_file_execute_command );    # disable STDIN w/ 0
+#        RPerl::diag( 'in 09_interpret_execute.t, not blib INCLUDE_PATH, returned from open3(), have $pid = ' . $pid . "\n" );
     }
-
-    my $stdout_select;
-    my $stderr_select;
-    if ( $OSNAME ne 'MSWin32' ) {
-        RPerl::diag( 'in 09_interpret_execute.t, no MSWin32, about to call IO::Select->new()...' . "\n" );
-        $stdout_select = IO::Select->new();
-        $stderr_select = IO::Select->new();
-        RPerl::diag( 'in 09_interpret_execute.t, no MSWin32, about to call $stdout_select->add( \*STDOUT_TEST )...' . "\n" );
-        $stdout_select->add( \*STDOUT_TEST );
-        $stderr_select->add( \*STDERR_TEST );
-        RPerl::diag( 'in 09_interpret_execute.t, no MSWin32, returned from $stdout_select->add( \*STDOUT_TEST )' . "\n" );
-    }
-
-    my $stdout_generated = q{};
-    my $stderr_generated = q{};
 
     # DISABLED: no user input accepted
     #    while (1) {
     #        print "Enter input\n";
     #        chomp( my $stdin_received = <STDIN_TEST> );
     #        print STDIN_TEST "$stdin_received\n";
-
-    #    select( undef, undef, undef, 0.1 ); # allow time for output to be generated; not needed with waitpid() before sysread() calls below
-
-    #        if ( $stdout_select->can_read(0) )  { RPerl::diag('in 09_interpret_execute.t, can read STDOUT_TEST for $test_file = ' . $test_file . "\n"); }
-    #        if ( $stderr_select->can_read(0) )  { RPerl::diag('in 09_interpret_execute.t, can read STDERR_TEST for $test_file = ' . $test_file . "\n"); }
-
-    if ( $OSNAME eq 'MSWin32' || $stdout_select->can_read(0) ) {
-        RPerl::diag( 'in 09_interpret_execute.t, yes MSWin32 or $stdout_select->can_read(0), about to call sysread STDOUT_TEST...' . "\n" );
-        sysread STDOUT_TEST, $stdout_generated, 4096;
-        RPerl::diag( 'in 09_interpret_execute.t, yes MSWin32 or $stdout_select->can_read(0), returned from sysread STDOUT_TEST, have $stdout_generated = ' . "\n" . '[BEGIN STDOUT]' . "\n" . $stdout_generated . '[END STDOUT]' . "\n" );
-    }
-    if ( $OSNAME eq 'MSWin32' || $stderr_select->can_read(0) ) {
-        RPerl::diag( 'in 09_interpret_execute.t, yes MSWin32 or $stderr_select->can_read(0), about to call sysread STDERR_TEST...' . "\n" );
-        sysread STDERR_TEST, $stderr_generated, 4096;
-        RPerl::diag( 'in 09_interpret_execute.t, yes MSWin32 or $stderr_select->can_read(0), returned from sysread STDERR_TEST, have $stderr_generated = ' . "\n" . '[BEGIN STDERR]' . "\n" . $stderr_generated . '[END STDERR]' . "\n" );
-    }
-
-    RPerl::diag( 'in 09_interpret_execute.t, have $pid = ' . $pid . ', about to call waitpid...' . "\n" );
-    waitpid $pid, 0;
-    RPerl::diag( 'in 09_interpret_execute.t, have $pid = ' . $pid . ', returned from waitpid...' . "\n" );
-
-    if ( $OSNAME eq 'MSWin32' || $stdout_select->can_read(0) ) {
-        RPerl::diag( 'in 09_interpret_execute.t, yes MSWin32 or $stdout_select->can_read(0), about to call sysread STDOUT_TEST...' . "\n" );
-        my string $stdout_generated_continued;
-        sysread STDOUT_TEST, $stdout_generated_continued, 4096;
-        $stdout_generated .= $stdout_generated_continued;
-        RPerl::diag( 'in 09_interpret_execute.t, yes MSWin32 or $stdout_select->can_read(0), returned from sysread STDOUT_TEST, have $stdout_generated_continued = ' . "\n" . '[BEGIN STDOUT]' . "\n" . $stdout_generated_continued . '[END STDOUT]' . "\n" );
-    }
-    if ( $OSNAME eq 'MSWin32' || $stderr_select->can_read(0) ) {
-        RPerl::diag( 'in 09_interpret_execute.t, yes MSWin32 or $stderr_select->can_read(0), about to call sysread STDERR_TEST...' . "\n" );
-        my string $stderr_generated_continued;
-        sysread STDERR_TEST, $stderr_generated_continued, 4096;
-        $stderr_generated .= $stderr_generated_continued;
-        RPerl::diag( 'in 09_interpret_execute.t, yes MSWin32 or $stderr_select->can_read(0), returned from sysread STDERR_TEST, have $stderr_generated_continued = ' . "\n" . '[BEGIN STDERR]' . "\n" . $stderr_generated_continued . '[END STDERR]' . "\n" );
-    }
+   #    select( undef, undef, undef, 0.1 ); # allow time for output to be generated; not needed with waitpid() before sysread() calls below
+#
+#    #        if ( $stdout_select->can_read(0) )  { RPerl::diag('in 09_interpret_execute.t, can read STDOUT_TEST for $test_file = ' . $test_file . "\n"); }
+#    #        if ( $stderr_select->can_read(0) )  { RPerl::diag('in 09_interpret_execute.t, can read STDERR_TEST for $test_file = ' . $test_file . "\n"); }
+#
+#    if ( $OSNAME eq 'MSWin32' || $stdout_select->can_read(0) ) {
+##        RPerl::diag( 'in 09_interpret_execute.t, yes MSWin32 or $stdout_select->can_read(0), about to call sysread STDOUT_TEST...' . "\n" );
+#        sysread STDOUT_TEST, $stdout_generated, 4096;
+##        RPerl::diag( 'in 09_interpret_execute.t, yes MSWin32 or $stdout_select->can_read(0), returned from sysread STDOUT_TEST, have $stdout_generated = ' . "\n" . '[BEGIN STDOUT]' . "\n" . $stdout_generated . '[END STDOUT]' . "\n" );
+#    }
+#    if ( $OSNAME eq 'MSWin32' || $stderr_select->can_read(0) ) {
+##        RPerl::diag( 'in 09_interpret_execute.t, yes MSWin32 or $stderr_select->can_read(0), about to call sysread STDERR_TEST...' . "\n" );
+#        sysread STDERR_TEST, $stderr_generated, 4096;
+##        RPerl::diag( 'in 09_interpret_execute.t, yes MSWin32 or $stderr_select->can_read(0), returned from sysread STDERR_TEST, have $stderr_generated = ' . "\n" . '[BEGIN STDERR]' . "\n" . $stderr_generated . '[END STDERR]' . "\n" );
+#    }
+#
+##    RPerl::diag( 'in 09_interpret_execute.t, have $pid = ' . $pid . ', about to call waitpid...' . "\n" );
+#    waitpid $pid, 0;
+##    RPerl::diag( 'in 09_interpret_execute.t, have $pid = ' . $pid . ', returned from waitpid...' . "\n" );
+#
+#    if ( $OSNAME eq 'MSWin32' || $stdout_select->can_read(0) ) {
+##        RPerl::diag( 'in 09_interpret_execute.t, yes MSWin32 or $stdout_select->can_read(0), about to call sysread STDOUT_TEST...' . "\n" );
+#        my string $stdout_generated_continued;
+#        sysread STDOUT_TEST, $stdout_generated_continued, 4096;
+#        $stdout_generated .= $stdout_generated_continued;
+##        RPerl::diag( 'in 09_interpret_execute.t, yes MSWin32 or $stdout_select->can_read(0), returned from sysread STDOUT_TEST, have $stdout_generated_continued = ' . "\n" . '[BEGIN STDOUT]' . "\n" . $stdout_generated_continued . '[END STDOUT]' . "\n" );
+#    }
+#    if ( $OSNAME eq 'MSWin32' || $stderr_select->can_read(0) ) {
+##        RPerl::diag( 'in 09_interpret_execute.t, yes MSWin32 or $stderr_select->can_read(0), about to call sysread STDERR_TEST...' . "\n" );
+#        my string $stderr_generated_continued;
+#        sysread STDERR_TEST, $stderr_generated_continued, 4096;
+#        $stderr_generated .= $stderr_generated_continued;
+##        RPerl::diag( 'in 09_interpret_execute.t, yes MSWin32 or $stderr_select->can_read(0), returned from sysread STDERR_TEST, have $stderr_generated_continued = ' . "\n" . '[BEGIN STDERR]' . "\n" . $stderr_generated_continued . '[END STDERR]' . "\n" );
+#    }
+  
 
     # DISABLED: no user input accepted
     #        $stdout_generated = q{};
@@ -222,33 +233,37 @@ foreach my $test_file ( sort keys %{$test_files} ) {
 
     my $test_exit_status = $CHILD_ERROR >> 8;
 
-    RPerl::diag( 'in 09_interpret_execute.t, have $CHILD_ERROR = ' . $CHILD_ERROR . "\n" );
-    RPerl::diag( 'in 09_interpret_execute.t, have $test_exit_status = ' . $test_exit_status . "\n" );
+#    RPerl::diag( 'in 09_interpret_execute.t, have $CHILD_ERROR = ' . $CHILD_ERROR . "\n" );
+#    RPerl::diag( 'in 09_interpret_execute.t, have $test_exit_status = ' . $test_exit_status . "\n" );
 
-    if ($stdout_generated) { RPerl::diag( "===STDOUT=BEGIN====\n" . $stdout_generated . "===STDOUT=END======\n" ); }
-    if ($stderr_generated) { RPerl::diag( "===STDERR=BEGIN====\n" . $stderr_generated . "===STDERR=END======\n" ); }
+#    if ($stdout_generated) { RPerl::diag( "===STDOUT=BEGIN====\n" . $stdout_generated . "===STDOUT=END======\n" ); }
+#    if ($stderr_generated) { RPerl::diag( "===STDERR=BEGIN====\n" . $stderr_generated . "===STDERR=END======\n" ); }
 
     my @stdout_generated_lines_array = split( "\n", $stdout_generated );
     my string_arrayref $stdout_generated_lines = \@stdout_generated_lines_array;
 
     if ( $test_exit_status == 0 ) {    # UNIX process return code 0, success
-        if ( ( $test_file =~ m/Good/xms ) or ( $test_file =~ m/good/xms ) ) {
+        if ( ( $test_file =~ m/NotGood/xms ) or ( $test_file =~ m/not_good/xms ) ) {
+            ok( ( missing_errors_count($test_files, $test_file, $stdout_generated, $stderr_generated) == 0 ), 'Program interprets and executes with expected error(s):' . ( q{ } x 2 ) . $test_file );
+#            $number_of_tests_run++;
+        }
+        elsif ( ( $test_file =~ m/Good/xms ) or ( $test_file =~ m/good/xms ) or ( $test_file =~ m/NotBad/xms ) or ( $test_file =~ m/not_bad/xms ) ) {
             my $missing_successes = [];
-            RPerl::diag( 'in 09_interpret_execute.t, run success on good code, have $test_files->{$test_file} = ' . Dumper($test_files->{$test_file}) . "\n\n" );
+#            RPerl::diag( 'in 09_interpret_execute.t, run success on good code, have $test_files->{$test_file} = ' . Dumper($test_files->{$test_file}) . "\n\n" );
 
             if ( defined $test_files->{$test_file}->{successes} ) {
                success_match($test_file, $test_files->{$test_file}->{successes}, $stdout_generated_lines);
             }
-            elsif ( ( defined $test_files->{$test_file}->{successes_integer_32} ) and ( rperltypes::type_integer_bitsize() == 32 ) ) {
+            elsif ( ( defined $test_files->{$test_file}->{successes_integer_32} ) and ( rperltypessizes::type_integer_bitsize() == 32 ) ) {
                success_match($test_file, $test_files->{$test_file}->{successes_integer_32}, $stdout_generated_lines);
             }
-            elsif ( ( defined $test_files->{$test_file}->{successes_integer_64} ) and ( rperltypes::type_integer_bitsize() == 64 ) ) {
+            elsif ( ( defined $test_files->{$test_file}->{successes_integer_64} ) and ( rperltypessizes::type_integer_bitsize() == 64 ) ) {
                success_match($test_file, $test_files->{$test_file}->{successes_integer_64}, $stdout_generated_lines);
             }
-            elsif ( ( defined $test_files->{$test_file}->{successes_number_32} ) and ( rperltypes::type_number_bitsize() == 32 ) ) {
+            elsif ( ( defined $test_files->{$test_file}->{successes_number_32} ) and ( rperltypessizes::type_number_bitsize() == 32 ) ) {
                success_match($test_file, $test_files->{$test_file}->{successes_number_32}, $stdout_generated_lines);
             }
-            elsif ( ( defined $test_files->{$test_file}->{successes_number_64} ) and ( rperltypes::type_number_bitsize() == 64 ) ) {
+            elsif ( ( defined $test_files->{$test_file}->{successes_number_64} ) and ( rperltypessizes::type_number_bitsize() == 64 ) ) {
                success_match($test_file, $test_files->{$test_file}->{successes_number_64}, $stdout_generated_lines);
             }
 
@@ -274,18 +289,12 @@ foreach my $test_file ( sort keys %{$test_files} ) {
         }
     }
     else {    # UNIX process return code not 0, error
-        if ( ( $test_file =~ m/Bad/ms ) or ( $test_file =~ m/bad/ms ) ) {
-            my $missing_errors = [];
-            if ( defined $test_files->{$test_file}->{errors} ) {
-                foreach my $error ( @{ $test_files->{$test_file}->{errors} } ) {
-                    if (    ( $stdout_generated !~ /\Q$error\E/xms )
-                        and ( $stderr_generated !~ /\Q$error\E/xms ) )
-                    {
-                        push @{$missing_errors}, "Error message '$error' expected, but not found";
-                    }
-                }
-            }
-            ok( ( ( scalar @{$missing_errors} ) == 0 ), 'Program interprets and executes with expected error(s):' . ( q{ } x 2 ) . $test_file );
+        if ( ( $test_file =~ m/NotBad/ms ) or ( $test_file =~ m/not_bad/ms ) ) {
+            ok( 0, 'Program interprets and executes without errors:' . ( q{ } x 10 ) . $test_file );
+#            $number_of_tests_run++;
+        }
+        elsif ( ( $test_file =~ m/Bad/ms ) or ( $test_file =~ m/bad/ms ) or ( $test_file =~ m/NotGood/ms ) or ( $test_file =~ m/not_good/ms )  ) {
+            ok( ( missing_errors_count($test_files, $test_file, $stdout_generated, $stderr_generated) == 0 ), 'Program interprets and executes with expected error(s):' . ( q{ } x 2 ) . $test_file );
 #            $number_of_tests_run++;
         }
         else {
@@ -295,33 +304,60 @@ foreach my $test_file ( sort keys %{$test_files} ) {
     }
 }
 
+sub preprocess_execute_error {
+    (my string_hashref $test_files, my string $file) = @ARG;
+    open my filehandleref $FILE_HANDLE, '<', $file
+        or croak 'ERROR, Cannot open file ' . $file . ' for reading,' . $OS_ERROR . ', croaking';
+    while (<$FILE_HANDLE>) {
+        if (m/^\#\s*\<\<\<\s*EXECUTE_ERROR\s*\:\s*['"](.*)['"]\s*\>\>\>/xms) {
+            push @{ $test_files->{$file}->{errors} }, $1;
+        }
+    }
+    close $FILE_HANDLE
+        or croak 'ERROR, Cannot close file ' . $file . ' after reading,' . $OS_ERROR . ', croaking';
+}
+
+sub missing_errors_count {
+    (my string_hashref $test_files, my string $test_file, my string $stdout_generated, my string $stderr_generated) = @ARG;
+    my $missing_errors = [];
+    if ( defined $test_files->{$test_file}->{errors} ) {
+        foreach my $error ( @{ $test_files->{$test_file}->{errors} } ) {
+            if (    ( $stdout_generated !~ /\Q$error\E/xms )
+                and ( $stderr_generated !~ /\Q$error\E/xms ) )
+            {
+                push @{$missing_errors}, "Error message '$error' expected, but not found";
+            }
+        }
+    }
+   return scalar @{$missing_errors};
+}
+
 sub success_match {
     (my string $test_file, my string_arrayref $test_file_successes, my string $stdout_generated_lines) = @ARG;
 #    $RPerl::DEBUG   = 0;
 #    $RPerl::VERBOSE = 0;
 
-    RPerl::diag( 'in 09_interpret_execute.t success_match(), before foreach loop, have successes =' . "\n" . Dumper( $test_file_successes ) . "\n" );
+#    RPerl::diag( 'in 09_interpret_execute.t success_match(), before foreach loop, have successes =' . "\n" . Dumper( $test_file_successes ) . "\n" );
 
     my string $success = $test_file_successes->[0];
 
     # match success strings in-order in captured output
 FOREACH_STDOUT_LINE: foreach my string $stdout_generated_line ( @{$stdout_generated_lines} ) {
 
-        RPerl::diag( 'in 09_interpret_execute.t success_match(), top of foreach loop, have $success = ' . $success . "\n" );
-        RPerl::diag( 'in 09_interpret_execute.t success_match(), top of foreach loop, have $stdout_generated_line = ' . $stdout_generated_line . "\n" );
+#        RPerl::diag( 'in 09_interpret_execute.t success_match(), top of foreach loop, have $success = ' . $success . "\n" );
+#        RPerl::diag( 'in 09_interpret_execute.t success_match(), top of foreach loop, have $stdout_generated_line = ' . $stdout_generated_line . "\n" );
 
         # each stdout line is only allowed to match one success string
         if ( $stdout_generated_line =~ /\Q$success\E/xms ) {
-
-            RPerl::diag( 'in 09_interpret_execute.t success_match(), MATCH' . "\n" );
+#            RPerl::diag( 'in 09_interpret_execute.t success_match(), MATCH' . "\n" );
             shift @{ $test_file_successes };
             if ( ( scalar @{ $test_file_successes } ) == 0 ) { last FOREACH_STDOUT_LINE; }
             $success = $test_file_successes->[0];
         }
-        else { RPerl::diag( 'in 09_interpret_execute.t success_match(), NO MATCH' . "\n" ); }
+#        else { RPerl::diag( 'in 09_interpret_execute.t success_match(), NO MATCH' . "\n" ); }
     }
-    RPerl::diag( 'in 09_interpret_execute.t success_match(), have missing successes =' . "\n" . Dumper( $test_file_successes ) . "\n" );
-    ok( ( ( scalar @{ $test_file_successes } ) == 0 ), 'Program interprets and executes without errors:' . ( q{ } x 10 ) . $test_file );
+#    RPerl::diag( 'in 09_interpret_execute.t success_match(), have missing successes =' . "\n" . Dumper( $test_file_successes ) . "\n" );
+    ok( ( ( scalar @{ $test_file_successes } ) == 0 ), 'Program interprets and executes without errors & with expected output:' . ( q{ } x 10 ) . $test_file );
 #    $number_of_tests_run++;
 }
 

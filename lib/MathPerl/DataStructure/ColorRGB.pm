@@ -6,8 +6,8 @@ use warnings;
 our $VERSION = 0.001_000;
 
 # [[[ OO INHERITANCE ]]]
-use parent qw(MathPerl::Color);
-use MathPerl::Color;
+use parent qw(MathPerl::DataStructure::Color);
+use MathPerl::DataStructure::Color;
 
 # [[[ INCLUDES ]]]
 use MathPerl::DataStructure::ColorHSV;

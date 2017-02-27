@@ -3,11 +3,11 @@ use RPerl;
 package MathPerl::DataStructure::ColorHSV;
 use strict;
 use warnings;
-our $VERSION = 0.001_000;
+our $VERSION = 0.002_000;
 
 # [[[ OO INHERITANCE ]]]
-use parent qw(MathPerl::Color);
-use MathPerl::Color;
+use parent qw(MathPerl::DataStructure::Color);
+use MathPerl::DataStructure::Color;
 
 # [[[ INCLUDES ]]]
 use MathPerl::DataStructure::ColorRGB;

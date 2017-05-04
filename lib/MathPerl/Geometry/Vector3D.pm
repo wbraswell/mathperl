@@ -1,13 +1,13 @@
 # [[[ HEADER ]]]
 use RPerl;
-package MathPerl::Geometry::Ray3D;
+package MathPerl::Geometry::Vector3D;
 use strict;
 use warnings;
 our $VERSION = 0.001_000;
 
 # [[[ OO INHERITANCE ]]]
-use parent qw(MathPerl::Geometry::Ray);
-use MathPerl::Geometry::Ray;
+use parent qw(MathPerl::Geometry::Vector);
+use MathPerl::Geometry::Vector;
 
 # [[[ CRITICS ]]]
 ## no critic qw(ProhibitUselessNoCritic ProhibitMagicNumbers RequireCheckedSyscalls)  # USER DEFAULT 1: allow numeric values & print operator
@@ -15,8 +15,9 @@ use MathPerl::Geometry::Ray;
 
 # [[[ OO PROPERTIES ]]]
 our hashref $properties = {
-    origin    => my MathPerl::Geometry::Point3D  $TYPED_origin    = undef,
-    direction => my MathPerl::Geometry::Vector3D $TYPED_direction = undef
+    x => my number $TYPED_x = undef,
+    y => my number $TYPED_y = undef,
+    z => my number $TYPED_z = undef
 };
 
 1;    # end of class

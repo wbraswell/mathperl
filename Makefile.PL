@@ -49,7 +49,7 @@ WriteMakefile(
         }
     },
 
-    # NEED UPDATE, CORRELATION #mp00: list of CPAN files & directories to delete/exclude in Makefile.PL, .gitignore, and MANIFEST.SKIP
+    # NEED UPDATE, CORRELATION #mp000: list of CPAN files & directories to delete/exclude in Makefile.PL, .gitignore, and MANIFEST.SKIP
     clean => {
         FILES =>
             'pod2htmd.tmp Makefile.old MANIFEST.bak'

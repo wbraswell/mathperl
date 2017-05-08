@@ -20,4 +20,20 @@ our hashref $properties = {
     z => my number $TYPED_z = undef
 };
 
+# [[[ SUBROUTINES & OO METHODS ]]]
+
+# DEV NOTE, CORRELATION #mp001: duplicate to_matrix_4x1() method, could be abstracted into MathPerl::Triplet class but that would require multiple inheritance
+our MathPerl::Matrix::method $to_matrix_4x1 = sub {
+{
+    ( my MathPerl::Geometry::Point3D $self, my number $final_element ) = @_;
+    my MathPerl::Matrix $matrix = MathPerl::Matrix->new();
+
+    $matrix->{data}->[0]->[0] = $self->{x};
+    $matrix->{data}->[1]->[0] = $self->{y};
+    $matrix->{data}->[2]->[0] = $self->{z};
+    $matrix->{data}->[3]->[0] = $final_element;
+
+    return $matrix;
+};
+
 1;    # end of class

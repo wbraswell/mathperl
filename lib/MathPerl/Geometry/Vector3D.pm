@@ -25,7 +25,7 @@ our hashref $properties = {
 # DEV NOTE, CORRELATION #mp001: duplicate to_matrix_4x1() method, could be abstracted into MathPerl::Triplet class but that would require multiple inheritance
 our MathPerl::Matrix::method $to_matrix_4x1 = sub {
 {
-    ( my MathPerl::Geometry::Point3D $self, my number $final_element ) = @_;
+    ( my MathPerl::Geometry::Point3D $self, my number $final_element ) = @ARG;
     my MathPerl::Matrix $matrix = MathPerl::Matrix->new();
 
     $matrix->{data}->[0]->[0] = $self->{x};

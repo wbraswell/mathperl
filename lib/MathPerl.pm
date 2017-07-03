@@ -16,3 +16,9 @@ use MathPerl::Config;
 our hashref $properties = {};
 
 1;    # end of class
+
+=head1 NAME
+
+MathPerl - Mathematics Perl, The Optimized Math Library Suit.
+
+=cut

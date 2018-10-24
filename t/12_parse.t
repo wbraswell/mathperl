@@ -1,4 +1,4 @@
-#!/usr/bin/perl  ## no critic qw(ProhibitExcessMainComplexity)  # SYSTEM SPECIAL 4: allow complex code outside subroutines, must be on line 1
+#!/usr/bin/env perl  ## no critic qw(ProhibitExcessMainComplexity)  # SYSTEM SPECIAL 4: allow complex code outside subroutines, must be on line 1
 
 # [[[ PRE-HEADER ]]]
 # suppress 'WEXRP00: Found multiple rperl executables' due to blib/ & pre-existing installation(s),
@@ -9,7 +9,7 @@ BEGIN { $ENV{RPERL_WARNINGS} = 0; }
 use strict;
 use warnings;
 use RPerl::AfterSubclass;
-our $VERSION = 0.012_000;
+our $VERSION = 0.013_000;
 
 # [[[ CRITICS ]]]
 ## no critic qw(ProhibitUselessNoCritic ProhibitMagicNumbers RequireCheckedSyscalls)  # USER DEFAULT 1: allow numeric values & print operator
@@ -125,7 +125,7 @@ for my $test_file ( sort keys %{$test_files} ) {
 
     # NEED UPGRADE: enable file dependencies as in script/rperl depends_parse_generate_save_subcompile_execute()
     my $eval_return_value = eval {
-        rperl_to_xsbinary__parse_generate_compile(
+        RPerl::Compiler::rperl_to_xsbinary__parse_generate_compile(
             $test_file,
             undef,    # empty $cpp_output_file_name_group, no files will be saved in PARSE mode
             {},       # empty $cpp_source_group, starting compile process from scratch, not continued

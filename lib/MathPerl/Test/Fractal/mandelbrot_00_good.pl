@@ -1,4 +1,4 @@
-#!/usr/bin/perl
+#!/usr/bin/env perl
 
 # [[[ PREPROCESSOR ]]]
 # <<< EXECUTE_SUCCESS: '[1, 1, 1, 1, 2, 3, 3, 3, 3, 4, 5, 9, 4, 3, 2, 2, ],' >>>

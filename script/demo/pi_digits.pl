@@ -1,4 +1,4 @@
-#!/usr/bin/perl
+#!/usr/bin/env perl
 
 # Pi Digits, Program Source Code, Perl Implementation #2
 # Calculate & Display Digits Of The Transcendental Number Pi
@@ -30,7 +30,7 @@ use rperltypesconv;
 
 # [[[ OPERATIONS ]]]
 
-my integer $number_of_digits = 50;  # default
+my integer $number_of_digits = 5_000;  # default
 if (defined $ARGV[0]) { $number_of_digits = string_to_integer($ARGV[0]); }  # user input, command-line argument
 
 my number $time_start = time();

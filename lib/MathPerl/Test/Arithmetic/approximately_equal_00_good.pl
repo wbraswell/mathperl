@@ -1,4 +1,4 @@
-#!/usr/bin/perl
+#!/usr/bin/env perl
 
 # NEED UPGRADE: re-enable tests which may return different results based on floating-point accuracy of operating system, Perl, C compiler, etc.
 

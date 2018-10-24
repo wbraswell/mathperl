@@ -41,15 +41,15 @@ my string $set_name = 'mandelbrot';
 if ( defined $ARGV[0] ) { $set_name = lc $ARGV[0]; }    # user input, command-line argument
 
 #my integer $x_pixel_count = 16;
-my integer $x_pixel_count = 160;
-#my integer $x_pixel_count = 640;
+#my integer $x_pixel_count = 160;
+my integer $x_pixel_count = 640;
 #my integer $x_pixel_count = 800;
 #my integer $x_pixel_count = 1200;
 if ( defined $ARGV[1] ) { $x_pixel_count = string_to_integer( $ARGV[1] ); }    # user input, command-line argument
 
 #my integer $y_pixel_count = 12;
-my integer $y_pixel_count = 120;
-#my integer $y_pixel_count = 480;
+#my integer $y_pixel_count = 120;
+my integer $y_pixel_count = 480;
 #my integer $y_pixel_count = 600;
 #my integer $y_pixel_count = 800;
 if ( defined $ARGV[2] ) { $y_pixel_count = string_to_integer( $ARGV[2] ); }    # user input, command-line argument

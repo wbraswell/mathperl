@@ -4,7 +4,7 @@ use RPerl;
 package MathPerl::Fractal::Mandelbrot;
 use strict;
 use warnings;
-our $VERSION = 0.004_000;
+our $VERSION = 0.005_000;
 
 # [[[ OO INHERITANCE ]]]
 use parent qw(MathPerl::Algorithm);
@@ -27,7 +27,8 @@ our hashref $properties = {};
 # [[[ SUBROUTINES & OO METHODS ]]]
 
 # OO interface wrapper
-our integer_arrayref_arrayref::method $escape_time = sub {
+sub escape_time {
+    { my integer_arrayref_arrayref::method $RETURN_TYPE };
     (   my MathPerl::Fractal::Mandelbrot $self,
         my number $x_scaling_factor,
         my number $y_scaling_factor,
@@ -42,10 +43,11 @@ our integer_arrayref_arrayref::method $escape_time = sub {
     ) = @ARG;
     return mandelbrot_escape_time( $x_scaling_factor, $y_scaling_factor, $x_pixel_count, $y_pixel_count, $iterations_max, $x_min, $x_max, $y_min, $y_max,
         $color_invert );
-};
+}
 
 # procedural interface
-our integer_arrayref_arrayref $mandelbrot_escape_time = sub {
+sub mandelbrot_escape_time {
+    { my integer_arrayref_arrayref $RETURN_TYPE };
     (   my number $unused_argument_0,
         my number $unused_argument_1,
         my integer $x_pixel_count,
@@ -92,6 +94,6 @@ our integer_arrayref_arrayref $mandelbrot_escape_time = sub {
         }
     }
     return $mandelbrot_set;
-};
+}
 
 1;                                                                                                 # end of class

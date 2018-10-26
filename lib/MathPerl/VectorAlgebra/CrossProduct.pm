@@ -3,7 +3,7 @@ use RPerl;
 package MathPerl::VectorAlgebra::CrossProduct;
 use strict;
 use warnings;
-our $VERSION = 0.004_000;
+our $VERSION = 0.005_000;
 
 # [[[ OO INHERITANCE ]]]
 use parent qw(MathPerl::Operation);
@@ -22,7 +22,8 @@ our hashref $properties = {};
 
 # [[[ SUBROUTINES & OO METHODS ]]]
 
-our Vector3D $cross_product_vector3d = sub {
+sub cross_product_vector3d {
+    { my Vector3D $RETURN_TYPE };
     ( my Vector3D $u, my Vector3D $v ) = @ARG;
     my Vector3D $retval = Vector3D->new();
 
@@ -39,9 +40,10 @@ our Vector3D $cross_product_vector3d = sub {
 #    $retval->set_y(($u->get_z() * $v->get_x()) - ($u->get_x() * $v->get_z()));
 #    $retval->set_z(($u->get_x() * $v->get_y()) - ($u->get_y() * $v->get_x()));
     return $retval;
-};
+}
 
-our Vector3D $cross_product_vector = sub {
+sub cross_product_vector {
+    { my Vector3D $RETURN_TYPE };
     ( my Vector $u, my Vector $v ) = @ARG;
 
     # OO properties direct access mechanism
@@ -97,6 +99,6 @@ our Vector3D $cross_product_vector = sub {
         croak 'ERROR EMPVACP01: Dimensions unsupported, input vectors contain ' . $u_dimensions . ' elements, only 3 and 7 supported, croaking';
     }
     return $retval;
-};
+}
 
 1;    # end of class

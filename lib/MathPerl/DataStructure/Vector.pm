@@ -4,7 +4,7 @@ package MathPerl::DataStructure::Vector;
 #package MathPerl::DataStructure::NumberVectorFree;  # DEV NOTE: Vector is really NumberVectorFree; shortened for convenience; contrasted with VectorBound which is really NumberVectorBound
 use strict;
 use warnings;
-our $VERSION = 0.001_000;
+our $VERSION = 0.002_000;
 
 # [[[ OO INHERITANCE ]]]
 use parent qw(MathPerl::DataStructure);
@@ -20,7 +20,8 @@ our hashref $properties = { head => my number_arrayref $TYPED_head = [] };
 
 # [[[ SUBROUTINES & OO METHODS ]]]
 
-our MathPerl::DataStructure::Vector $test_constructor = sub {
+sub test_constructor {
+    { my MathPerl::DataStructure::Vector $RETURN_TYPE };
     ( my integer $i ) = @ARG;
     my MathPerl::DataStructure::Vector $retval = MathPerl::DataStructure::Vector->new();
     $retval->{head}->[$i - 1] = undef;  # arrayref resize
@@ -30,19 +31,21 @@ our MathPerl::DataStructure::Vector $test_constructor = sub {
     }
 
     return $retval;
-};
+}
 
 # [[[ STRINGIFY ]]]
 
-our string::method $To_string = sub {
+sub To_string {
+    { my string::method $RETURN_TYPE };
     ( my MathPerl::DataStructure::Vector $self ) = @ARG;
     return ::number_arrayref_to_string($self->{head});
-};
+}
 
-our string $Vector_to_string = sub {
+sub Vector_to_string {
+    { my string $RETURN_TYPE };
     ( my MathPerl::DataStructure::Vector $input_vector ) = @ARG;
     return ::number_arrayref_to_string($input_vector->{head});
-};
+}
 
 1;    # end of class
 

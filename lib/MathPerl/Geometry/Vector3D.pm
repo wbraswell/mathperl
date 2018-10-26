@@ -3,7 +3,7 @@ use RPerl;
 package MathPerl::Geometry::Vector3D;
 use strict;
 use warnings;
-our $VERSION = 0.001_000;
+our $VERSION = 0.002_000;
 
 # [[[ OO INHERITANCE ]]]
 use parent qw(MathPerl::Geometry::Vector);
@@ -23,8 +23,8 @@ our hashref $properties = {
 # [[[ SUBROUTINES & OO METHODS ]]]
 
 # DEV NOTE, CORRELATION #mp001: duplicate to_matrix_4x1() method, could be abstracted into MathPerl::Triplet class but that would require multiple inheritance
-our MathPerl::Matrix::method $to_matrix_4x1 = sub {
-{
+sub to_matrix_4x1 {
+    { my MathPerl::Matrix::method $RETURN_TYPE };
     ( my MathPerl::Geometry::Point3D $self, my number $final_element ) = @ARG;
     my MathPerl::Matrix $matrix = MathPerl::Matrix->new();
 
@@ -34,6 +34,6 @@ our MathPerl::Matrix::method $to_matrix_4x1 = sub {
     $matrix->{data}->[3]->[0] = $final_element;
 
     return $matrix;
-};
+}
 
 1;    # end of class

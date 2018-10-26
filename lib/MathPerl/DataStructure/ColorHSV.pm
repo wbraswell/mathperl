@@ -3,7 +3,7 @@ use RPerl;
 package MathPerl::DataStructure::ColorHSV;
 use strict;
 use warnings;
-our $VERSION = 0.002_000;
+our $VERSION = 0.003_000;
 
 # [[[ OO INHERITANCE ]]]
 use parent qw(MathPerl::DataStructure::Color);
@@ -21,19 +21,22 @@ our hashref $properties = {
 
 # [[[ SUBROUTINES & OO METHODS ]]]
 
-our MathPerl::DataStructure::ColorRGB $hsv_to_rgb = sub {
+sub hsv_to_rgb {
+    { my MathPerl::DataStructure::ColorRGB $RETURN_TYPE };
     ( my MathPerl::DataStructure::ColorHSV $hsv) = @ARG;
     return $hsv->to_rgb();
-};
+}
 
 # OO interface wrapper
-our MathPerl::DataStructure::ColorRGB::method $to_rgb = sub {
+sub to_rgb {
+    { my MathPerl::DataStructure::ColorRGB::method $RETURN_TYPE };
     ( my MathPerl::DataStructure::ColorHSV $self) = @ARG;
     return hsv_raw_to_rgb( [ $self->{hue}, $self->{saturation}, $self->{value} ] );
-};
+}
 
 # procedural interface wrapper
-our MathPerl::DataStructure::ColorRGB $hsv_raw_to_rgb = sub {
+sub hsv_raw_to_rgb {
+    { my MathPerl::DataStructure::ColorRGB $RETURN_TYPE };
     ( my number_arrayref $hsv_raw) = @ARG;
     my MathPerl::DataStructure::ColorRGB $retval = MathPerl::DataStructure::ColorRGB->new();
     my number_arrayref $retval_raw  = hsv_raw_to_rgb_raw($hsv_raw);
@@ -41,9 +44,10 @@ our MathPerl::DataStructure::ColorRGB $hsv_raw_to_rgb = sub {
     $retval->{green} = $retval_raw->[1];
     $retval->{blue}  = $retval_raw->[2];
     return;
-};
+}
 
-our number_arrayref $hsv_raw_to_rgb_raw = sub {
+sub hsv_raw_to_rgb_raw {
+    { my number_arrayref $RETURN_TYPE };
     ( my number_arrayref $hsv_raw) = @ARG;
     my number_arrayref $retval;
 
@@ -103,6 +107,6 @@ our number_arrayref $hsv_raw_to_rgb_raw = sub {
     }
 
     return $retval;
-};
+}
 
 1;    # end of class

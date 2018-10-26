@@ -4,7 +4,7 @@ use RPerl;
 package MathPerl::Fractal::Julia;
 use strict;
 use warnings;
-our $VERSION = 0.003_000;
+our $VERSION = 0.004_000;
 
 # [[[ OO INHERITANCE ]]]
 use parent qw(MathPerl::Algorithm);
@@ -27,7 +27,8 @@ our hashref $properties = {};
 # [[[ SUBROUTINES & OO METHODS ]]]
 
 # OO interface wrapper
-our integer_arrayref_arrayref::method $escape_time = sub {
+sub escape_time {
+    { my integer_arrayref_arrayref::method $RETURN_TYPE };
     (   my MathPerl::Fractal::Julia $self,
         my number $real_c,
         my number $imaginary_c,
@@ -41,11 +42,12 @@ our integer_arrayref_arrayref::method $escape_time = sub {
         my boolean $color_invert
     ) = @ARG;
     return julia_escape_time( $real_c, $imaginary_c, $x_pixel_count, $y_pixel_count, $iterations_max, $x_min, $x_max, $y_min, $y_max, $color_invert );
-};
+}
 
 
 # procedural interface
-our integer_arrayref_arrayref $julia_escape_time = sub {
+sub julia_escape_time {
+    { my integer_arrayref_arrayref $RETURN_TYPE };
     (   my number $real_c,
         my number $imaginary_c,
         my integer $x_pixel_count,
@@ -91,6 +93,6 @@ our integer_arrayref_arrayref $julia_escape_time = sub {
         }
     }
     return $julia_set;
-};
+}
 
 1;                                                                                                              # end of class

@@ -6,7 +6,7 @@ package MathPerl::GeometricAlgebra::Products;
 use strict;
 use warnings;
 use RPerl::AfterSubclass;
-our $VERSION = 0.000_200;
+our $VERSION = 0.002_000;
 
 # [[[ OO INHERITANCE ]]]
 use parent qw(MathPerl::GeometricAlgebra);
@@ -25,7 +25,8 @@ our hashref $properties = {};
 # [[[ EUCLIDEAN INNER PRODUCTS ]]]
 # [[[ EUCLIDEAN INNER PRODUCTS ]]]
 
-our number $inner_product__vector_vector_euclidean = sub {
+sub inner_product__vector_vector_euclidean {
+    { my number $RETURN_TYPE };
     ( my number_arrayref $input_vector_1, my number_arrayref $input_vector_2 ) = @ARG;
 
     # bound checking
@@ -46,9 +47,10 @@ our number $inner_product__vector_vector_euclidean = sub {
 #    RPerl::diag("in PERLOPS_PERLTYPES inner_product__vector_vector_euclidean(), have \$return_value_number = $return_value_number\n");
 
     return $return_value_number;
-};
+}
 
-our number_arrayref $inner_product__vector_bivector_euclidean = sub {
+sub inner_product__vector_bivector_euclidean {
+    { my number_arrayref $RETURN_TYPE };
     ( my number_arrayref $input_vector, my number_arrayref $input_bivector) = @ARG;
 
     # bound checking
@@ -78,9 +80,10 @@ our number_arrayref $inner_product__vector_bivector_euclidean = sub {
 
 #    RPerl::diag('in PERLOPS_PERLTYPES inner_product__vector_bivector_euclidean(), returning $return_value_vector = ' . Dumper($return_value_vector) . "\n");
     return $return_value_vector;
-};
+}
 
-our number_arrayref $inner_product__bivector_vector_euclidean = sub {
+sub inner_product__bivector_vector_euclidean {
+    { my number_arrayref $RETURN_TYPE };
     ( my number_arrayref $input_bivector, my number_arrayref $input_vector) = @ARG;
 
     # bound checking
@@ -103,9 +106,10 @@ our number_arrayref $inner_product__bivector_vector_euclidean = sub {
 
    #    RPerl::diag("in PERLOPS_PERLTYPES inner_product__bivector_vector_euclidean(), returning \$return_value_vector\n" . Dumper($return_value_vector) . "\n");
     return $return_value_vector;
-};
+}
 
-our number $inner_product__bivector_bivector_euclidean = sub {
+sub inner_product__bivector_bivector_euclidean {
+    { my number $RETURN_TYPE };
     ( my number_arrayref $input_bivector_1, my number_arrayref $input_bivector_2 ) = @ARG;
 
     # bound checking
@@ -128,13 +132,14 @@ our number $inner_product__bivector_bivector_euclidean = sub {
 
     RPerl::diag('in PERLOPS_PERLTYPES inner_product__bivector_bivector_euclidean(), returning $return_value_number = ' . $return_value_number . "\n");
     return $return_value_number;
-};
+}
 
 # [[[ EUCLIDEAN OUTER PRODUCTS ]]]
 # [[[ EUCLIDEAN OUTER PRODUCTS ]]]
 # [[[ EUCLIDEAN OUTER PRODUCTS ]]]
 
-our number_arrayref $outer_product__vector_vector_euclidean = sub {
+sub outer_product__vector_vector_euclidean {
+    { my number_arrayref $RETURN_TYPE };
     ( my number_arrayref $input_vector_1, my number_arrayref $input_vector_2) = @ARG;
 
     # bound checking
@@ -164,9 +169,10 @@ our number_arrayref $outer_product__vector_vector_euclidean = sub {
 
 #    RPerl::diag('in PERLOPS_PERLTYPES outer_product__vector_vector_euclidean(), returning $return_value_bivector = ' . Dumper($return_value_bivector) . "\n");
     return $return_value_bivector;
-};
+}
 
-our number $outer_product__vector_bivector_euclidean = sub {
+sub outer_product__vector_bivector_euclidean {
+    { my number $RETURN_TYPE };
     ( my number_arrayref $input_vector, my number_arrayref $input_bivector) = @ARG;
 
     # bound checking
@@ -189,9 +195,10 @@ our number $outer_product__vector_bivector_euclidean = sub {
 
     #    RPerl::diag("in PERLOPS_PERLTYPES outer_product__vector_bivector_euclidean(), have \$return_value_number = $return_value_number\n");
     return $return_value_number;
-};
+}
 
-our number $outer_product__bivector_vector_euclidean = sub {
+sub outer_product__bivector_vector_euclidean {
+    { my number $RETURN_TYPE };
     ( my number_arrayref $input_bivector, my number_arrayref $input_vector) = @ARG;
 
     # bound checking
@@ -214,9 +221,10 @@ our number $outer_product__bivector_vector_euclidean = sub {
 
     #    RPerl::diag("in PERLOPS_PERLTYPES outer_product__bivector_vector_euclidean(), have \$return_value_number = $return_value_number\n");
     return $return_value_number;
-};
+}
 
-our number_arrayref $outer_product__bivector_bivector_euclidean = sub {
+sub outer_product__bivector_bivector_euclidean {
+    { my number_arrayref $RETURN_TYPE };
     ( my number_arrayref $input_bivector_1, my number_arrayref $input_bivector_2) = @ARG;
 
     # bound checking
@@ -239,13 +247,14 @@ our number_arrayref $outer_product__bivector_bivector_euclidean = sub {
 
    #    RPerl::diag("in PERLOPS_PERLTYPES inner_product__bivector_vector_euclidean(), returning \$return_value_bivector\n" . Dumper($return_value_bivector) . "\n");
     return $return_value_bivector;
-};
+}
 
 # [[[ MINKOWSKI INNER PRODUCTS ]]]
 # [[[ MINKOWSKI INNER PRODUCTS ]]]
 # [[[ MINKOWSKI INNER PRODUCTS ]]]
 
-our number $inner_product__vector_vector_minkowski = sub {
+sub inner_product__vector_vector_minkowski {
+    { my number $RETURN_TYPE };
     ( my number_arrayref $input_vector_1, my number_arrayref $input_vector_2 ) = @ARG;
 
     # bound checking
@@ -267,9 +276,10 @@ our number $inner_product__vector_vector_minkowski = sub {
 #    RPerl::diag("in PERLOPS_PERLTYPES inner_product__vector_vector_minkowski(), have \$return_value_number = $return_value_number\n");
 
     return $return_value_number;
-};
+}
 
-our number_arrayref $inner_product__vector_bivector_minkowski = sub {
+sub inner_product__vector_bivector_minkowski {
+    { my number_arrayref $RETURN_TYPE };
     ( my number_arrayref $input_vector, my number_arrayref $input_bivector) = @ARG;
 
     # bound checking
@@ -293,9 +303,10 @@ our number_arrayref $inner_product__vector_bivector_minkowski = sub {
 
    #    RPerl::diag("in PERLOPS_PERLTYPES inner_product__vector_bivector_minkowski(), returning \$return_value_vector\n" . Dumper($return_value_vector) . "\n");
     return $return_value_vector;
-};
+}
 
-our number_arrayref $inner_product__bivector_vector_minkowski = sub {
+sub inner_product__bivector_vector_minkowski {
+    { my number_arrayref $RETURN_TYPE };
     ( my number_arrayref $input_bivector, my number_arrayref $input_vector) = @ARG;
 
     # bound checking
@@ -319,9 +330,10 @@ our number_arrayref $inner_product__bivector_vector_minkowski = sub {
 
    #    RPerl::diag("in PERLOPS_PERLTYPES inner_product__bivector_vector_minkowski(), returning \$return_value_vector\n" . Dumper($return_value_vector) . "\n");
     return $return_value_vector;
-};
+}
 
-our number $inner_product__bivector_bivector_minkowski = sub {
+sub inner_product__bivector_bivector_minkowski {
+    { my number $RETURN_TYPE };
     ( my number_arrayref $input_bivector_1, my number_arrayref $input_bivector_2 ) = @ARG;
 
     # bound checking
@@ -343,13 +355,14 @@ our number $inner_product__bivector_bivector_minkowski = sub {
 #    RPerl::diag("in PERLOPS_PERLTYPES inner_product__bivector_bivector_minkowski(), have \$return_value_number = $return_value_number\n");
 
     return $return_value_number;
-};
+}
 
 # [[[ MINKOWSKI MIDDLE PRODUCT ]]]
 # [[[ MINKOWSKI MIDDLE PRODUCT ]]]
 # [[[ MINKOWSKI MIDDLE PRODUCT ]]]
 
-our number_arrayref $middle_product__bivector_bivector_minkowski = sub {
+sub middle_product__bivector_bivector_minkowski {
+    { my number_arrayref $RETURN_TYPE };
     ( my number_arrayref $input_bivector_1, my number_arrayref $input_bivector_2) = @ARG;
 
     # bound checking
@@ -375,13 +388,14 @@ our number_arrayref $middle_product__bivector_bivector_minkowski = sub {
 
    #    RPerl::diag("in PERLOPS_PERLTYPES middle_product__bivector_bivector_minkowski(), returning \$return_value_bivector\n" . Dumper($return_value_bivector) . "\n");
     return $return_value_bivector;
-};
+}
 
 # [[[ MINKOWSKI OUTER PRODUCTS ]]]
 # [[[ MINKOWSKI OUTER PRODUCTS ]]]
 # [[[ MINKOWSKI OUTER PRODUCTS ]]]
 
-our number_arrayref $outer_product__vector_vector_minkowski = sub {
+sub outer_product__vector_vector_minkowski {
+    { my number_arrayref $RETURN_TYPE };
     ( my number_arrayref $input_vector_1, my number_arrayref $input_vector_2) = @ARG;
 
     # bound checking
@@ -407,9 +421,10 @@ our number_arrayref $outer_product__vector_vector_minkowski = sub {
 
  #    RPerl::diag("in PERLOPS_PERLTYPES outer_product__vector_vector_minkowski(), returning \$return_value_bivector\n" . Dumper($return_value_bivector) . "\n");
     return $return_value_bivector;
-};
+}
 
-our number_arrayref $outer_product__vector_bivector_minkowski = sub {
+sub outer_product__vector_bivector_minkowski {
+    { my number_arrayref $RETURN_TYPE };
     ( my number_arrayref $input_vector, my number_arrayref $input_bivector) = @ARG;
 
     # bound checking
@@ -433,9 +448,10 @@ our number_arrayref $outer_product__vector_bivector_minkowski = sub {
 
 #    RPerl::diag("in PERLOPS_PERLTYPES outer_product__vector_bivector_minkowski(), returning \$return_value_trivector\n" . Dumper($return_value_trivector) . "\n");
     return $return_value_trivector;
-};
+}
 
-our number $outer_product__bivector_vector_minkowski = sub {
+sub outer_product__bivector_vector_minkowski {
+    { my number $RETURN_TYPE };
     ( my number_arrayref $input_bivector, my number_arrayref $input_vector) = @ARG;
 
     # bound checking
@@ -459,9 +475,10 @@ our number $outer_product__bivector_vector_minkowski = sub {
 
     #    RPerl::diag("in PERLOPS_PERLTYPES outer_product__bivector_vector_minkowski(), have \$return_value_trivector = $return_value_trivector\n");
     return $return_value_trivector;
-};
+}
 
-our number_arrayref $outer_product__bivector_bivector_minkowski = sub {
+sub outer_product__bivector_bivector_minkowski {
+    { my number_arrayref $RETURN_TYPE };
     ( my number_arrayref $input_bivector_1, my number_arrayref $input_bivector_2) = @ARG;
 
     # bound checking
@@ -482,6 +499,6 @@ our number_arrayref $outer_product__bivector_bivector_minkowski = sub {
 
    #    RPerl::diag("in PERLOPS_PERLTYPES inner_product__bivector_vector_minkowski(), returning \$return_value_quadvector\n" . Dumper($return_value_quadvector) . "\n");
     return $return_value_quadvector;
-};
+}
 
 1;    # end of class

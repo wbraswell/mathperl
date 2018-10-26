@@ -3,7 +3,7 @@ use RPerl;
 package MathPerl::Matrix2D;
 use strict;
 use warnings;
-our $VERSION = 0.002_000;
+our $VERSION = 0.003_000;
 
 # [[[ OO INHERITANCE ]]]
 use parent qw(MathPerl::Matrix);
@@ -18,18 +18,19 @@ our hashref $properties = { data => my number_arrayref_arrayref $TYPED_data = un
 
 # [[[ SUBROUTINES & OO METHODS ]]]
 
-our void::method $init = sub {
+sub init {
+    { my void::method $RETURN_TYPE };
     ( my MathPerl::Matrix2D $self ) = @ARG;
     $self->{data} = [];
     $self->{data}->[0] = [];
-};
+}
 
 # START HERE: create matmul tests, create stubs for Matrix3D.pm & Matrix4D.pm, work on AffineTransformation*.pm
 # START HERE: create matmul tests, create stubs for Matrix3D.pm & Matrix4D.pm, work on AffineTransformation*.pm
 # START HERE: create matmul tests, create stubs for Matrix3D.pm & Matrix4D.pm, work on AffineTransformation*.pm
 
-our MathPerl::Matrix2D $multiply_matrix2d = sub {
-{
+sub multiply_matrix2d {
+    { my MathPerl::Matrix2D $RETURN_TYPE };
     ( my MathPerl::Matrix2D $matrix_0, my MathPerl::Matrix2D $matrix_1 ) = @ARG;
 
     # NEED FIX: how to resize/grow/allocate matrix memory in C++ to allow direct indexing instead of push & pop in loop below?
@@ -73,6 +74,6 @@ our MathPerl::Matrix2D $multiply_matrix2d = sub {
     }
 
     return $matrix_product;
-};
+}
 
 1;    # end of class

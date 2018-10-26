@@ -4,7 +4,7 @@ use RPerl;
 package MathPerl::Geometry::PiDigits;
 use strict;
 use warnings;
-our $VERSION = 0.002_100;
+our $VERSION = 0.003_000;
 
 # [[[ OO INHERITANCE ]]]
 use parent qw(MathPerl::Algorithm);
@@ -23,31 +23,35 @@ our hashref $properties = {};
 
 # [[[ SUBROUTINES & OO METHODS ]]]
 
-our unsigned_integer $extract_digit = sub {
+sub extract_digit {
+    { my unsigned_integer $RETURN_TYPE };
     ( my unsigned_integer $nth, my gmp_integer $tmp1, my gmp_integer $tmp2, my gmp_integer $acc, my gmp_integer $den, my gmp_integer $num ) = @ARG;
     gmp_mul_unsigned_integer( $tmp1, $num, $nth );
     gmp_add( $tmp2, $tmp1, $acc );
     gmp_div_truncate_quotient( $tmp1, $tmp2, $den );
     return gmp_get_unsigned_integer($tmp1);
-};
+}
 
-our void $eliminate_digit = sub {
+sub eliminate_digit {
+    { my void $RETURN_TYPE };
     ( my unsigned_integer $d, my gmp_integer $acc, my gmp_integer $den, my gmp_integer $num ) = @ARG;
     gmp_sub_mul_unsigned_integer( $acc, $den, $d );
     gmp_mul_unsigned_integer( $acc, $acc, 10 );
     gmp_mul_unsigned_integer( $num, $num, 10 );
-};
+}
 
-our void $next_term = sub {
+sub next_term {
+    { my void $RETURN_TYPE };
     ( my unsigned_integer $k, my gmp_integer $acc, my gmp_integer $den, my gmp_integer $num ) = @ARG;
     my unsigned_integer $k2 = $k * integer_to_unsigned_integer(2) + integer_to_unsigned_integer(1);
     gmp_add_mul_unsigned_integer( $acc, $num, integer_to_unsigned_integer(2) );
     gmp_mul_unsigned_integer( $acc, $acc, $k2 );
     gmp_mul_unsigned_integer( $den, $den, $k2 );
     gmp_mul_unsigned_integer( $num, $num, $k );
-};
+}
 
-our void $display_pi_digits = sub {
+sub display_pi_digits {
+    { my void $RETURN_TYPE };
     ( my integer $n ) = @ARG;
     my gmp_integer $tmp1 = gmp_integer->new();
     my gmp_integer $tmp2 = gmp_integer->new();
@@ -84,6 +88,6 @@ MAIN_LOOP:
         }
         eliminate_digit( $d, $acc, $den, $num );
     }
-};
+}
 
 1;    # end of class

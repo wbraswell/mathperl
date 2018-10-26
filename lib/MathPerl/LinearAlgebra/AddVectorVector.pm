@@ -3,7 +3,7 @@ use RPerl;
 package MathPerl::LinearAlgebra::AddVectorVector;
 use strict;
 use warnings;
-our $VERSION = 0.002_000;
+our $VERSION = 0.003_000;
 
 # [[[ OO INHERITANCE ]]]
 use parent qw(MathPerl::Operation);
@@ -22,16 +22,18 @@ our hashref $properties = {};
 
 # [[[ SUBROUTINES & OO METHODS ]]]
 
-our MathPerl::DataStructure::Vector $add_vector_vector = sub {
+sub add_vector_vector {
+    { my MathPerl::DataStructure::Vector $RETURN_TYPE };
     (   my MathPerl::DataStructure::Vector $input_0,
         my MathPerl::DataStructure::Vector $input_1
     ) = @ARG;
     my MathPerl::DataStructure::Vector $return_value = MathPerl::DataStructure::Vector->new();
     $return_value->{head} = add_vector_vector_raw($input_0->{head}, $input_1->{head});
     return $return_value;
-};
+}
 
-our number_arrayref $add_vector_vector_raw = sub {
+sub add_vector_vector_raw {
+    { my number_arrayref $RETURN_TYPE };
     (   my number_arrayref $input_0,
         my number_arrayref $input_1
     ) = @ARG;
@@ -55,6 +57,6 @@ our number_arrayref $add_vector_vector_raw = sub {
     }
 
     return $return_value;
-};
+}
 
 1;  # end of class

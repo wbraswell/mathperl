@@ -3,7 +3,7 @@ package MathPerl::Fractal::Renderer2D;
 use strict;
 use warnings;
 use RPerl::AfterSubclass;
-our $VERSION = 0.006_200;
+our $VERSION = 0.007_000;
 
 # [[[ OO INHERITANCE ]]]
 use parent qw(RPerl::CompileUnit::Module::Class);    # no non-system inheritance, only inherit from base class
@@ -70,7 +70,8 @@ our hashref $properties = {
 
 # [[[ SUBROUTINES & OO METHODS ]]]
 
-our void::method $init = sub {
+sub init {
+    { my void::method $RETURN_TYPE };
     ( my MathPerl::Fractal::Renderer2D $self, my string $set_name, my integer $x_pixel_count, my integer $y_pixel_count, my integer $iterations_max ) = @ARG;
 
     $self->{iterations_init} = $iterations_max;  # save for use on reset
@@ -86,9 +87,10 @@ our void::method $init = sub {
         delay  => 25,                       # don't let SDL overload the CPU
         resizeable => 1                     # dual modes require window resize
     );
-};
+}
 
-our void::method $init_values = sub {
+sub init_values {
+    { my void::method $RETURN_TYPE };
     ( my MathPerl::Fractal::Renderer2D $self, my string $set_name, my integer $x_pixel_count, my integer $y_pixel_count, my integer $iterations_max, my string $coloring_name ) = @ARG;
     if ( not exists $self->{set_modes}->{$set_name} ) { die 'Unknown fractal set name ' . $set_name . ', dying' . "\n"; }
     if ($x_pixel_count < 10) { die 'X pixel count ' . $x_pixel_count . ' below minimum of 10, dying' . "\n"; }
@@ -148,9 +150,10 @@ our void::method $init_values = sub {
     ];
 
     $self->{mouse_clicked} = 0;
-};
+}
 
-our void::method $events = sub {
+sub events {
+    { my void::method $RETURN_TYPE };
     ( my MathPerl::Fractal::Renderer2D $self, my SDL::Event $event, my SDLx::App $app ) = @ARG;
     if ( $event->type() == SDL_QUIT ) { $app->stop(); }
     if ( $event->type() == SDL_KEYDOWN ) {
@@ -175,9 +178,10 @@ our void::method $events = sub {
         $self->process_mouseclick( $app, $mouse_mask, $mouse_x, $mouse_y );
 #        $self->process_mouseclick( $app, $mouse_mask, $event->motion_x(), $event->motion_y() );
     }
-};
+}
 
-our void::method $process_mouseclick = sub {
+sub process_mouseclick {
+    { my void::method $RETURN_TYPE };
     ( my MathPerl::Fractal::Renderer2D $self, my SDLx::App $app, my integer $mouse_mask, my integer $mouse_x, my integer $mouse_y ) = @ARG;
 #    print 'Mouse Button: Left' . "\n" if ($mouse_mask & SDL_BUTTON_LMASK);
 #    print 'Mouse Button: Right' . "\n" if ($mouse_mask & SDL_BUTTON_RMASK);
@@ -193,9 +197,10 @@ our void::method $process_mouseclick = sub {
         $self->escape_time_render($app);    # only render additional frames when a change occurs
         $app->update();
     }
-};
+}
 
-our void::method $process_keystroke = sub {
+sub process_keystroke {
+    { my void::method $RETURN_TYPE };
     ( my MathPerl::Fractal::Renderer2D $self, my SDLx::App $app, my string $key_name, my integer $mod_state ) = @ARG;
 
 #    print $key_name . ' ';
@@ -324,9 +329,10 @@ our void::method $process_keystroke = sub {
 
     $self->escape_time_render($app);    # only render additional frames when a change occurs
     $app->update();
-};
+}
 
-our void::method $escape_time_render = sub {
+sub escape_time_render {
+    { my void::method $RETURN_TYPE };
     ( my MathPerl::Fractal::Renderer2D $self, my SDLx::App $app ) = @ARG;
 #    SDL::Video::fill_rect( $app, SDL::Rect->new( 0, 0, $app->w(), $app->h() ), 0 );    # avoid window resize on exit, blanks out Mandelbrot in mandelbrot_julia dual mode
 
@@ -427,9 +433,10 @@ our void::method $escape_time_render = sub {
         y     => 10,
     )->write_to($app);
 
-};
+}
 
-our void::method $move = sub {
+sub move {
+    { my void::method $RETURN_TYPE };
     ( my MathPerl::Fractal::Renderer2D $self, my number $dt, my SDLx::App $app, my number $t ) = @ARG;
 
     #    print 'in move(), received $dt = ' . $dt . ', $t = ' . $t . "\n";
@@ -460,9 +467,10 @@ our void::method $move = sub {
         $self->escape_time_render($app);    # only render additional frames when a change occurs
         $app->update();
     }
-};
+}
 
-our void::method $render2d_video = sub {
+sub render2d_video {
+    { my void::method $RETURN_TYPE };
     ( my MathPerl::Fractal::Renderer2D $self ) = @ARG;
 
     $self->escape_time_render_pre();  # possibly pre-render zeroth frame
@@ -476,9 +484,10 @@ our void::method $render2d_video = sub {
 
     #    $self->{app}->fullscreen();
     $self->{app}->run();
-};
+}
 
-our void::method $escape_time_render_pre = sub {
+sub escape_time_render_pre {
+    { my void::method $RETURN_TYPE };
     ( my MathPerl::Fractal::Renderer2D $self ) = @ARG;
 
     # render Mandelbrot only once in mandelbrot_julia dual mode
@@ -488,6 +497,6 @@ our void::method $escape_time_render_pre = sub {
         $self->{app}->update();
         $self->init_values('mandelbrot_julia', $self->{x_pixel_count}, $self->{y_pixel_count}, $self->{iterations_max}, $self->{coloring_name});
     }
-};
+}
 
 1;    # end of class

@@ -3,7 +3,7 @@ use RPerl;
 package MathPerl::Arithmetic::ApproximatelyEqual;
 use strict;
 use warnings;
-our $VERSION = 0.001_000;
+our $VERSION = 0.002_000;
 
 # [[[ OO INHERITANCE ]]]
 use parent qw(MathPerl::Operation);
@@ -18,13 +18,14 @@ our hashref $properties = {};
 
 # [[[ SUBROUTINES & OO METHODS ]]]
 
-our boolean $approximately_equal = sub {
+sub approximately_equal {
+    { my boolean $RETURN_TYPE };
     (   my number $input_0,
         my number $input_1
     ) = @ARG;
 
     if ((abs ($input_0 - $input_1)) <= RPerl::EPSILON()) { return 1; }
     else { return 0; }
-};
+}
 
 1;  # end of class

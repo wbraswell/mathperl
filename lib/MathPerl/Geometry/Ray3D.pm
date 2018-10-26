@@ -3,7 +3,7 @@ use RPerl;
 package MathPerl::Geometry::Ray3D;
 use strict;
 use warnings;
-our $VERSION = 0.001_000;
+our $VERSION = 0.002_000;
 
 # [[[ OO INHERITANCE ]]]
 use parent qw(MathPerl::Geometry::Ray);
@@ -24,8 +24,8 @@ our hashref $properties = {
 
 # [[[ SUBROUTINES & OO METHODS ]]]
 
-our MathPerl::Geometry::Ray3D::method $transform_apply = sub {
-{
+sub transform_apply {
+    { my MathPerl::Geometry::Ray3D::method $RETURN_TYPE };
     ( my MathPerl::Geometry::Ray3D $self, my MathPerl::Geometry::AffineTransformation3D $transform ) = @ARG;
     my MathPerl::Geometry::Ray3D $transformed_ray = MathPerl::Geometry::Ray3D->new();
 
@@ -44,10 +44,11 @@ our MathPerl::Geometry::Ray3D::method $transform_apply = sub {
     $transformed_ray->{direction}->{z} = $transformed_direction_matrix->{data}->[2]->[0];
 
     return $transformed_ray;
-};
+}
 
 
-our MathPerl::Geometry::Point3D::method $position_at_time = sub {
+sub position_at_time {
+    { my MathPerl::Geometry::Point3D::method $RETURN_TYPE };
     ( my MathPerl::Geometry::Ray3D $self, my number $time ) = @ARG;
     my MathPerl::Geometry::Point3D $position = MathPerl::Geometry::Point3D->new();
 

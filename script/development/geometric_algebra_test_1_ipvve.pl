@@ -100,7 +100,7 @@ my integer $i_MAX = 0;  # CONSTANT
 for my integer $i ( 0 .. $i_MAX ) {
 	print "in geometric_algebra_test_1_ipvve.pl, top of for() loop $i/$i_MAX\n";
 
-    $retval_number = inner_product__vector_vector_euclidean($input_vector_1, $input_vector_2);
+    $retval_number = MathPerl::GeometricAlgebra::Products::inner_product__vector_vector_euclidean($input_vector_1, $input_vector_2);
 
     print "in geometric_algebra_test_1_ipvve.pl $i/$i_MAX, have \$retval_number =\n$retval_number\n";
 

@@ -22,7 +22,7 @@
 use RPerl;
 use strict;
 use warnings;
-our $VERSION = 0.002_100;
+our $VERSION = 0.003_000;
 
 # [[[ CRITICS ]]]
 ## no critic qw(ProhibitUselessNoCritic ProhibitMagicNumbers RequireCheckedSyscalls)  # USER DEFAULT 1: allow numeric values & print operator
@@ -45,22 +45,22 @@ if ( defined $ARGV[0] ) { $set_name = lc $ARGV[0]; }    # user input, command-li
 my integer $x_pixel_count = 640;
 #my integer $x_pixel_count = 800;
 #my integer $x_pixel_count = 1200;
-if ( defined $ARGV[1] ) { $x_pixel_count = string_to_integer( $ARGV[1] ); }    # user input, command-line argument
+if ( defined $ARGV[1] ) { $x_pixel_count = ::string_to_integer( $ARGV[1] ); }    # user input, command-line argument
 
 #my integer $y_pixel_count = 12;
 #my integer $y_pixel_count = 120;
 my integer $y_pixel_count = 480;
 #my integer $y_pixel_count = 600;
 #my integer $y_pixel_count = 800;
-if ( defined $ARGV[2] ) { $y_pixel_count = string_to_integer( $ARGV[2] ); }    # user input, command-line argument
+if ( defined $ARGV[2] ) { $y_pixel_count = ::string_to_integer( $ARGV[2] ); }    # user input, command-line argument
 
 my integer $iterations_max = 300;
 
 #my integer $iterations_max = 200;
-if ( defined $ARGV[3] ) { $iterations_max = string_to_integer( $ARGV[3] ); }    # user input, command-line argument
+if ( defined $ARGV[3] ) { $iterations_max = ::string_to_integer( $ARGV[3] ); }    # user input, command-line argument
 
 my boolean $enable_graphics = 1;
-if ( defined $ARGV[4] ) { $enable_graphics = string_to_boolean( $ARGV[4] ); }    # user input, command-line argument
+if ( defined $ARGV[4] ) { $enable_graphics = ::string_to_boolean( $ARGV[4] ); }    # user input, command-line argument
 
 #my string $coloring_name = 'RGB';
 my string $coloring_name = 'HSV';
@@ -85,7 +85,7 @@ else {
         );
     }
     elsif ( $set_name eq 'julia' ) {
-        $set = julia_escape_time(
+        $set = MathPerl::Fractal::Julia::julia_escape_time(
             -0.7, 0.270_15, 
             $x_pixel_count, $y_pixel_count, $iterations_max,
             MathPerl::Fractal::Julia::X_SCALE_MIN(),

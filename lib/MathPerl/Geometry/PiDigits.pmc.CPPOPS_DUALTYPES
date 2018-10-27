@@ -5,6 +5,9 @@ use warnings;
 use RPerl::AfterSubclass;
 our $VERSION = 0.001_000;
 
+# [[[ OO INHERITANCE ]]]
+our @ISA = qw(MathPerl::Algorithm);
+
 # [[[ CRITICS ]]]
 ## no critic qw(ProhibitStringyEval)  # SYSTEM DEFAULT 1: allow eval()
 
@@ -25,8 +28,8 @@ undef &MathPerl::Geometry::PiDigits::display_pi_digits;
 *MathPerl::Geometry::PiDigits::display_pi_digits = sub { return main::MathPerl__Geometry__PiDigits__display_pi_digits(@ARG); };
 
 # <<< C++ LOADER >>>
-#our void::method $cpp_load = sub {
 sub cpp_load {
+    { my void::method $RETURN_TYPE };
     my $need_load_cpp = 0;
     if (    ( exists $main::{'MathPerl__Geometry__PiDigits__MODE_ID'} )
         and ( defined &{ $main::{'MathPerl__Geometry__PiDigits__MODE_ID'} } ) )
@@ -50,15 +53,16 @@ sub cpp_load {
 package main;
 use RPerl::Inline;
 BEGIN { RPerl::diag("[[[ BEGIN 'use Inline' STAGE for 'MathPerl/Geometry/PiDigits.cpp' ]]]\n" x 1); }
-use Inline (CPP => '$main::INCLUDE_PATH' . '/MathPerl/Geometry/PiDigits.cpp', \%RPerl::Inline::ARGS);
+use Inline (CPP => '$main::INCLUDE_PATH' . '/' . 'MathPerl/Geometry/PiDigits.cpp', \%RPerl::Inline::ARGS);
 RPerl::diag("[[[ END   'use Inline' STAGE for 'MathPerl/Geometry/PiDigits.cpp' ]]]\n" x 1);
 1;
 EOF
 
         $RPerl::Inline::ARGS{ccflagsex}
-            = $RPerl::Inline::CCFLAGSEX . $RPerl::TYPES_CCFLAG . rperltypes::type_integer_native_ccflag() . rperltypes::type_number_native_ccflag();
-        $RPerl::Inline::ARGS{cppflags} = $RPerl::TYPES_CCFLAG . rperltypes::type_integer_native_ccflag() . rperltypes::type_number_native_ccflag();
-        $RPerl::Inline::ARGS{libs} = '-lgmpxx -lgmp';                                                                                  # enable GMP support
+            = $RPerl::Inline::CCFLAGSEX . $RPerl::TYPES_CCFLAG . rperltypessizes::type_integer_native_ccflag() . rperltypessizes::type_number_native_ccflag();
+        $RPerl::Inline::ARGS{cppflags} = $RPerl::TYPES_CCFLAG . rperltypessizes::type_integer_native_ccflag() . rperltypessizes::type_number_native_ccflag();
+        $RPerl::Inline::ARGS{libs} = '-L' . $RPerl::Inline::gmp_lib_dir . ' -lgmpxx -lgmp';    # enable GMP support
+        $RPerl::Inline::ARGS{inc} .= ' -I' . $RPerl::Inline::gmp_include_dir;                  # enable GMP support
         $RPerl::Inline::ARGS{auto_include} = [ @{ $RPerl::Inline::ARGS{auto_include} }, '#include <gmpxx.h>', '#include <gmp.h>' ];    # enable GMP support
 
 #RPerl::diag('in MathPerl::Geometry::PiDigits::cpp_load(), CPP not yet loaded, about to call eval() on $eval_string =' . "\n" . '<<< BEGIN EVAL STRING>>>' . "\n" . $eval_string . '<<< END EVAL STRING >>>' . "\n");
@@ -70,7 +74,7 @@ EOF
     #else { RPerl::diag('in MathPerl::Geometry::PiDigits::cpp_load(), CPP already loaded, DOING NOTHING' . "\n"); }
 }
 
-# DEV NOTE, CORRELATION #rp15: suppress 'Too late to run INIT block' at run-time loading via require or eval
+# DEV NOTE, CORRELATION #rp015: suppress 'Too late to run INIT block' at run-time loading via require or eval
 no warnings;
 INIT {
     # actually compile and load C++ code when 'use MathPerl::Geometry::PiDigits' is called

@@ -9,8 +9,14 @@ our $VERSION = 0.001_000;
 use parent qw(RPerl::CompileUnit::Module::Class);  # no non-system inheritance, only inherit from base class
 use RPerl::CompileUnit::Module::Class;
 
+# [[[ EXPORTS ]]]
+use RPerl::Exporter 'import';
+our @EXPORT_OK = ( @MathPerl::LinearAlgebra::AddVectorVector::EXPORT_OK );
+
 # [[[ INCLUDES ]]]
-use MathPerl::LinearAlgebra::AddVectorVector;
+
+# DEV NOTE: must explicitly import each subroutine in @EXPORT_OK
+use MathPerl::LinearAlgebra::AddVectorVector qw(add_vector_vector);
 
 # [[[ OO PROPERTIES ]]]
 our hashref $properties = {};

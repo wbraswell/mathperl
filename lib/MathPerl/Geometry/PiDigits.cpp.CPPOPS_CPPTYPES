@@ -2,7 +2,7 @@
 using std::cout;  using std::cerr;  using std::endl;
 
 #ifndef __CPP__INCLUDED__MathPerl__Geometry__PiDigits_cpp
-#define __CPP__INCLUDED__MathPerl__Geometry__PiDigits_cpp 0.002_100
+#define __CPP__INCLUDED__MathPerl__Geometry__PiDigits_cpp 0.006_000
 
 // [[[ INCLUDES ]]]
 #include "MathPerl/Geometry/PiDigits.h"
@@ -30,6 +30,7 @@ void MathPerl__Geometry__PiDigits__eliminate_digit(unsigned_integer d, gmp_integ
     gmp_sub_mul_unsigned_integer(acc, den, d);
     gmp_mul_unsigned_integer(acc, acc, 10);
     gmp_mul_unsigned_integer(num, num, 10);
+    return;
 }
 
 void MathPerl__Geometry__PiDigits__next_term(unsigned_integer k, gmp_integer acc, gmp_integer den, gmp_integer num) {
@@ -38,6 +39,7 @@ void MathPerl__Geometry__PiDigits__next_term(unsigned_integer k, gmp_integer acc
     gmp_mul_unsigned_integer(acc, acc, k2);
     gmp_mul_unsigned_integer(den, den, k2);
     gmp_mul_unsigned_integer(num, num, k);
+    return;
 }
 
 void MathPerl__Geometry__PiDigits__display_pi_digits(integer n) {
@@ -69,12 +71,13 @@ void MathPerl__Geometry__PiDigits__display_pi_digits(integer n) {
         print d;
         i = i + 1;
         if ( (i % 10) == 0 ) {
-            print "\t:" << integer_to_string(i) << endl;
+            print "  :" << integer_to_string(i) << endl;
         }
         eliminate_digit(d, acc, den, num);
         MAIN_LOOP_NEXT: 1;
     }
     MAIN_LOOP_LAST: 1;
+    return;
 }
 
 // [[[<<< END CPP TYPES >>>]]]

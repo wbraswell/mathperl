@@ -4,7 +4,7 @@ package MathPerl::DataStructure::Vector;
 #package MathPerl::DataStructure::NumberVectorFree;  # DEV NOTE: Vector is really NumberVectorFree; shortened for convenience; contrasted with VectorBound which is really NumberVectorBound
 use strict;
 use warnings;
-our $VERSION = 0.002_000;
+our $VERSION = 0.003_000;
 
 # [[[ OO INHERITANCE ]]]
 use parent qw(MathPerl::DataStructure);
@@ -14,6 +14,10 @@ use MathPerl::DataStructure;
 ## no critic qw(ProhibitUselessNoCritic ProhibitMagicNumbers RequireCheckedSyscalls)  # USER DEFAULT 1: allow numeric values & print operator
 ## no critic qw(ProhibitCStyleForLoops)  # USER DEFAULT 6: allow C-style for() loop headers
 ## no critic qw(ProhibitMultiplePackages ProhibitReusedNames ProhibitPackageVars)  # USER DEFAULT 8: allow additional & subclass & shorthand package names
+
+# [[[ EXPORTS ]]]
+use RPerl::Exporter qw(import);
+our @EXPORT    = qw(Vector_to_string);
 
 # [[[ OO PROPERTIES ]]]
 our hashref $properties = { head => my number_arrayref $TYPED_head = [] };

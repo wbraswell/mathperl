@@ -3,7 +3,7 @@ use RPerl;
 package MathPerl::Arithmetic::ApproximatelyEqual;
 use strict;
 use warnings;
-our $VERSION = 0.002_000;
+our $VERSION = 0.003_000;
 
 # [[[ OO INHERITANCE ]]]
 use parent qw(MathPerl::Operation);
@@ -12,6 +12,10 @@ use MathPerl::Operation;
 # [[[ CRITICS ]]]
 ## no critic qw(ProhibitUselessNoCritic ProhibitMagicNumbers RequireCheckedSyscalls)  # USER DEFAULT 1: allow numeric values & print operator
 ## no critic qw(ProhibitParensWithBuiltins)  # USER DEFAULT 7: allow explicit parentheses for clearer order-of-operations precedence
+
+# [[[ EXPORTS ]]]
+use RPerl::Exporter 'import';
+our @EXPORT_OK = qw(approximately_equal);
 
 # [[[ OO PROPERTIES ]]]
 our hashref $properties = {};

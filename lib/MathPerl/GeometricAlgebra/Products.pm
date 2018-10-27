@@ -6,7 +6,7 @@ package MathPerl::GeometricAlgebra::Products;
 use strict;
 use warnings;
 use RPerl::AfterSubclass;
-our $VERSION = 0.002_000;
+our $VERSION = 0.004_000;
 
 # [[[ OO INHERITANCE ]]]
 use parent qw(MathPerl::GeometricAlgebra);
@@ -15,6 +15,29 @@ use MathPerl::GeometricAlgebra;
 # [[[ CRITICS ]]]
 ## no critic qw(ProhibitUselessNoCritic ProhibitMagicNumbers RequireCheckedSyscalls) # USER DEFAULT 1: allow numeric values & print operator
 ## no critic qw(RequireInterpolationOfMetachars)  # USER DEFAULT 2: allow single-quoted control characters & sigils
+
+# [[[ EXPORTS ]]]
+# <<< CHANGE_ME: delete for no exports, or replace with real names of subroutines (not methods) to be exported >>>
+use RPerl::Exporter qw(import);
+our @EXPORT_OK = qw(
+    inner_product__vector_vector_euclidean
+    inner_product__vector_bivector_euclidean
+    inner_product__bivector_vector_euclidean
+    inner_product__bivector_bivector_euclidean
+    outer_product__vector_vector_euclidean
+    outer_product__vector_bivector_euclidean
+    outer_product__bivector_vector_euclidean
+    outer_product__bivector_bivector_euclidean
+    inner_product__vector_vector_minkowski
+    inner_product__vector_bivector_minkowski
+    inner_product__bivector_vector_minkowski
+    inner_product__bivector_bivector_minkowski
+    middle_product__bivector_bivector_minkowski
+    outer_product__vector_vector_minkowski
+    outer_product__vector_bivector_minkowski
+    outer_product__bivector_vector_minkowski
+    outer_product__bivector_bivector_minkowski
+);
 
 # [[[ OO PROPERTIES ]]]
 our hashref $properties = {};

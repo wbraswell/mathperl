@@ -15,6 +15,10 @@ use MathPerl::Algorithm;
 ## no critic qw(RequireInterpolationOfMetachars)  # USER DEFAULT 2: allow single-quoted control characters & sigils
 ## no critic qw(ProhibitConstantPragma ProhibitMagicNumbers)  # USER DEFAULT 3: allow constants
 
+# [[[ EXPORTS ]]]
+use RPerl::Exporter qw(import);
+our @EXPORT_OK = qw(mandelbrot_escape_time);
+
 # [[[ CONSTANTS ]]]
 use constant X_SCALE_MIN => my number $TYPED_X_SCALE_MIN = -2.5;
 use constant X_SCALE_MAX => my number $TYPED_X_SCALE_MAX = 1.0;

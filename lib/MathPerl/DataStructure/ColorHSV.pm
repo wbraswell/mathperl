@@ -3,11 +3,15 @@ use RPerl;
 package MathPerl::DataStructure::ColorHSV;
 use strict;
 use warnings;
-our $VERSION = 0.003_000;
+our $VERSION = 0.004_000;
 
 # [[[ OO INHERITANCE ]]]
 use parent qw(MathPerl::DataStructure::Color);
 use MathPerl::DataStructure::Color;
+
+# [[[ EXPORTS ]]]
+use RPerl::Exporter qw(import);
+our @EXPORT_OK = qw(hsv_to_rgb);
 
 # [[[ INCLUDES ]]]
 use MathPerl::DataStructure::ColorRGB;
@@ -16,7 +20,7 @@ use MathPerl::DataStructure::ColorRGB;
 our hashref $properties = {
     hue        => my number $TYPED_hue        = undef,
     saturation => my number $TYPED_saturation = undef,
-    value      => my number $TYPED_value      = undef,
+    value      => my number $TYPED_value      = undef
 };
 
 # [[[ SUBROUTINES & OO METHODS ]]]

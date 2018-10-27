@@ -16,7 +16,7 @@
 use RPerl;
 use strict;
 use warnings;
-our $VERSION = 0.001_000;
+our $VERSION = 0.002_000;
 
 # [[[ CRITICS ]]]
 ## no critic qw(ProhibitUselessNoCritic ProhibitMagicNumbers RequireCheckedSyscalls) # USER DEFAULT 1: allow numeric values & print operator
@@ -25,19 +25,19 @@ our $VERSION = 0.001_000;
 use MathPerl::Arithmetic::ApproximatelyEqual;
 
 # [[[ OPERATIONS ]]]
-print approximately_equal(0, 0);
+print MathPerl::Arithmetic::ApproximatelyEqual::approximately_equal(0, 0);
 print "\n";
-print approximately_equal(0, 0.1);
+print MathPerl::Arithmetic::ApproximatelyEqual::approximately_equal(0, 0.1);
 print "\n";
-print approximately_equal(0, 0.001);
+print MathPerl::Arithmetic::ApproximatelyEqual::approximately_equal(0, 0.001);
 print "\n";
-#print approximately_equal(0, 0.000_001);
+#print MathPerl::Arithmetic::ApproximatelyEqual::approximately_equal(0, 0.000_001);
 #print "\n";
-#print approximately_equal(0, 0.000_000_001);
+#print MathPerl::Arithmetic::ApproximatelyEqual::approximately_equal(0, 0.000_000_001);
 #print "\n";
-#print approximately_equal(0, 0.000_000_000_001);
+#print MathPerl::Arithmetic::ApproximatelyEqual::approximately_equal(0, 0.000_000_000_001);
 #print "\n";
-#print approximately_equal(0, 0.000_000_000_000_001);
+#print MathPerl::Arithmetic::ApproximatelyEqual::approximately_equal(0, 0.000_000_000_000_001);
 #print "\n";
-print approximately_equal(0, 0.000_000_000_000_000_001);
+print MathPerl::Arithmetic::ApproximatelyEqual::approximately_equal(0, 0.000_000_000_000_000_001);
 print "\n";

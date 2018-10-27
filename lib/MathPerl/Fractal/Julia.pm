@@ -4,7 +4,7 @@ use RPerl;
 package MathPerl::Fractal::Julia;
 use strict;
 use warnings;
-our $VERSION = 0.004_000;
+our $VERSION = 0.005_000;
 
 # [[[ OO INHERITANCE ]]]
 use parent qw(MathPerl::Algorithm);
@@ -14,6 +14,10 @@ use MathPerl::Algorithm;
 ## no critic qw(ProhibitUselessNoCritic ProhibitMagicNumbers RequireCheckedSyscalls)  # USER DEFAULT 1: allow numeric values & print operator
 ## no critic qw(RequireInterpolationOfMetachars)  # USER DEFAULT 2: allow single-quoted control characters & sigils
 ## no critic qw(ProhibitConstantPragma ProhibitMagicNumbers)  # USER DEFAULT 3: allow constants
+
+# [[[ EXPORTS ]]]
+use RPerl::Exporter qw(import);
+our @EXPORT_OK = qw(julia_escape_time);
 
 # [[[ CONSTANTS ]]]
 use constant X_SCALE_MIN => my number $TYPED_X_SCALE_MIN = -2.5;
@@ -85,10 +89,10 @@ sub julia_escape_time {
                 $i++;
             }
             if ($color_invert) {
-                $julia_set->[$y_pixel]->[$x_pixel] = number_to_integer( 255 - ( $i * $color_scaling_factor ) ); # scale to become color, invert for white background
+                $julia_set->[$y_pixel]->[$x_pixel] = ::number_to_integer( 255 - ( $i * $color_scaling_factor ) ); # scale to become color, invert for white background
             }
             else {
-                $julia_set->[$y_pixel]->[$x_pixel] = number_to_integer( $i * $color_scaling_factor );           # scale to become color, black background
+                $julia_set->[$y_pixel]->[$x_pixel] = ::number_to_integer( $i * $color_scaling_factor );           # scale to become color, black background
             }
         }
     }

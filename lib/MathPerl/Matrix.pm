@@ -3,15 +3,20 @@ use RPerl;
 package MathPerl::Matrix;
 use strict;
 use warnings;
-our $VERSION = 0.001_000;
+our $VERSION = 0.002_000;
 
 # [[[ OO INHERITANCE ]]]
-use parent qw(RPerl::CompileUnit::Module::Class);
+use parent qw(RPerl::CompileUnit::Module::Class);  # no non-system inheritance, only inherit from base class
 use RPerl::CompileUnit::Module::Class;
 
-# [[[ CRITICS ]]]
-## no critic qw(ProhibitUselessNoCritic ProhibitMagicNumbers RequireCheckedSyscalls)  # USER DEFAULT 1: allow numeric values & print operator
-## no critic qw(RequireInterpolationOfMetachars)  # USER DEFAULT 2: allow single-quoted control characters & sigils
+# [[[ EXPORTS ]]]
+use RPerl::Exporter 'import';
+our @EXPORT_OK = ( @MathPerl::Matrix2D::EXPORT_OK );
+
+# [[[ INCLUDES ]]]
+
+# DEV NOTE: must explicitly import each subroutine in @EXPORT_OK
+use MathPerl::Matrix2D qw(multiply_matrix2d);
 
 # [[[ OO PROPERTIES ]]]
 our hashref $properties = {};

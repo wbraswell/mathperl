@@ -5,6 +5,9 @@ use warnings;
 use RPerl::AfterSubclass;
 our $VERSION = 0.001_000;
 
+# [[[ OO INHERITANCE ]]]
+our @ISA = qw(RPerl::CompileUnit::Module::Class);
+
 # [[[ CRITICS ]]]
 ## no critic qw(ProhibitStringyEval)  # SYSTEM DEFAULT 1: allow eval()
 
@@ -15,8 +18,8 @@ use MathPerl::Config;
 # [[[ SUBROUTINES ]]]
 
 # <<< C++ LOADER >>>
-#our void::method $cpp_load = sub {
 sub cpp_load {
+    { my void::method $RETURN_TYPE };
     my $need_load_cpp = 0;
     if (    ( exists $main::{'MathPerl__Algorithm__MODE_ID'} )
         and ( defined &{ $main::{'MathPerl__Algorithm__MODE_ID'} } ) )
@@ -40,14 +43,14 @@ sub cpp_load {
 package main;
 use RPerl::Inline;
 BEGIN { RPerl::diag("[[[ BEGIN 'use Inline' STAGE for 'MathPerl/Algorithm.cpp' ]]]\n" x 1); }
-use Inline (CPP => '$main::INCLUDE_PATH' . '/MathPerl/Algorithm.cpp', \%RPerl::Inline::ARGS);
+use Inline (CPP => '$main::INCLUDE_PATH' . '/' . 'MathPerl/Algorithm.cpp', \%RPerl::Inline::ARGS);
 RPerl::diag("[[[ END   'use Inline' STAGE for 'MathPerl/Algorithm.cpp' ]]]\n" x 1);
 1;
 EOF
 
         $RPerl::Inline::ARGS{ccflagsex}
-            = $RPerl::Inline::CCFLAGSEX . $RPerl::TYPES_CCFLAG . rperltypes::type_integer_native_ccflag() . rperltypes::type_number_native_ccflag();
-        $RPerl::Inline::ARGS{cppflags} = $RPerl::TYPES_CCFLAG . rperltypes::type_integer_native_ccflag() . rperltypes::type_number_native_ccflag();
+            = $RPerl::Inline::CCFLAGSEX . $RPerl::TYPES_CCFLAG . rperltypessizes::type_integer_native_ccflag() . rperltypessizes::type_number_native_ccflag();
+        $RPerl::Inline::ARGS{cppflags} = $RPerl::TYPES_CCFLAG . rperltypessizes::type_integer_native_ccflag() . rperltypessizes::type_number_native_ccflag();
 
 #RPerl::diag('in MathPerl::Algorithm::cpp_load(), CPP not yet loaded, about to call eval() on $eval_string =' . "\n" . '<<< BEGIN EVAL STRING>>>' . "\n" . $eval_string . '<<< END EVAL STRING >>>' . "\n");
 
@@ -58,7 +61,7 @@ EOF
     #else { RPerl::diag('in MathPerl::Algorithm::cpp_load(), CPP already loaded, DOING NOTHING' . "\n"); }
 }
 
-# DEV NOTE, CORRELATION #rp15: suppress 'Too late to run INIT block' at run-time loading via require or eval
+# DEV NOTE, CORRELATION #rp015: suppress 'Too late to run INIT block' at run-time loading via require or eval
 no warnings;
 INIT {
     # actually compile and load C++ code when 'use MathPerl::Algorithm' is called

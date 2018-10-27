@@ -2,7 +2,7 @@
 using std::cout;  using std::cerr;  using std::endl;
 
 #ifndef __CPP__INCLUDED__MathPerl__Geometry__PiDigits_h
-#define __CPP__INCLUDED__MathPerl__Geometry__PiDigits_h 0.002_100
+#define __CPP__INCLUDED__MathPerl__Geometry__PiDigits_h 0.006_000
 
 // [[[ INCLUDES & OO INHERITANCE INCLUDES ]]]
 #include <RPerl.cpp>  // -> RPerl.h -> (rperltypes_mode.h; rperloperations.h; rperltypes.h; HelperFunctions.cpp)
@@ -38,6 +38,15 @@ typedef std::unique_ptr<MathPerl__Geometry__PiDigits> MathPerl__Geometry__PiDigi
 typedef std::vector<MathPerl__Geometry__PiDigits_ptr> MathPerl__Geometry__PiDigits_arrayref;
 typedef std::unordered_map<string, MathPerl__Geometry__PiDigits_ptr> MathPerl__Geometry__PiDigits_hashref;
 typedef std::unordered_map<string, MathPerl__Geometry__PiDigits_ptr>::iterator MathPerl__Geometry__PiDigits_hashref_iterator;
+
+// [[[ OO CONSTRUCTOR WRAPPER CLASS ]]]
+class NEW_MathPerl__Geometry__PiDigits {
+public:
+    MathPerl__Geometry__PiDigits_ptr wrapped_object;
+    NEW_MathPerl__Geometry__PiDigits() : wrapped_object{new MathPerl__Geometry__PiDigits()} {}
+    MathPerl__Geometry__PiDigits_ptr&& NEW() { return std::move(wrapped_object); }
+
+};
 
 // [[[ SUBROUTINES ]]]
 unsigned_integer MathPerl__Geometry__PiDigits__extract_digit(unsigned_integer nth, gmp_integer tmp1, gmp_integer tmp2, gmp_integer acc, gmp_integer den, gmp_integer num);

@@ -18,7 +18,7 @@
 use RPerl;
 use strict;
 use warnings;
-our $VERSION = 0.001_000;
+our $VERSION = 0.002_000;
 
 # [[[ CRITICS ]]]
 ## no critic qw(ProhibitUselessNoCritic ProhibitMagicNumbers RequireCheckedSyscalls)  # USER DEFAULT 1: allow numeric values & print operator
@@ -33,7 +33,7 @@ my integer $y_pixel_count = 12;
 my integer $iterations_max = 300;
 
 my integer_arrayref_arrayref $julia_set;
-$julia_set = julia_escape_time(
+$julia_set = MathPerl::Fractal::Julia::julia_escape_time(
     -0.7, 0.270_15,
     $x_pixel_count, $y_pixel_count, $iterations_max,
     MathPerl::Fractal::Julia::X_SCALE_MIN(),

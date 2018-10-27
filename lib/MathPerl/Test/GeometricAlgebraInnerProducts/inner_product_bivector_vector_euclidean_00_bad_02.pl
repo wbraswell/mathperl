@@ -7,13 +7,13 @@
 use RPerl;
 use strict;
 use warnings;
-our $VERSION = 0.000_001;
+our $VERSION = 0.001_000;
 
 # [[[ CRITICS ]]]
-## no critic qw(ProhibitUselessNoCritic ProhibitMagicNumbers RequireCheckedSyscalls) # USER DEFAULT 1: allow numeric values & print operator
+## no critic qw(ProhibitUselessNoCritic ProhibitMagicNumbers RequireCheckedSyscalls) # useR DEFAULT 1: allow numeric values & print operator
 
 # [[[ INCLUDES ]]]
-use MathPerl::GeometricAlgebra;
+use MathPerl::GeometricAlgebra::Products;
 
 # [[[ OPERATIONS ]]]
 my number_arrayref $retval_vector;
@@ -21,6 +21,5 @@ my number_arrayref $input_bivector;
 my number_arrayref $input_vector;
 $input_bivector = [-999999, 3.0, 4.0, 12.0];
 $input_vector = [-999999, 3.0, 4.0];
-$retval_vector = inner_product__bivector_vector_euclidean( $input_bivector,
-    $input_vector );
+$retval_vector = MathPerl::GeometricAlgebra::Products::inner_product__bivector_vector_euclidean( $input_bivector, $input_vector );
 print Dumper($retval_vector) . "\n";

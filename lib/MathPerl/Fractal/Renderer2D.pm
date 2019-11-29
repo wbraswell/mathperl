@@ -3,7 +3,7 @@ package MathPerl::Fractal::Renderer2D;
 use strict;
 use warnings;
 use RPerl::AfterSubclass;
-our $VERSION = 0.007_000;
+our $VERSION = 0.008_000;
 
 # [[[ OO INHERITANCE ]]]
 use parent qw(RPerl::CompileUnit::Module::Class);    # no non-system inheritance, only inherit from base class
@@ -16,7 +16,7 @@ use RPerl::CompileUnit::Module::Class;
 # [[[ INCLUDES ]]]
 use MathPerl::Fractal::Mandelbrot;
 use MathPerl::Fractal::Julia;
-use MathPerl::DataStructure::ColorHSV;
+use PhysicsPerl::Energy::Light::ColorHSV;
 use Time::HiRes qw(time);
 use POSIX qw(floor);
 use SDL;
@@ -370,10 +370,10 @@ sub escape_time_render {
 #                print 'in escape_time_render(), loop (' . $x . ', ' . $y . '), have ($pixel % 256) = ' . ($pixel % 256) . "\n";
 #                print 'in escape_time_render(), loop (' . $x . ', ' . $y . '), have $pixel = ' . $pixel . "\n";
                 ($color_or_mask_red, $color_or_mask_green, $color_or_mask_blue) = 
-#                    @{ MathPerl::DataStructure::ColorHSV::hsv_raw_to_rgb_raw([$pixel % 256, 255, 255 * ($pixel < $self->{iterations_max})]) };
-                    @{ MathPerl::DataStructure::ColorHSV::hsv_raw_to_rgb_raw([($pixel * 30) % 256, 255, 255 * ($pixel < $self->{iterations_max})]) };
-#                    @{ MathPerl::DataStructure::ColorHSV::hsv_raw_to_rgb_raw([0.95 + ($pixel * 10), 255, 255 * ($pixel < $self->{iterations_max})]) };
-#                    @{ MathPerl::DataStructure::ColorHSV::hsv_raw_to_rgb_raw([$pixel, 255, 255 * ($pixel < $self->{iterations_max})]) };
+#                    @{ PhysicsPerl::Energy::Light::ColorHSV::hsv_raw_to_rgb_raw([$pixel % 256, 255, 255 * ($pixel < $self->{iterations_max})]) };
+                    @{ PhysicsPerl::Energy::Light::ColorHSV::hsv_raw_to_rgb_raw([($pixel * 30) % 256, 255, 255 * ($pixel < $self->{iterations_max})]) };
+#                    @{ PhysicsPerl::Energy::Light::ColorHSV::hsv_raw_to_rgb_raw([0.95 + ($pixel * 10), 255, 255 * ($pixel < $self->{iterations_max})]) };
+#                    @{ PhysicsPerl::Energy::Light::ColorHSV::hsv_raw_to_rgb_raw([$pixel, 255, 255 * ($pixel < $self->{iterations_max})]) };
                 $app->[$x][$y] = [ undef, $color_or_mask_red, $color_or_mask_green, $color_or_mask_blue ];
             }
             $x++;

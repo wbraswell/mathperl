@@ -1,13 +1,13 @@
 # [[[ HEADER ]]]
 use RPerl;
-package MathPerl::Matrix2D;
+package MathPerl::DataStructure::Matrix2D;
 use strict;
 use warnings;
 our $VERSION = 0.005_000;
 
 # [[[ OO INHERITANCE ]]]
-use parent qw(MathPerl::Matrix);
-use MathPerl::Matrix;
+use parent qw(MathPerl::DataStructure::Matrix);
+use MathPerl::DataStructure::Matrix;
 
 # [[[ CRITICS ]]]
 ## no critic qw(ProhibitUselessNoCritic ProhibitMagicNumbers RequireCheckedSyscalls)  # USER DEFAULT 1: allow numeric values & print operator
@@ -24,7 +24,7 @@ our hashref $properties = { data => my number_arrayref_arrayref $TYPED_data = un
 
 sub init {
     { my void::method $RETURN_TYPE };
-    ( my MathPerl::Matrix2D $self ) = @ARG;
+    ( my MathPerl::DataStructure::Matrix2D $self ) = @ARG;
     $self->{data} = [];
     $self->{data}->[0] = [];
 }
@@ -34,17 +34,17 @@ sub init {
 # START HERE: create matmul tests, create stubs for Matrix3D.pm & Matrix4D.pm, work on AffineTransformation*.pm
 
 sub multiply_matrix2d {
-    { my MathPerl::Matrix2D $RETURN_TYPE };
-    ( my MathPerl::Matrix2D $matrix_0, my MathPerl::Matrix2D $matrix_1 ) = @ARG;
+    { my MathPerl::DataStructure::Matrix2D $RETURN_TYPE };
+    ( my MathPerl::DataStructure::Matrix2D $matrix_0, my MathPerl::DataStructure::Matrix2D $matrix_1 ) = @ARG;
 
-#print {*STDERR} 'in MathPerl::Matrix2D::multiply_matrix2d()...', "\n";
+#print {*STDERR} 'in MathPerl::DataStructure::Matrix2D::multiply_matrix2d()...', "\n";
 
     # NEED FIX: how to resize/grow/allocate matrix memory in C++ to allow direct indexing instead of push & pop in loop below?
     # NEED FIX: how to resize/grow/allocate matrix memory in C++ to allow direct indexing instead of push & pop in loop below?
     # NEED FIX: how to resize/grow/allocate matrix memory in C++ to allow direct indexing instead of push & pop in loop below?
 
     # create matrix to hold product result
-    my MathPerl::Matrix2D $matrix_product = MathPerl::Matrix2D->new();
+    my MathPerl::DataStructure::Matrix2D $matrix_product = MathPerl::DataStructure::Matrix2D->new();
 
     # NEED FIX: remove manual call to init() as soon as it is auto-detected by RPerl
     $matrix_product->init();

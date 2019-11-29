@@ -97,7 +97,9 @@ sub mandelbrot_escape_time {
             }
         }
     }
+    return $mandelbrot_set;  # NEED FIX, PERLCRITIC BUG
     return $mandelbrot_set;
 }
 
 1;                                                                                                 # end of class
+

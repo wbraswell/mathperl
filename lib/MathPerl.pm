@@ -3,7 +3,7 @@ package MathPerl;
 use strict;
 use warnings;
 use RPerl::AfterSubclass;
-our $VERSION = 0.102_000;
+our $VERSION = 0.103_000;
 
 # [[[ OO INHERITANCE ]]]
 use parent qw(RPerl::CompileUnit::Module::Class);  # no non-system inheritance, only inherit from base class
@@ -19,8 +19,6 @@ use RPerl::CompileUnit::Module::Class;
 use RPerl::Exporter 'import';
 our @EXPORT = (
 #                @MathPerl::Arithmetic::ApproximatelyEqual::EXPORT,  # unused
-#                @MathPerl::DataStructure::ColorHSV::EXPORT,  # unused
-#                @MathPerl::DataStructure::ColorRGB::EXPORT,  # unused
                 @MathPerl::DataStructure::Vector::EXPORT,
 #                @MathPerl::Fractal::Julia::EXPORT,  # unused
 #                @MathPerl::Fractal::Mandelbrot::EXPORT,  # unused
@@ -28,12 +26,10 @@ our @EXPORT = (
 #                @MathPerl::Geometry::PiDigits::EXPORT,  # unused
 #                @MathPerl::LinearAlgebra::AddVectorVector::EXPORT,  # unused
 #                @MathPerl::VectorAlgebra::CrossProduct::EXPORT,  # unused
-#                @MathPerl::Matrix2D::EXPORT,  # unused
+#                @MathPerl::DataStructure::Matrix2D::EXPORT,  # unused
                 );
 our @EXPORT_OK = (
                 @MathPerl::Arithmetic::ApproximatelyEqual::EXPORT_OK,
-                @MathPerl::DataStructure::ColorHSV::EXPORT_OK,
-                @MathPerl::DataStructure::ColorRGB::EXPORT_OK,
 #                @MathPerl::DataStructure::Vector::EXPORT_OK,  # unused
                 @MathPerl::Fractal::Julia::EXPORT_OK,
                 @MathPerl::Fractal::Mandelbrot::EXPORT_OK,
@@ -41,7 +37,7 @@ our @EXPORT_OK = (
                 @MathPerl::Geometry::PiDigits::EXPORT_OK,
                 @MathPerl::LinearAlgebra::AddVectorVector::EXPORT_OK, 
                 @MathPerl::VectorAlgebra::CrossProduct::EXPORT_OK,
-                @MathPerl::Matrix2D::EXPORT_OK,
+                @MathPerl::DataStructure::Matrix2D::EXPORT_OK,
                 );
 
 # [[[ INCLUDES ]]]
@@ -50,8 +46,6 @@ use MathPerl::Config;
 # DEV NOTE: must explicitly import each subroutine in @EXPORT_OK
 
 use MathPerl::Arithmetic::ApproximatelyEqual qw(approximately_equal);
-use MathPerl::DataStructure::ColorHSV qw(hsv_to_rgb);
-use MathPerl::DataStructure::ColorRGB qw(rgb_to_hsv);
 use MathPerl::DataStructure::Vector;
 use MathPerl::Fractal::Julia qw(julia_escape_time);
 use MathPerl::Fractal::Mandelbrot qw(mandelbrot_escape_time);
@@ -77,7 +71,7 @@ use MathPerl::GeometricAlgebra::Products qw(
 use MathPerl::Geometry::PiDigits qw(extract_digit eliminate_digit next_term display_pi_digits);
 use MathPerl::LinearAlgebra::AddVectorVector qw(add_vector_vector);
 use MathPerl::VectorAlgebra::CrossProduct qw(cross_product_vector3d cross_product_vector);
-use MathPerl::Matrix2D qw(multiply_matrix2d);
+use MathPerl::DataStructure::Matrix2D qw(multiply_matrix2d);
 
 # [[[ OO PROPERTIES ]]]
 our hashref $properties = {};

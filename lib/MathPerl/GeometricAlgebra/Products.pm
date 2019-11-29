@@ -143,17 +143,17 @@ sub inner_product__bivector_bivector_euclidean {
         croak('ERROR EAVRV10, BOUND-CHECKING MISMATCH: Argument $input_bivector_2 is not of length 4, croaking');
     }
 
-    RPerl::diag('in PERLOPS_PERLTYPES inner_product__bivector_bivector_euclidean(), top of subroutine...' . "\n");
-    RPerl::diag('in PERLOPS_PERLTYPES inner_product__bivector_bivector_euclidean(), received $input_bivector_1' . "\n" . Dumper($input_bivector_1) . "\n");
-    RPerl::diag('in PERLOPS_PERLTYPES inner_product__bivector_bivector_euclidean(), received $input_bivector_2' . "\n" . Dumper($input_bivector_2) . "\n");
+#    RPerl::diag('in PERLOPS_PERLTYPES inner_product__bivector_bivector_euclidean(), top of subroutine...' . "\n");
+#    RPerl::diag('in PERLOPS_PERLTYPES inner_product__bivector_bivector_euclidean(), received $input_bivector_1' . "\n" . Dumper($input_bivector_1) . "\n");
+#    RPerl::diag('in PERLOPS_PERLTYPES inner_product__bivector_bivector_euclidean(), received $input_bivector_2' . "\n" . Dumper($input_bivector_2) . "\n");
 
-    RPerl::diag('in PERLOPS_PERLTYPES inner_product__bivector_bivector_euclidean(), setting $return_value_number = -1 * ( ' . 
-        $input_bivector_1->[1] . ' * ' . $input_bivector_2->[1] . ' ) + ( ' . $input_bivector_1->[2] . ' * ' . $input_bivector_2->[2] . ' ) + ( ' . $input_bivector_1->[3] . ' * ' . $input_bivector_2->[3] . ' )' . "\n");
+#    RPerl::diag('in PERLOPS_PERLTYPES inner_product__bivector_bivector_euclidean(), setting $return_value_number = -1 * ( ' . 
+#        $input_bivector_1->[1] . ' * ' . $input_bivector_2->[1] . ' ) + ( ' . $input_bivector_1->[2] . ' * ' . $input_bivector_2->[2] . ' ) + ( ' . $input_bivector_1->[3] . ' * ' . $input_bivector_2->[3] . ' )' . "\n");
 
     my number $return_value_number
         = -1 * ( ( $input_bivector_1->[1] * $input_bivector_2->[1] ) + ( $input_bivector_1->[2] * $input_bivector_2->[2] ) + ( $input_bivector_1->[3] * $input_bivector_2->[3] ) );
 
-    RPerl::diag('in PERLOPS_PERLTYPES inner_product__bivector_bivector_euclidean(), returning $return_value_number = ' . $return_value_number . "\n");
+#    RPerl::diag('in PERLOPS_PERLTYPES inner_product__bivector_bivector_euclidean(), returning $return_value_number = ' . $return_value_number . "\n");
     return $return_value_number;
 }
 

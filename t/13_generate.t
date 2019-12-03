@@ -10,7 +10,7 @@ BEGIN { $ENV{RPERL_WARNINGS} = 0; }
 use strict;
 use warnings;
 use RPerl::AfterSubclass;
-our $VERSION = 0.051_000;
+our $VERSION = 0.052_100;
 
 # [[[ CRITICS ]]]
 ## no critic qw(ProhibitUselessNoCritic ProhibitMagicNumbers RequireCheckedSyscalls)  # USER DEFAULT 1: allow numeric values & print operator
@@ -34,6 +34,13 @@ use File::Spec;
 # [[[ CONSTANTS ]]]
 use constant PATH_TESTS => my string $TYPED_PATH_TESTS = $MathPerl::INCLUDE_PATH . '/MathPerl/Test';
 use constant PATH_PRECOMPILED => my string $TYPED_PATH_PRECOMPILED = $MathPerl::INCLUDE_PATH . '/MathPerl';
+
+# CURRENTLY UNUSED
+#use constant PATH_TESTS_MYCLASS => my string $TYPED_PATH_TESTS_MYCLASS = $MathPerl::INCLUDE_PATH . '/_MyClass_Bad.pm';  # curntly unused
+#use constant PATH_PRECOMPILED_MYCLASS1 => my string $TYPED_PATH_PRECOMPILED_MYCLASS1 = $MathPerl::INCLUDE_PATH . '/MyClass_Good.pm';
+#use constant PATH_PRECOMPILED_MYCLASS2 => my string $TYPED_PATH_PRECOMPILED_MYCLASS2 = $MathPerl::INCLUDE_PATH . '/MyClass_Good.pm.CPPOPS_DUALTYPES';
+#use constant PATH_PRECOMPILED_MYCLASS3 => my string $TYPED_PATH_PRECOMPILED_MYCLASS3 = $MathPerl::INCLUDE_PATH . '/MyClass_Good.cpp.CPPOPS_CPPTYPES';
+#use constant PATH_PRECOMPILED_MYCLASS4 => my string $TYPED_PATH_PRECOMPILED_MYCLASS4 = $MathPerl::INCLUDE_PATH . '/MyClass_Good.h.CPPOPS_CPPTYPES';
 
 # [[[ OPERATIONS ]]]
 our $verbose_newline = q{};
@@ -146,6 +153,12 @@ find(
     (defined $ARGV[0]) ? $ARGV[0] : PATH_TESTS()  # accept optional command-line argument
 );
 
+# CURRENTLY UNUSED
+#if (not defined $ARGV[0]) {
+    # locate _MyClass.pm w/out unnecessary additional searching
+#    find_tests(PATH_TESTS_MYCLASS());
+#}
+
 sub find_precompiled {
     ( my string $file_full_path_arg ) = @ARG;
     
@@ -241,14 +254,21 @@ find(
     (defined $ARGV[0]) ? $ARGV[0] : PATH_PRECOMPILED()  # accept optional command-line argument
 );
 
+# CURRENTLY UNUSED
+#if (not defined $ARGV[0]) {
+    # locate MyClass.pm & associated pre-compiled files w/out unnecessary additional searching
+#    find_precompiled(PATH_PRECOMPILED_MYCLASS1());
+#    find_precompiled(PATH_PRECOMPILED_MYCLASS2());
+#    find_precompiled(PATH_PRECOMPILED_MYCLASS3());
+#    find_precompiled(PATH_PRECOMPILED_MYCLASS4());
+#}
+
 # trim unnecessary (and possibly problematic) @INC & absolute paths from input file names
 # must be done outside find() to properly utilize getcwd()
 foreach my string $test_file_key (sort keys %{$test_files}) {
-#    RPerl::diag( 'in 13_generate.t, before call to post_processor__absolute_path_delete() #0, have $test_file_key = ' . $test_file_key . "\n" );
     my string $test_file_key_trimmed = $test_file_key;
     $test_file_key_trimmed = RPerl::Compiler::post_processor__INC_paths_delete($test_file_key_trimmed, 1, 0);  # $leading_slash_delete = 1, $leading_lib_delete = 0
     $test_file_key_trimmed = RPerl::Compiler::post_processor__absolute_path_delete($test_file_key_trimmed);
-#    RPerl::diag( 'in 13_generate.t, after call to post_processor__absolute_path_delete() #0, have possibly-trimmed $test_file_key_trimmed = ' . $test_file_key_trimmed . "\n" );
     if ($test_file_key_trimmed ne $test_file_key) {
         $test_files->{$test_file_key_trimmed} = $test_files->{$test_file_key};
         delete $test_files->{$test_file_key};
@@ -335,11 +355,9 @@ for my $mode_id ( 2 , 0 ) {    # CPPOPS_CPPTYPES, PERLOPS_PERLTYPES; DEV NOTE: r
 
         foreach my string $parent_file (@{$parent_files}) {
             # trim unnecessary (and possibly problematic) @INC & absolute paths from parent file names
-#            RPerl::diag( 'in 13_generate.t, before call to post_processor__absolute_path_delete() #1, have $parent_file = ' . $parent_file . "\n" );
             $parent_file = RPerl::Compiler::post_processor__INC_paths_delete($parent_file, 1, 0);  # $leading_slash_delete = 1, $leading_lib_delete = 0
             $parent_file = RPerl::Compiler::post_processor__absolute_path_delete( $parent_file );
-#            RPerl::diag( 'in 13_generate.t, after call to post_processor__absolute_path_delete() #1, have possibly-trimmed $parent_file = ' . $parent_file . "\n" );
-
+    
             # [[[ PARSE PARENTS ]]]
             $eval_return_value = eval { RPerl::Parser::rperl_to_ast__parse($parent_file); };
             if ( not( ( defined $eval_return_value ) and $eval_return_value ) ) {
@@ -379,11 +397,8 @@ for my $mode_id ( 2 , 0 ) {    # CPPOPS_CPPTYPES, PERLOPS_PERLTYPES; DEV NOTE: r
 
         foreach my string $suffix_key (keys %{$output_file_name_group}) {
             if (defined $output_file_name_group->{$suffix_key}) {
-                # trim unnecessary (and possibly problematic) @INC & absolute paths from parent file names
-#                RPerl::diag( 'in 13_generate.t, before call to post_processor__absolute_path_delete() #2, have $output_file_name_group->{$suffix_key} = ' . $output_file_name_group->{$suffix_key} . "\n" );
-                $output_file_name_group->{$suffix_key} = RPerl::Compiler::post_processor__INC_paths_delete($output_file_name_group->{$suffix_key}, 1, 0);  # $leading_slash_delete = 1, $leading_lib_delete = 0
+                $output_file_name_group->{$suffix_key} = RPerl::Compiler::post_processor__INC_paths_delete( $output_file_name_group->{$suffix_key}, 1, 0 );  # $leading_slash_delete = 1, $leading_lib_delete = 0
                 $output_file_name_group->{$suffix_key} = RPerl::Compiler::post_processor__absolute_path_delete( $output_file_name_group->{$suffix_key} );
-#                RPerl::diag( 'in 13_generate.t, after call to post_processor__absolute_path_delete() #2, have possibly-trimmed $output_file_name_group->{$suffix_key} = ' . $output_file_name_group->{$suffix_key} . "\n" );
             }
         }
 
@@ -450,10 +465,8 @@ for my $mode_id ( 2 , 0 ) {    # CPPOPS_CPPTYPES, PERLOPS_PERLTYPES; DEV NOTE: r
         # trim unnecessary (and possibly problematic) @INC & absolute paths from reference file names
         foreach my string $suffix_key (keys %{$reference_file_name_group}) {
             if (defined $reference_file_name_group->{$suffix_key}) {
-#                RPerl::diag( 'in 13_generate.t, before call to post_processor__absolute_path_delete() #3, have $reference_file_name_group->{$suffix_key} = ' . $reference_file_name_group->{$suffix_key} . "\n" );
                 $reference_file_name_group->{$suffix_key} = RPerl::Compiler::post_processor__INC_paths_delete($reference_file_name_group->{$suffix_key}, 1, 0);  # $leading_slash_delete = 1, $leading_lib_delete = 0
                 $reference_file_name_group->{$suffix_key} = RPerl::Compiler::post_processor__absolute_path_delete( $reference_file_name_group->{$suffix_key} );
-#                RPerl::diag( 'in 13_generate.t, after call to post_processor__absolute_path_delete() #3, have possibly-trimmed $reference_file_name_group->{$suffix_key} = ' . $reference_file_name_group->{$suffix_key} . "\n" );
             }
         }
 

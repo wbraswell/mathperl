@@ -1,21 +1,31 @@
-# [[[ EXCLUDE ALL GITHUB, UNUSED, AND AUTOMATICALLY-GENERATED FILES FROM CPAN ]]]
-# [ GitHub ]
+# [[[ EXCLUDE ALL GIT, UNUSED, AND AUTOMATICALLY-GENERATED FILES FROM CPAN ]]]
+# v0.120_000
+# [ Git & Travis-CI & AppVeyor ]
 ^\.git
 ^\.gitignore$
+^\.gitlab-ci\.yml$
 ^\.travis\.yml$
+^appveyor\.yml$
+
+# [ Inline Build ]
+# NEED UPDATE, CORRELATION #mp005: list of _Inline directories to delete/exclude in Makefile.PL, .gitignore, and MANIFEST.SKIP
+^_Inline
+^lib\/_Inline
+^script\/_Inline
+^t\/_Inline
 
 # [ CPAN Build & Distribution ]
-# NEED UPDATE, CORRELATION #mp000: list of CPAN files & directories to delete/exclude in Makefile.PL, .gitignore, and MANIFEST.SKIP
-# MANIFEST.SKIP is not auto-generated, do not exclude self
+# NEED UPDATE, CORRELATION #mp006: list of CPAN files & directories to delete/exclude in Makefile.PL, .gitignore, and MANIFEST.SKIP
+# MANIFEST.SKIP is not auto-generated, but should not be distributed to end users
+^MANIFEST\.SKIP$
 # MANIFEST is needed by CPAN, do not exclude
-^MANIFEST\.bak
+^MANIFEST\.bak$
 # META.yml & META.json are needed by CPAN, do not exclude
 ^MYMETA\.
 ^Makefile$
 ^Makefile\.old
 ^blib
 ^pm_to_blib
-^MathPerl-
 ^MakeMaker-
 
 # [ Temporary Files, Ending With Tilde ~ Or swp ]
@@ -25,8 +35,11 @@ swp$
 # [ POD ]
 ^pod2htmd\.tmp$
 
-# [ MathPerl Unused ]
+# [ MathPerl Archives ]
 ^backup
+^MathPerl-
+
+# [ MathPerl Unused ]
 ^script\/development\/unused
 
 # [ MathPerl Placeholders ]

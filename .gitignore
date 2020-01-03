@@ -1,16 +1,25 @@
-# [[[ EXCLUDE ALL AUTOMATICALLY-GENERATED FILES FROM GITHUB ]]]
-# [ GitHub ]
+# [[[ EXCLUDE ALL AUTOMATICALLY-GENERATED FILES FROM GIT ]]]
+# v0.120_000
+
+# [ Git ]
 # .gitignore is not auto-generated, do not exclude self
 
 # [ Inline Build ]
+# NEED UPDATE, CORRELATION #mp005: list of _Inline directories to delete/exclude in Makefile.PL, .gitignore, and MANIFEST.SKIP
 /_Inline/
+/lib/_Inline/
+/script/_Inline/
+/script/development/_Inline/
+/script/development/unused/_Inline/
+/t/_Inline/
 
 # [ CPAN Build & Distribution ]
-# NEED UPDATE, CORRELATION #mp000: list of CPAN files & directories to delete/exclude in Makefile.PL, .gitignore, and MANIFEST.SKIP
+# NEED UPDATE, CORRELATION #mp006: list of CPAN files & directories to delete/exclude in Makefile.PL, .gitignore, and MANIFEST.SKIP
 # MANIFEST.SKIP is not auto-generated, do not exclude
+# META.* are required for build dependencies, do not exclude, git only
 /MANIFEST
 /MANIFEST.bak
-/META.*
+#/META.*
 /MYMETA.*
 /Makefile
 /Makefile.old
@@ -26,3 +35,9 @@
 
 # [ POD ]
 /pod2htmd.tmp
+
+# [ MathPerl Compile ]
+# NEED UPDATE, CORRELATION #mp013: list of MathPerl build files & directories to delete/exclude in Makefile.PL, .gitignore, and MANIFEST.SKIP
+/lib/MathPerl/FOO.pmc
+/lib/MathPerl/FOO.h
+/lib/MathPerl/FOO.cpp

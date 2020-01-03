@@ -22,7 +22,7 @@ our hashref $properties = {
 
 # [[[ SUBROUTINES & OO METHODS ]]]
 
-# DEV NOTE, CORRELATION #mp001: duplicate to_matrix_4x1() method, could be abstracted into MathPerl::Triplet class but that would require multiple inheritance
+# DEV NOTE, CORRELATION #mp100: duplicate to_matrix_4x1() method, could be abstracted into MathPerl::Triplet class but that would require multiple inheritance
 sub to_matrix_4x1 {
 {
     { my MathPerl::DataStructure::Matrix::method $RETURN_TYPE };

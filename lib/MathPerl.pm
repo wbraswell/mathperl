@@ -79,3 +79,9 @@ use MathPerl::DataStructure::Matrix2D qw(multiply_matrix2d);
 our hashref $properties = {};
 
 1;    # end of class
+
+=head1 NAME
+
+MathPerl - Mathematics Perl, The Optimized Math Library Suit.
+
+=cut

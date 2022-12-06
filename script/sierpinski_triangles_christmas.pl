@@ -3,7 +3,7 @@
 # [[[ HEADER ]]]
 use strict;
 use warnings;
-our $VERSION = 0.004_000;
+our $VERSION = 0.005_000;
 
 # [[[ CRITICS ]]]
 ## no critic qw(ProhibitUselessNoCritic ProhibitMagicNumbers RequireCheckedSyscalls)  # USER DEFAULT 1: allow numeric values & print operator
@@ -33,20 +33,19 @@ my number::arrayref::arrayref $my_triangle_initial =
      [ 212, 600],  # bottom left
      [ 812, 600]]; # bottom right
 
-my integer::arrayref $my_color_red         = [255, 000, 000, 255];
-my integer::arrayref $my_color_pink        = [255, 105, 220, 255];
-my integer::arrayref $my_color_orange      = [255, 150, 000, 255];
-my integer::arrayref $my_color_yellow      = [255, 255, 000, 255];
-my integer::arrayref $my_color_green       = [000, 255, 000, 255];
-my integer::arrayref $my_color_green_dark  = [000, 220, 000, 255];
-my integer::arrayref $my_color_blue        = [000, 000, 255, 255];
-my integer::arrayref $my_color_purple      = [175, 000, 255, 255];
-my integer::arrayref $my_color_white       = [255, 255, 255, 255];
-my integer::arrayref $my_color_brown       = [140, 100, 000, 255];
+my integer::arrayref $my_color_red     = [255, 000, 000, 255];
+my integer::arrayref $my_color_pink    = [255, 105, 220, 255];
+my integer::arrayref $my_color_orange  = [255, 150, 000, 255];
+my integer::arrayref $my_color_yellow  = [255, 255, 000, 255];
+my integer::arrayref $my_color_green   = [000, 220, 000, 255];
+my integer::arrayref $my_color_blue    = [000, 000, 255, 255];
+my integer::arrayref $my_color_purple  = [175, 000, 255, 255];
+my integer::arrayref $my_color_white   = [255, 255, 255, 255];
+my integer::arrayref $my_color_brown   = [140, 100, 000, 255];
 
 # colors as [r, g, b] triplets; number of colors is number of recursions
 my integer::arrayref::arrayref $my_triangle_colors =
-    [ $my_color_green_dark,  # green needs to be the color of the smallest, and thus most numerous, triangles
+    [ $my_color_green,  # green needs to be the color of the smallest, and thus most numerous, triangles
       $my_color_pink,
       $my_color_blue,
       $my_color_red,
@@ -82,7 +81,7 @@ sierpinski($my_triangle_initial, $my_recursions_remaining, $my_triangle_groups);
 print 'have $my_triangle_groups = ', "\n", Dumper($my_triangle_groups);
 print 'have $my_triangle_groups->[$my_recursions_remaining] = ', "\n", Dumper($my_triangle_groups->[$my_recursions_remaining]);
 
-# [ RENDER 2D GRAPHICS ]
+# [ RENDER STATIC GRAPHICS ]
 
 # https://metacpan.org/dist/SDL/view/lib/pods/SDL/Events.pod
 my @SDL_EVENTS = qw( no_such_event SDL_ACTIVEEVENT SDL_KEYDOWN SDL_KEYUP SDL_MOUSEMOTION SDL_MOUSEBUTTONDOWN SDL_MOUSEBUTTONUP SDL_JOYAXISMOTION SDL_JOYBALLMOTION SDL_JOYHATMOTION SDL_JOYBUTTONDOWN SDL_JOYBUTTONUP SDL_QUIT SDL_SYSWMEVENT SDL_VIDEORESIZE SDL_VIDEOEXPOSE SDL_USEREVENT SDL_NUMEVENTS );  # constant data
@@ -92,16 +91,16 @@ use SDL;
 use SDLx::App;   # used for window creation & control
 use SDL::Event;  # used for creating Event object
 use SDL::Events; # used for Event queue handling functions
-use Time::HiRes qw( gettimeofday );  # used for time-based animation control
+use Time::HiRes qw( gettimeofday usleep );  # used for time-based animation control
 
-# initialize SDL video & application & event
+# initialize SDL video & application & event;
+# we do not call $my_SDL_app->run() anywhere in this program, instead we use the while() run loop below
 SDL::init(SDL_INIT_VIDEO);
 my SDLx::App $my_SDL_app = SDLx::App->new(
     title  => 'Merry Christmas!!  Perl Advent 2022!!!',
     width  => 1024,                     # hard-coded 1024x768 resolution
     height => 768,
     depth  => 32,                       # hard-coded 32-bit color
-    delay  => 25,                       # don't let SDL overload the CPU
     resizeable => 1                     # allow window resize; does not scale window contents
 );
 my $my_SDL_event = SDL::Event->new;
@@ -129,7 +128,7 @@ $my_SDL_app->draw_trigon_filled( $my_triangle_star_up, $my_color_yellow );
 $my_SDL_app->draw_trigon_filled( $my_triangle_star_down, $my_color_yellow );
 $my_SDL_app->update();  # refresh window
 
-# [ ANIMATIONS ]
+# [ RENDER DYNAMIC (ANIMATED) GRAPHICS ]
 
 # set initial index for accesssing Christmas tree lights colors
 my integer $my_lights_colors_index = 0;
@@ -138,6 +137,7 @@ my integer $my_lights_colors_index = 0;
 (my integer $seconds_start) = gettimeofday();
 #print 'have $seconds_start = ', $seconds_start, "\n";
  
+# the main run loop, used instead of calling $my_SDL_app->run();
 # animate forever, until SDL_QUIT event is received in GUI window via <Alt-F4> keypress or window close mouse click,
 # or in CLI window via <Ctrl-C> keypress
 while(1)
@@ -194,15 +194,20 @@ while(1)
         $my_SDL_app->draw_trigon_filled( $my_triangle_star_up, $my_color_yellow );
         $my_SDL_app->draw_trigon_filled( $my_triangle_star_down, $my_color_yellow );
 
-        # refresh window once for every Christmas tree lights color change
+        # refresh window once for every Christmas tree lights color change, for synchronized lights
         $my_SDL_app->update();
     }
 
+    # briefly pause between each while() loop iteration, to avoid overloading CPU;
+    # ( 1_000_000 microseconds per second ) / ( 10_000 microseconds per iteration) = 100 iterations per second;
+    # need at least 100 while loop iterations per second, in order to process all of the otherwise-ignored SDL_MOUSEMOTION events
+    # which are caused by simply moving the mouse over top of the window
+    usleep(10_000);
 }
 
 # [[[ SUBROUTINES ]]]
 
-# recursively generate triangles grouped by recursion level
+# recursively generate triangles, grouped by recursion level
 sub sierpinski {
     { my void $RETURN_TYPE };
     (

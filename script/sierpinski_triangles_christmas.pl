@@ -3,7 +3,7 @@
 # [[[ HEADER ]]]
 use strict;
 use warnings;
-our $VERSION = 0.005_000;
+our $VERSION = 0.005_100;
 
 # [[[ CRITICS ]]]
 ## no critic qw(ProhibitUselessNoCritic ProhibitMagicNumbers RequireCheckedSyscalls)  # USER DEFAULT 1: allow numeric values & print operator
@@ -81,7 +81,7 @@ sierpinski($my_triangle_initial, $my_recursions_remaining, $my_triangle_groups);
 print 'have $my_triangle_groups = ', "\n", Dumper($my_triangle_groups);
 print 'have $my_triangle_groups->[$my_recursions_remaining] = ', "\n", Dumper($my_triangle_groups->[$my_recursions_remaining]);
 
-# [ RENDER STATIC GRAPHICS ]
+# [ INITIALIZE GRAPHICS ]
 
 # https://metacpan.org/dist/SDL/view/lib/pods/SDL/Events.pod
 my @SDL_EVENTS = qw( no_such_event SDL_ACTIVEEVENT SDL_KEYDOWN SDL_KEYUP SDL_MOUSEMOTION SDL_MOUSEBUTTONDOWN SDL_MOUSEBUTTONUP SDL_JOYAXISMOTION SDL_JOYBALLMOTION SDL_JOYHATMOTION SDL_JOYBUTTONDOWN SDL_JOYBUTTONUP SDL_QUIT SDL_SYSWMEVENT SDL_VIDEORESIZE SDL_VIDEOEXPOSE SDL_USEREVENT SDL_NUMEVENTS );  # constant data
@@ -104,6 +104,8 @@ my SDLx::App $my_SDL_app = SDLx::App->new(
     resizeable => 1                     # allow window resize; does not scale window contents
 );
 my $my_SDL_event = SDL::Event->new;
+
+# [ RENDER STATIC GRAPHICS ]
 
 # draw Christmas tree branches & snow tinsel & ornaments & lights;
 # iterate through triangle groups in reverse order, due to reverse population during recursion
@@ -163,7 +165,7 @@ while(1)
 
     # twinkle Christmas tree lights every 1 second
     if (($seconds_current - $seconds_start) >= 1) {
-        # reset start time to current time, for next time cycle
+        # reset start time to current time, for time cycle of next animation frame
         $seconds_start = $seconds_current;
 
         # iterate through lights colors

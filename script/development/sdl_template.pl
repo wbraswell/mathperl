@@ -1,16 +1,10 @@
-#!/usr/bin/perl
+#!/usr/bin/env perl
 
-# [[[ HEADER ]]]
-use strict;
-use warnings;
-our $VERSION = 0.001_000;
+# SDL Graphical Application Template
+# A basic framework for building stand-alone SDL applications
 
-# [[[ CRITICS ]]]
-## no critic qw(ProhibitUselessNoCritic ProhibitMagicNumbers RequireCheckedSyscalls)  # USER DEFAULT 1: allow numeric values & print operator
-## no critic qw(RequireInterpolationOfMetachars)  # USER DEFAULT 2: allow single-quoted control characters & sigils
-## no critic qw(ProhibitConstantPragma ProhibitMagicNumbers)  # USER DEFAULT 3: allow constants
-
-# define Perl-compatible data types & data structures 
+# [[[ PREPROCESSOR ]]]
+# declare Perl-compatible data types & data structures 
 package void; 1;
 package integer; 1;
 package integer::arrayref; 1;
@@ -20,9 +14,29 @@ package number::arrayref::arrayref; 1;
 package number::arrayref::arrayref::arrayref; 1;
 package number::arrayref::arrayref::arrayref::arrayref; 1;
 
+# [[[ HEADER ]]]
 package main;
+use strict;
+use warnings;
+our $VERSION = 0.007_000;
+
+# [[[ CRITICS ]]]
+## no critic qw(ProhibitUselessNoCritic ProhibitMagicNumbers RequireCheckedSyscalls)  # USER DEFAULT 1: allow numeric values & print operator
+## no critic qw(RequireInterpolationOfMetachars)  # USER DEFAULT 2: allow single-quoted control characters & sigils
+## no critic qw(ProhibitConstantPragma ProhibitMagicNumbers)  # USER DEFAULT 3: allow constants
+
+# [[[ INCLUDES ]]]
 use English;
 use Data::Dumper;
+
+# https://metacpan.org/dist/SDL/view/lib/pods/SDL/Event.pod
+use SDL;
+use SDLx::App;   # used for window creation & control
+use SDL::Event;  # used for creating Event object
+use SDL::Events; # used for Event queue handling functions
+use Time::HiRes qw( gettimeofday usleep );  # used for time-based animation control
+
+# [[[ CONSTANTS ]]]
 
 # [ DATA FOR SIZES & SHAPES & COLORS;
 #   HARD-CODED 1024x768 RESOLUTION & 32-BIT COLOR DEPTH ]
@@ -49,17 +63,18 @@ my number::arrayref::arrayref $my_rectangle =
 
 my integer::arrayref::arrayref $my_colors = [$my_color_pink, $my_color_purple, $my_color_orange];
 
-# [ INITIALIZE GRAPHICS ]
-
 # https://metacpan.org/dist/SDL/view/lib/pods/SDL/Events.pod
 my @SDL_EVENTS = qw( no_such_event SDL_ACTIVEEVENT SDL_KEYDOWN SDL_KEYUP SDL_MOUSEMOTION SDL_MOUSEBUTTONDOWN SDL_MOUSEBUTTONUP SDL_JOYAXISMOTION SDL_JOYBALLMOTION SDL_JOYHATMOTION SDL_JOYBUTTONDOWN SDL_JOYBUTTONUP SDL_QUIT SDL_SYSWMEVENT SDL_VIDEORESIZE SDL_VIDEOEXPOSE SDL_USEREVENT SDL_NUMEVENTS );  # constant data
 
-# https://metacpan.org/dist/SDL/view/lib/pods/SDL/Event.pod
-use SDL;
-use SDLx::App;   # used for window creation & control
-use SDL::Event;  # used for creating Event object
-use SDL::Events; # used for Event queue handling functions
-use Time::HiRes qw( gettimeofday usleep );  # used for time-based animation control
+# [[[ SUBROUTINES ]]]
+# add your own subroutines here
+
+# [[[ OPERATIONS ]]]
+# you can refactor and move any of the below code into one or more subroutines, etc.
+
+# [ INITIALIZE GRAPHICS ]
+
+# SDL includes moved into [[[ INCLUDES ]]] section above
 
 # initialize SDL video & application & event;
 # we do not call $my_SDL_app->run() anywhere in this program, instead we use the while() run loop below
@@ -146,20 +161,4 @@ while(1)
     usleep(10_000);
 }
 
-# [[[ SUBROUTINES ]]]
-
-# recursively generate triangles, grouped by recursion level
-sub foo_bar {
-    { my void $RETURN_TYPE };
-    (
-        my number::arrayref::arrayref $triangle,
-    ) = @ARG;
-
-    print 'in sierpinski(), received $triangle = ', Dumper($triangle), "\n";
-
-    # FOO BAR CODE
-
-    return;
-}
-
-1;  # end of class
+1;  # end of package 'main'

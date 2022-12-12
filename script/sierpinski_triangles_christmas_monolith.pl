@@ -83,7 +83,18 @@ my number::arrayref::arrayref $my_triangle_star_down =
 my integer::arrayref::arrayref $my_lights_colors = [$my_color_pink, $my_color_purple, $my_color_orange];
 
 # https://metacpan.org/dist/SDL/view/lib/pods/SDL/Events.pod
-my @SDL_EVENTS = qw( no_such_event SDL_ACTIVEEVENT SDL_KEYDOWN SDL_KEYUP SDL_MOUSEMOTION SDL_MOUSEBUTTONDOWN SDL_MOUSEBUTTONUP SDL_JOYAXISMOTION SDL_JOYBALLMOTION SDL_JOYHATMOTION SDL_JOYBUTTONDOWN SDL_JOYBUTTONUP SDL_QUIT SDL_SYSWMEVENT SDL_VIDEORESIZE SDL_VIDEOEXPOSE SDL_USEREVENT SDL_NUMEVENTS );  # constant data
+my @SDL_EVENTS = qw(
+    no_such_event
+    SDL_ACTIVEEVENT
+    SDL_KEYDOWN SDL_KEYUP
+    SDL_MOUSEMOTION SDL_MOUSEBUTTONDOWN SDL_MOUSEBUTTONUP
+    SDL_JOYAXISMOTION SDL_JOYBALLMOTION SDL_JOYHATMOTION SDL_JOYBUTTONDOWN SDL_JOYBUTTONUP
+    SDL_QUIT
+    SDL_SYSWMEVENT
+    SDL_VIDEORESIZE SDL_VIDEOEXPOSE
+    SDL_USEREVENT
+    SDL_NUMEVENTS
+);  # constant data
 
 # [[[ OPERATIONS ]]]
 
@@ -134,6 +145,7 @@ for (my $i = ((scalar @{$my_triangle_groups}) - 1); $i >= 0; $i--) {
         # refresh window on every triangle for fun cascade drawing effect
         $my_SDL_app->update();
     }
+    sleep(20);
 }
 
 # draw Christmas tree trunk & Star of Bethlehem

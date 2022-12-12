@@ -18,16 +18,19 @@ package number::arrayref::arrayref::arrayref::arrayref; 1;
 package main;
 use strict;
 use warnings;
-our $VERSION = 0.007_000;
+use v5.14;  # required for /r return AKA non-destructive regex flag
+our $VERSION = 0.008_000;
 
 # [[[ CRITICS ]]]
-## no critic qw(ProhibitUselessNoCritic ProhibitMagicNumbers RequireCheckedSyscalls)  # USER DEFAULT 1: allow numeric values & print operator
+# USER DEFAULT 1: allow numeric values & print operator
+## no critic qw(ProhibitUselessNoCritic ProhibitMagicNumbers RequireCheckedSyscalls)
 ## no critic qw(RequireInterpolationOfMetachars)  # USER DEFAULT 2: allow single-quoted control characters & sigils
 ## no critic qw(ProhibitConstantPragma ProhibitMagicNumbers)  # USER DEFAULT 3: allow constants
 
 # [[[ INCLUDES ]]]
 use English;
 use Data::Dumper;
+$Data::Dumper::Deepcopy = 1;  # display human-readable numeric data, not $VAR1->[0] references
 
 # https://metacpan.org/dist/SDL/view/lib/pods/SDL/Event.pod
 use SDL;
@@ -109,8 +112,10 @@ $my_triangle_groups->[$my_recursions_remaining] = [$my_triangle_initial];
 # initial call to recursive subroutine
 sierpinski($my_triangle_initial, $my_recursions_remaining, $my_triangle_groups);
 
-print 'have $my_triangle_groups = ', "\n", Dumper($my_triangle_groups);
-print 'have $my_triangle_groups->[$my_recursions_remaining] = ', "\n", Dumper($my_triangle_groups->[$my_recursions_remaining]);
+# regex to (g)lobally (s)earch for numbers incorrectly wrapped in 'single-quotes' by Dumper,
+# replace by // empty string, no lvalue $variable so directly (r)eturn modified string;
+# https://perldoc.perl.org/perlop#s%2FPATTERN%2FREPLACEMENT%2Fmsixpodualngcer
+print 'have $my_triangle_groups = ', "\n", (Dumper($my_triangle_groups) =~ s/'//gr);
 
 # [ INITIALIZE GRAPHICS ]
 
@@ -145,7 +150,6 @@ for (my $i = ((scalar @{$my_triangle_groups}) - 1); $i >= 0; $i--) {
         # refresh window on every triangle for fun cascade drawing effect
         $my_SDL_app->update();
     }
-    sleep(20);
 }
 
 # draw Christmas tree trunk & Star of Bethlehem
@@ -226,8 +230,8 @@ while(1)
 
     # briefly pause between each while() loop iteration, to avoid overloading CPU;
     # ( 1_000_000 microseconds per second ) / ( 10_000 microseconds per iteration) = 100 iterations per second;
-    # need at least 100 while loop iterations per second, in order to process all of the otherwise-ignored SDL_MOUSEMOTION events
-    # which are caused by simply moving the mouse over top of the window
+    # need at least 100 while loop iterations per second, in order to process all of the otherwise-ignored
+    # SDL_MOUSEMOTION events which are caused by simply moving the mouse over top of the window
     usleep(10_000);
 }
 
@@ -242,8 +246,8 @@ sub sierpinski {
         my number::arrayref::arrayref::arrayref::arrayref $triangle_groups
     ) = @ARG;
 
-    print 'in sierpinski(), received $triangle = ', Dumper($triangle), "\n";
     print 'in sierpinski(), received $recursions_remaining = ', $recursions_remaining, "\n";
+    print 'in sierpinski(), received $triangle = ', (Dumper($triangle) =~ s/'//gr), "\n";
 
     if ($recursions_remaining > 0) {
         # shortcut variables, easier to read in midpoint calculations below

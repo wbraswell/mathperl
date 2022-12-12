@@ -155,11 +155,11 @@ sub generate_fractal__render_animation {
 
     # set initial index for accesssing Christmas tree lights colors
     my integer $my_lights_colors_index = 0;
- 
+
     # set initial time for changing Christmas tree lights colors
     (my integer $seconds_start) = gettimeofday();
     #print 'have $seconds_start = ', $seconds_start, "\n";
- 
+
     # the main run loop, used instead of calling $my_SDL_app->run();
     # animate forever, until SDL_QUIT event is received in GUI window via <Alt-F4> keypress or window close mouse click,
     # or in CLI window via <Ctrl-C> keypress
@@ -167,7 +167,7 @@ sub generate_fractal__render_animation {
     {
         # pump the event loop, gathering events from input devices
         SDL::Events::pump_events();
- 
+
         # poll for currently pending events
         if(SDL::Events::poll_event($my_SDL_event))
         {

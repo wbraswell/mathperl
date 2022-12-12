@@ -14,10 +14,12 @@ package number::arrayref::arrayref::arrayref::arrayref; 1;
 package MathPerl::Fractal::Sierpinski;
 use strict;
 use warnings;
-our $VERSION = 0.007_000;
+use v5.14;  # required for /r return AKA non-destructive regex flag
+our $VERSION = 0.008_000;
 
 # [[[ CRITICS ]]]
-## no critic qw(ProhibitUselessNoCritic ProhibitMagicNumbers RequireCheckedSyscalls)  # USER DEFAULT 1: allow numeric values & print operator
+# USER DEFAULT 1: allow numeric values & print operator
+## no critic qw(ProhibitUselessNoCritic ProhibitMagicNumbers RequireCheckedSyscalls)
 ## no critic qw(RequireInterpolationOfMetachars)  # USER DEFAULT 2: allow single-quoted control characters & sigils
 ## no critic qw(ProhibitConstantPragma ProhibitMagicNumbers)  # USER DEFAULT 3: allow constants
 
@@ -28,6 +30,7 @@ our $VERSION = 0.007_000;
 # [[[ INCLUDES ]]]
 use English;
 use Data::Dumper;
+$Data::Dumper::Deepcopy = 1;  # display human-readable numeric data, not $VAR1->[0] references
 
 # [[[ SUBROUTINES ]]]
 
@@ -40,8 +43,8 @@ sub sierpinski {
         my number::arrayref::arrayref::arrayref::arrayref $triangle_groups
     ) = @ARG;
 
-    print 'in sierpinski(), received $triangle = ', Dumper($triangle), "\n";
     print 'in sierpinski(), received $recursions_remaining = ', $recursions_remaining, "\n";
+    print 'in sierpinski(), received $triangle = ', (Dumper($triangle) =~ s/'//gr), "\n";
 
     if ($recursions_remaining > 0) {
         # shortcut variables, easier to read in midpoint calculations below

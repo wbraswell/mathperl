@@ -3,10 +3,12 @@
 package MathPerl::Fractal::ChristmasTree;
 use strict;
 use warnings;
-our $VERSION = 0.007_000;
+use v5.14;  # required for /r return AKA non-destructive regex flag
+our $VERSION = 0.008_000;
 
 # [[[ CRITICS ]]]
-## no critic qw(ProhibitUselessNoCritic ProhibitMagicNumbers RequireCheckedSyscalls)  # USER DEFAULT 1: allow numeric values & print operator
+# USER DEFAULT 1: allow numeric values & print operator
+## no critic qw(ProhibitUselessNoCritic ProhibitMagicNumbers RequireCheckedSyscalls)
 ## no critic qw(RequireInterpolationOfMetachars)  # USER DEFAULT 2: allow single-quoted control characters & sigils
 ## no critic qw(ProhibitConstantPragma ProhibitMagicNumbers)  # USER DEFAULT 3: allow constants
 
@@ -17,6 +19,7 @@ use MathPerl::Fractal::Sierpinski;
 # [[[ INCLUDES ]]]
 use English;
 use Data::Dumper;
+$Data::Dumper::Deepcopy = 1;  # display human-readable numeric data, not $VAR1->[0] references
 
 # https://metacpan.org/dist/SDL/view/lib/pods/SDL/Event.pod
 use SDL;
@@ -88,8 +91,10 @@ sub generate_fractal__render_animation {
     # initial call to recursive subroutine
     MathPerl::Fractal::Sierpinski::sierpinski($my_triangle_initial, $my_recursions_remaining, $my_triangle_groups);
 
-    print 'have $my_triangle_groups = ', "\n", Dumper($my_triangle_groups);
-    print 'have $my_triangle_groups->[$my_recursions_remaining] = ', "\n", Dumper($my_triangle_groups->[$my_recursions_remaining]);
+    # regex to (g)lobally (s)earch for numbers incorrectly wrapped in 'single-quotes' by Dumper,
+    # replace by // empty string, no lvalue $variable so directly (r)eturn modified string;
+    # https://perldoc.perl.org/perlop#s%2FPATTERN%2FREPLACEMENT%2Fmsixpodualngcer
+    print 'have $my_triangle_groups = ', "\n", (Dumper($my_triangle_groups) =~ s/'//gr);
 
     # [ INITIALIZE GRAPHICS ]
 
@@ -218,8 +223,8 @@ sub generate_fractal__render_animation {
 
         # briefly pause between each while() loop iteration, to avoid overloading CPU;
         # ( 1_000_000 microseconds per second ) / ( 10_000 microseconds per iteration) = 100 iterations per second;
-        # need at least 100 while loop iterations per second, in order to process all of the otherwise-ignored SDL_MOUSEMOTION events
-        # which are caused by simply moving the mouse over top of the window
+        # need at least 100 while loop iterations per second, in order to process all of the otherwise-ignored
+        # SDL_MOUSEMOTION events which are caused by simply moving the mouse over top of the window
         usleep(10_000);
     }
 

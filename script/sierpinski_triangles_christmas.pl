@@ -6,7 +6,7 @@
 # [[[ HEADER ]]]
 use strict;
 use warnings;
-our $VERSION = 0.007_000;
+our $VERSION = 0.008_000;
 
 # [[[ INCLUDES ]]]
 use MathPerl::Fractal::ChristmasTree;
